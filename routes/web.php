@@ -20,8 +20,25 @@ Route::get('/', function () {
 });
 
 
+/**
+ * client.. 
+*/
+
 Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
     Route::controller(ClientAuthManageController::class)->group(function(){
            Route::get('login', 'login')->name('login');
+           Route::post('login/action', 'login_action')->name('login.action');
+
+           Route::get('register', 'register')->name('register');
+           Route::post('register/action', 'register_action')->name('register.action');
+
+           Route::get('logout', 'logout')->name('logout');
     });
+
+    Route::middleware(['check.client'])->group(function(){
+        Route::controller(ClientAuthManageController::class)->group(function(){
+            Route::get('dashboard', 'dashboard')->name('dashboard');
+        });
+    });
+
 });

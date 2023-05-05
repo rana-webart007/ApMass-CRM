@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Clients extends Model
+class Clients extends Authenticatable
 {
     use HasFactory;
 
+    protected $guard = "client";
     protected $table = "clients";
     protected $fillable = [
         'name',

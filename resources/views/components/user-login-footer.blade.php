@@ -1,3 +1,9 @@
+</div>
+        <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
 <!-- container-scroller -->
   <!-- plugins:js -->
   <script src=".{{asset('vendors/js/vendor.bundle.base.js')}}"></script>
