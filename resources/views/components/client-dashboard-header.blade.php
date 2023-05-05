@@ -96,7 +96,11 @@
                   </li>
                   <li class="nav-item nav-profile dropdown">
                      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                     <img src="{{ asset('images/faces/face28.jpg')}}" alt="profile"/>
+
+                     @if($profile_img == null)
+                       <img src="{{ asset('images/user.png')}}" alt="profile"/>
+                     @endif
+
                      </a>
                      <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                         <a class="dropdown-item">
@@ -302,14 +306,14 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                <ul class="nav">
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.dashboard') }}">
                      <i class="icon-grid menu-icon"></i>
                      <span class="menu-title">Matters</span>
                      <i class="menu-arrow"></i>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.contacts.page') }}">
                      <i class="icon-layout menu-icon"></i>
                      <span class="menu-title">Contacts</span>
                      <i class="menu-arrow"></i>
@@ -323,7 +327,7 @@
                         </div> -->
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.time.page') }}">
                      <i class="icon-columns menu-icon"></i>
                      <span class="menu-title">Time & Fees</span>
                      <i class="menu-arrow"></i>
@@ -335,7 +339,7 @@
                         </div> -->
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.invoice.page') }}">
                      <i class="icon-bar-graph menu-icon"></i>
                      <span class="menu-title">Invoices</span>
                      <i class="menu-arrow"></i>
@@ -347,7 +351,7 @@
                         </div> -->
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.accounts.page') }}">
                      <i class="icon-grid-2 menu-icon"></i>
                      <span class="menu-title">Accounts</span>
                      <i class="menu-arrow"></i>
@@ -359,7 +363,7 @@
                         </div> -->
                   </li>
                   <li class="nav-item">
-                     <a class="nav-link" href="#">
+                     <a class="nav-link" href="{{ route('client.report.page') }}">
                      <i class="icon-contract menu-icon"></i>
                      <span class="menu-title">Report</span>
                      <i class="menu-arrow"></i>

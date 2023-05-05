@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
 
 class ClientDashboardHeader extends Component
 {
@@ -23,6 +24,7 @@ class ClientDashboardHeader extends Component
      */
     public function render()
     {
-        return view('components.client-dashboard-header');
+        $profile_img = Auth::guard('client')->user()->prof_img;
+        return view('components.client-dashboard-header', compact('profile_img'));
     }
 }

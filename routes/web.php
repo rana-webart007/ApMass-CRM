@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\UserAuthManageController;
 use App\Http\Controllers\client\ClientAuthManageController;
+use App\Http\Controllers\client\ContactsManageController;
+use App\Http\Controllers\client\TimeAndFeesManageController;
+use App\Http\Controllers\client\InvoicesManageController;
+use App\Http\Controllers\client\AccountsManageController;
+use App\Http\Controllers\client\ReportManageController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +53,52 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(ClientAuthManageController::class)->group(function(){
             Route::get('dashboard', 'dashboard')->name('dashboard');
         });
+
+        /**
+         * contacts
+        */
+
+        Route::controller(ContactsManageController::class)
+        ->group(function(){
+            Route::get('contacts/page', 'page')->name('contacts.page');
+        });
+
+        /**
+         * Time & fees
+        */
+
+        Route::controller(TimeAndFeesManageController::class)
+        ->group(function(){
+            Route::get('time/page', 'page')->name('time.page');
+        });
+
+        /**
+         * Invoices
+        */
+
+        Route::controller(InvoicesManageController::class)
+        ->group(function(){
+            Route::get('invoice/page', 'page')->name('invoice.page');
+        });
+
+        /**
+         * Accounts
+        */
+
+        Route::controller(AccountsManageController::class)
+        ->group(function(){
+            Route::get('accounts/page', 'page')->name('accounts.page');
+        });
+
+        /**
+         * Reports
+        */
+
+        Route::controller(ReportManageController::class)
+        ->group(function(){
+            Route::get('report/page', 'page')->name('report.page');
+        });
+
     });
 
 });

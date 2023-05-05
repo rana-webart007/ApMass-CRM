@@ -28469,7 +28469,8 @@ div.tagsinput span.tag a {
   font-family: "Nunito", sans-serif;
   font-weight: 500;
   padding: 0;
-  width: 235px;
+  width: 220px;
+/*  width: 235px;*/
   z-index: 11;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
@@ -30937,6 +30938,12 @@ a.numbtn {
 
 .timesecpart .module-matter{ display: flex;align-items: center;padding:10px 15px;}
 
+.timesecpart .module-expense{ display: flex;align-items: center;padding:10px 15px;}
+
+.timesecpart form.forms-sample-expense {
+    display: flex;align-items: center;
+}
+
 .timesecpart form.forms-sample {
     display: flex;align-items: center;
 }
@@ -31004,7 +31011,7 @@ a.numbtn {
 .panel-filter .side-menu-list>li {
     font-weight: normal;
     color: rgba(51,51,51,.85);
-    padding: 8px 24px;
+    padding: 8px 18px;
     margin: -1px 0 0;
     border: 0;
     border-radius: 0;
@@ -31033,3 +31040,169 @@ a.numbtn {
 .panel-filter .side-menu-list li.indent2 {
     padding-left: 70px;
 }
+
+
+.panel-filter .side-menu-list>li.active, .panel-filter .side-menu-list>li.selected {
+    color: #333;
+    background-color: #c4def9;
+    border-color: #b4b4b4;
+}
+
+
+.panel-filter .side-menu-list .date-expense{display: flex;}
+.panel-filter .side-menu-list .date-expense input{margin-left: 8px}
+
+.staff-multi-select {
+    padding: 0px 12px;
+}
+
+.staff-multi-select .staff-label.label-primary {
+    border-color: #4990e6;
+    color: #4990e6;
+}
+
+.staff-multi-select .links {
+    display: flex;
+    flex: 1;
+    margin: 8px 0 0 0;
+    padding: 0;
+}
+
+.staff-multi-select .links li {
+    display: inline;
+    margin-right: 20px;
+    font-weight: normal;
+    padding: 0;
+    border: 0;
+    background: rgba(0,0,0,0);
+    text-decoration: none;
+    color: #4990e6;
+    cursor: pointer;
+}
+
+
+/******************************** report 20-04-2023 sonali ghosh *******************/
+
+.repotabsec .nav-pills .nav-link.active, .repotabsec  .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #4b49ac;
+}
+
+.repotabsec .nav-pills .nav-link:hover{color: #fff;
+    background-color: #4b49ac;}
+
+
+.repotabsec .nav-pills a.nav-link {
+    border: 1px solid #fff;
+    padding: 0.5rem 1.75rem;
+    color: #333;
+    font-size: 14px;
+}
+
+.report-filter h3 {
+    font-size:18px;
+    font-weight: 500;
+    padding: 11px 21px;
+    border-bottom: 1px solid rgba(180,180,180,.5);
+    margin-bottom: 0;
+}
+
+/*.reportsecpart .repotabsec .module-expense {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+}*/
+
+.reportsecpart .repotabsec form.forms-sample.forms-sample-expense {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+
+
+.reportsecpart .form-group.reperiod .form-control{width: 260px;}
+
+.repotabsec h3{color: #000;font-size: 0.875rem;
+    line-height: 1.4rem;
+    vertical-align: top;
+  }
+
+
+ .reportsecpart .repotabsec .tab-content{padding: 10px 14px 10px 15px !important;}
+
+
+ .reportsecpart ul.listingprt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+ .reportsecpart .card-body {
+    background: #f5f5f5;
+    padding: 10px 6px;
+    display: flex;
+    align-items: center;
+}
+
+ .reportsecpart .card a {
+    text-decoration: none;
+    font-size: 15px;
+    color: #444;
+}
+
+ .reportsecpart  ul.listingprtsec a {
+    text-decoration: none;
+    font-size: 13px;
+    color: #444;
+    margin: 0 10px;
+}
+
+.reportsecpart ul.listingprtsec {
+    display: flex;
+    align-items: center;
+}
+
+.reportsecpart ul.listingprtsec li{display: inline-block;}
+
+.amnt-receive .form-check{display: inline-block;}
+
+
+
+/******************************** Invoices 23-04-2023 Sohom *******************/
+
+.ysecprty .finalhdrty {
+  padding: 15px 0 15px 20px;
+}
+ 
+.ysecprty .finalhdrty h5 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+} 
+
+.ysecprty .form-group {
+  margin-bottom: 0 !important;
+}
+
+/************************************** 24-04-2023 ***************************/
+.reportFilter-modul{
+    display: flex;
+}
+
+.reportFilter-modul input[type=radio].ReportFilter-module__radio-option {
+    margin-top: 0px;
+    margin-left: 10px;
+}
+
+ .reportFilter-modul .ReportFilter-module__typeahead{
+    width: 200px;
+    padding-left: 5px;
+}
+
+.reportsecpart .form-group {
+    margin-bottom: 10px !important;
+}
+
+
+.reportFilter-modul .form-group{width: 250px;}
