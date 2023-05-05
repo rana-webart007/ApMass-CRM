@@ -21,6 +21,10 @@ Route::get('/', function () {
 
 
 /**
+ * bawenoc@mailinator.com
+ */
+
+/**
  * client.. 
 */
 
@@ -31,6 +35,9 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
 
            Route::get('register', 'register')->name('register');
            Route::post('register/action', 'register_action')->name('register.action');
+
+           Route::get('forgot/password', 'forgot_password_page')->name('forgot.password');
+           Route::post('forgot/password/action', 'forgot_password_action')->name('forgot.password.action');
 
            Route::get('logout', 'logout')->name('logout');
     });

@@ -87,6 +87,38 @@ class ClientAuthManageController extends Controller
      }
 
      /**
+      * Forgot Password 
+     */
+
+     public function forgot_password_page()
+      {
+            return view('client.forgot_password');
+      }
+
+      public function forgot_password_action(Request $request)
+      {
+            $request->validate([
+                  'email' => 'required|email|max:200',
+                  'new_password' => 'required|max:50',
+                  'conf_password' => 'required|max:50|same:new_password',
+            ],[
+                    'conf_password.same' => 'Confirm Password & New Password Must be Same'
+            ]);
+  
+            $check = Clients::whereEmail($request->email)->first();
+            if($check != null){
+                      Clients::whereEmail($request->email)->update([
+                            'password' => bcrypt($request->new_password),
+                      ]);
+  
+                      return back()->with('success', 'Password Successfully Changed.');
+  
+            }else{
+                      return back()->with('danger', 'Sorry! You are not registered with Us');
+            }
+      }
+
+     /**
       * logout
      */
 
