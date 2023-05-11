@@ -1,0 +1,2 @@
+<x-adminDashboardHeader />
+<x-adminDashboardFooter />

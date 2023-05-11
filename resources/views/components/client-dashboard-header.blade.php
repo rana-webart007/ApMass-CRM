@@ -303,16 +303,21 @@
             </div>
             <!-- partial -->
             <!-- partial:partials/_sidebar.html -->
+
+            @php
+               $segments = Request::segment(2);
+            @endphp
+
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                <ul class="nav">
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'dashboard') active @endif">
                      <a class="nav-link" href="{{ route('client.dashboard') }}">
                      <i class="icon-grid menu-icon"></i>
                      <span class="menu-title">Matters</span>
                      <i class="menu-arrow"></i>
                      </a>
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'contacts') active @endif">
                      <a class="nav-link" href="{{ route('client.contacts.page') }}">
                      <i class="icon-layout menu-icon"></i>
                      <span class="menu-title">Contacts</span>
@@ -326,7 +331,7 @@
                         </ul>
                         </div> -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'time') active @endif">
                      <a class="nav-link" href="{{ route('client.time.page') }}">
                      <i class="icon-columns menu-icon"></i>
                      <span class="menu-title">Time & Fees</span>
@@ -338,7 +343,7 @@
                         </ul>
                         </div> -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'invoice') active @endif">
                      <a class="nav-link" href="{{ route('client.invoice.page') }}">
                      <i class="icon-bar-graph menu-icon"></i>
                      <span class="menu-title">Invoices</span>
@@ -350,7 +355,7 @@
                         </ul>
                         </div> -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'accounts') active @endif">
                      <a class="nav-link" href="{{ route('client.accounts.page') }}">
                      <i class="icon-grid-2 menu-icon"></i>
                      <span class="menu-title">Accounts</span>
@@ -362,7 +367,7 @@
                         </ul>
                         </div> -->
                   </li>
-                  <li class="nav-item">
+                  <li class="nav-item @if($segments == 'report') active @endif">
                      <a class="nav-link" href="{{ route('client.report.page') }}">
                      <i class="icon-contract menu-icon"></i>
                      <span class="menu-title">Report</span>

@@ -9,6 +9,7 @@ use App\Http\Controllers\client\InvoicesManageController;
 use App\Http\Controllers\client\AccountsManageController;
 use App\Http\Controllers\client\ReportManageController;
 
+use App\Http\Controllers\Admin\AdminAuthController;
 
 
 /*
@@ -101,4 +102,23 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
 
     });
 
+});
+
+/**
+* Admin
+*/
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
+    Route::controller(AdminAuthController::class)->group(function(){
+           Route::get('login', 'login_page')->name('login');
+           Route::post('login/action', 'login_action')->name('login.action');
+
+           Route::get('logout', 'logout')->name('logout');
+    });
+
+    Route::middleware(['check.admin'])->group(function(){
+        Route::controller(AdminAuthController::class)->group(function(){
+            Route::get('dashboard', 'dashboard')->name('dashboard');
+        });
+    });
 });

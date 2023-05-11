@@ -66,5 +66,8 @@ class Kernel extends HttpKernel
 
         // check client
         'check.client' => \App\Http\Middleware\ClientCheckMiddleware::class,
+
+        // check admin
+        'check.admin' => \App\Http\Middleware\AdminAuthMiddleware::class,
     ];
 }
