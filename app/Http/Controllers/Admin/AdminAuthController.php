@@ -43,6 +43,38 @@ class AdminAuthController extends Controller
      }
 
      /**
+      * Forgot Password 
+     */
+
+     public function forgot_password_page()
+      {
+            return view('admin.auth.forgot_password');
+      }
+
+      public function forgot_password_action(Request $request)
+      {
+            $request->validate([
+                  'email' => 'required|email|max:200',
+                  'new_password' => 'required|max:50',
+                  'conf_password' => 'required|max:50|same:new_password',
+            ],[
+                    'conf_password.same' => 'Confirm Password & New Password Must be Same'
+            ]);
+  
+            $check = Admin::whereEmail($request->email)->first();
+            if($check != null){
+                      Admin::whereEmail($request->email)->update([
+                            'password' => bcrypt($request->new_password),
+                      ]);
+  
+                      return back()->with('success', 'Password Successfully Changed.');
+  
+            }else{
+                      return back()->with('danger', 'Sorry! You Wrong Credentials');
+            }
+      }
+
+     /**
       * logout
      */
 

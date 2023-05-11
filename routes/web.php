@@ -114,6 +114,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
            Route::post('login/action', 'login_action')->name('login.action');
 
            Route::get('logout', 'logout')->name('logout');
+
+           Route::get('forgot/password', 'forgot_password_page')->name('forgot.password');
+           Route::post('forgot/password/action', 'forgot_password_action')->name('forgot.password.action');
+
     });
 
     Route::middleware(['check.admin'])->group(function(){
