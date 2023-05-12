@@ -150,6 +150,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::post('matters/law-area-edit/action/{id}', 'law_area_edit_action')->name('matter.law-area-edit-action');
             Route::get('matters/law-area-delete/{id}', 'law_area_delete')->name('matter.law-area-delete');
 
+            Route::post('matters/type-add/action', 'matters_type_add_action')->name('matter.type-add-action');
         });
     });
 });

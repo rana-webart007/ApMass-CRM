@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('matter_types', function (Blueprint $table) {
             $table->id();
             $table->integer("area_id")->unsigned();
+            $table->string('unique_matter_id', 100)->nullable();
             $table->string("area");
             $table->string("matters_type");
             $table->timestamps();

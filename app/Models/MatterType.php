@@ -12,6 +12,7 @@ class MatterType extends Model
     protected $table = "matter_types";
     protected $fillable = [
         "area_id",
+        'unique_matter_id',
         "area",
         "matters_type"
     ];

@@ -33,34 +33,55 @@
                                     </h5>
                                 </div>
 
-                                <form action="">
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                    data-parent="#accordion" style="">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">Area of Law</label>
-                                                    <input type="text" name="area_of_law" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('area_of_law') }}">
+                                @include('commons.session-msg')
+
+                                <form action="{{ route('admin.matter.type-add-action') }}" method="post">
+                                    @csrf
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                        data-parent="#accordion" style="">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="exampleSelectGender">Area of Law</label>
+
+                                                        <select name="area_of_law" class="form-control"
+                                                            id="exampleSelectexpense">
+                                                            <option value="Select A Law Area">Select A Law Area</option>
+                                                            @foreach($law_areas as $law_area)
+                                                            <option value="{{ $law_area->area}}">{{$law_area->area}}
+                                                            </option>
+                                                            @endforeach
+                                                        </select>
+                                                        @if ($errors->has('area_of_law'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('area_of_law') }}</span>
+                                                        @endif
+
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">Matters Type</label>
-                                                    <input type="text" name="matters_type" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('matters_type') }}">
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="exampleSelectGender">Matters Type</label>
+                                                        <input type="text" name="matters_type" class="form-control"
+                                                            id="exampleSelectexpense" value="{{ old('matters_type') }}">
+
+                                                        @if ($errors->has('matters_type'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('matters_type') }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="btnmtrs">
-                                                <button type="submit" class="cmnbtn">Save</button>
-                                            </div>
+                                                <div class="btnmtrs">
+                                                    <button type="submit" class="cmnbtn">Save</button>
+                                                </div>
 
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
                                 </form>
                             </div>
 
