@@ -325,13 +325,15 @@
 
             @php
             $segments = Request::segment(2);
+
+            $matters_segment = ["dashboard", "matters"];
             @endphp
 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     
-                    <li class="nav-item @if($segments == 'dashboard') active @endif">
-                        <a class="nav-link" href="#">
+                    <li class="nav-item @if(in_array($segments, $matters_segment)) active @endif">
+                        <a class="nav-link" href="{{ route('admin.dashboard') }}">
                             <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">Matters</span>
                             <i class="menu-arrow"></i>

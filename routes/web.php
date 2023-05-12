@@ -11,6 +11,7 @@ use App\Http\Controllers\client\ReportManageController;
 use App\Http\Controllers\client\MatterManageController;
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminMattersManageController;
 
 
 /*
@@ -133,6 +134,22 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::middleware(['check.admin'])->group(function(){
         Route::controller(AdminAuthController::class)->group(function(){
             Route::get('dashboard', 'dashboard')->name('dashboard');
+        });
+
+        /**
+         *  Matters Manage 
+        */
+
+        Route::controller(AdminMattersManageController::class)->group(function(){
+            Route::get('matters/area-of-law/add', 'area_of_law_add')->name('matter.area-of-law-add');
+            Route::get('matters/type/add', 'matters_type_add')->name('matter.type-add');
+            Route::get('matters/client/role/add', 'matters_client_role_add')->name('matter.client-role-add');
+            Route::post('matters/area-of-law/add/action', 'area_of_law_add_action')->name('matter.area-of-law-add-action');
+            
+            Route::get('matters/law-area-edit/{id}', 'law_area_edit')->name('matter.law-area-edit');
+            Route::post('matters/law-area-edit/action/{id}', 'law_area_edit_action')->name('matter.law-area-edit-action');
+            Route::get('matters/law-area-delete/{id}', 'law_area_delete')->name('matter.law-area-delete');
+
         });
     });
 });

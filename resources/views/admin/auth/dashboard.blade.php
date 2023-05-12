@@ -28,11 +28,11 @@
 
                             <div class="col-md-12">
                                 <div class="opnmtrs">
-                                    <h5>ALL (0)</h5>
+                                    <h5>ALL ({{ $total_area }})</h5>
                                 </div>
                                 <div class="btnmtrs">
-                                    <button type="button" class="cmnbtn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal-2">Add Area of law</button>
+                                    <a href="{{ route('admin.matter.area-of-law-add') }}"><button type="button"
+                                            class="cmnbtn">Add Area of law</button></a>
                                 </div>
 
                                 <div class="table-responsive">
@@ -46,15 +46,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($law_areas as $law_area)
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td> {{ $law_area->area }} </td>
+                                                <td> {{ $law_area->created_at->format("d-m-Y") }} </td>
+                                                <td> <a
+                                                        href="{{ route('admin.matter.law-area-edit', $law_area->unique_id) }}"><button
+                                                            type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button></a> </td>
+                                                <td>
+                                                    <button type="button" onclick="sw_alert1(<?php echo $law_area->id ?>);"
+                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
                                             </tr>
-
+                                            @endforeach
                                         </tbody>
                                     </table>
+
+                                    <div class="m-2">
+                                        {{ $law_areas->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -67,8 +78,8 @@
                                     <h5>ALL (0)</h5>
                                 </div>
                                 <div class="btnmtrs">
-                                    <button type="button" class="cmnbtn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal-2">Add Matter Type</button>
+                                    <a href="{{ route('admin.matter.type-add') }}"><button type="button"
+                                            class="cmnbtn">Add Matter Type</button></a>
                                 </div>
 
                                 <div class="table-responsive">
@@ -106,8 +117,8 @@
                                     <h5>ALL (0)</h5>
                                 </div>
                                 <div class="btnmtrs">
-                                    <button type="button" class="cmnbtn" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal-2">Add Client</button>
+                                    <a href="{{ route('admin.matter.client-role-add') }}"><button type="button"
+                                            class="cmnbtn">Add Client</button></a>
                                 </div>
 
                                 <div class="table-responsive">
@@ -142,4 +153,33 @@
             </div>
         </div>
     </div>
+
+    <!-- sweet alert -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+    function sw_alert1(area_id) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            padding: '1em',
+            showCancelButton: true,
+            // showCloseButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('admin.matter.law-area-delete', '') }}/"+area_id;
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            }
+        })
+    }
+    </script>
     <x-adminDashboardFooter />

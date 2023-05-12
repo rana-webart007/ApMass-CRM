@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Admin};
+use App\Models\{Admin, AreaOfLaw};
 
 class AdminAuthController extends Controller
 {
@@ -39,7 +39,9 @@ class AdminAuthController extends Controller
 
      public function dashboard()
      {
-             return view('admin.auth.dashboard');
+             $law_areas = AreaOfLaw::paginate(10);
+             $total_area = count(AreaOfLaw::get());
+             return view('admin.auth.dashboard', compact('law_areas', 'total_area'));
      }
 
      /**
