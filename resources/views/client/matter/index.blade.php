@@ -193,7 +193,7 @@
                                        <h5>OPEN MATTERS</h5>
                                     </div>
                                     <div class="btnmtrs">
-                                       <a href="#" class="cmnbtn">Add Matter</a>
+                                       <a href="{{ route('client.matters.add.page') }}" class="cmnbtn">Add Matter</a>
                                     </div>
                                     <div class="table-responsive">
                                        <table class="table bg-white">

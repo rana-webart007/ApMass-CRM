@@ -8,6 +8,7 @@ use App\Http\Controllers\client\TimeAndFeesManageController;
 use App\Http\Controllers\client\InvoicesManageController;
 use App\Http\Controllers\client\AccountsManageController;
 use App\Http\Controllers\client\ReportManageController;
+use App\Http\Controllers\client\MatterManageController;
 
 use App\Http\Controllers\Admin\AdminAuthController;
 
@@ -53,6 +54,15 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
     Route::middleware(['check.client'])->group(function(){
         Route::controller(ClientAuthManageController::class)->group(function(){
             Route::get('dashboard', 'dashboard')->name('dashboard');
+        });
+
+        /**
+         * Matters
+        */
+
+        Route::controller(MatterManageController::class)
+        ->group(function(){
+            Route::get('matter-add', 'matter_add')->name('matters.add.page');
         });
 
         /**

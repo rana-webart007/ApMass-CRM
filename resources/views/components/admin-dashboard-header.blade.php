@@ -329,6 +329,7 @@
 
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
+                    
                     <li class="nav-item @if($segments == 'dashboard') active @endif">
                         <a class="nav-link" href="#">
                             <i class="icon-grid menu-icon"></i>
