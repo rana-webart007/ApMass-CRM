@@ -107,6 +107,42 @@ class AdminMattersManageController extends Controller
               }
     }
 
+    public function type_delete($id)
+    {
+           MatterType::find($id)->delete();
+           return redirect()->back()->with('success', 'Successfully Deleted');
+    }
+
+    public function type_edit($id)
+    {
+           $law_areas = AreaOfLaw::allLaws();
+           $detail = MatterType::where('unique_matter_id', $id)->first();
+           return view('admin.matters.matters_type_edit', compact('detail', 'law_areas'));
+    }
+
+    public function type_edit_action($id, Request $request)
+    {
+              $request->validate([
+                     'area_of_law' => 'required|max:250',
+                     'matters_type' => 'required'
+              ]);
+
+              $check = MatterType::whereArea($request->area_of_law)
+                       ->where('matters_type', $request->matters_type)
+                       ->where('unique_matter_id', '!=', $id)->first();
+
+              if($check == null){
+                     MatterType::where('unique_matter_id', $id)->update([
+                            'area' => $request->area_of_law,
+                            'matters_type' => $request->matters_type,
+                     ]);
+
+                     return redirect()->back()->with('success', 'Successfully Saved');
+              }else{
+                     return redirect()->back()->with('danger', 'This Matters Already exists');
+              }
+    }
+
     /**
      *  client role 
     */

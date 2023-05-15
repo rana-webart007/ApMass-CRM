@@ -141,6 +141,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
         */
 
         Route::controller(AdminMattersManageController::class)->group(function(){
+            /**
+             * Area of Law
+            */
+
             Route::get('matters/area-of-law/add', 'area_of_law_add')->name('matter.area-of-law-add');
             Route::get('matters/type/add', 'matters_type_add')->name('matter.type-add');
             Route::get('matters/client/role/add', 'matters_client_role_add')->name('matter.client-role-add');
@@ -150,7 +154,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::post('matters/law-area-edit/action/{id}', 'law_area_edit_action')->name('matter.law-area-edit-action');
             Route::get('matters/law-area-delete/{id}', 'law_area_delete')->name('matter.law-area-delete');
 
+            /**
+             * Matter Type
+            */
+
             Route::post('matters/type-add/action', 'matters_type_add_action')->name('matter.type-add-action');
+            Route::get('matters/type-delete/{id}', 'type_delete')->name('matter.type-delete');
+            Route::get('matters/type-edit/{id}', 'type_edit')->name('matter.type-edit');
+            Route::post('matters/type-edit/action/{id}', 'type_edit_action')->name('matter.type-edit-action');
         });
     });
 });

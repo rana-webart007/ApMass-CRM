@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{Admin, AreaOfLaw};
+use App\Models\{Admin, AreaOfLaw, MatterType};
 
 class AdminAuthController extends Controller
 {
@@ -39,9 +39,21 @@ class AdminAuthController extends Controller
 
      public function dashboard()
      {
-             $law_areas = AreaOfLaw::paginate(10);
-             $total_area = count(AreaOfLaw::get());
-             return view('admin.auth.dashboard', compact('law_areas', 'total_area'));
+             /**
+              * Area of Laws
+             */
+
+             $law_areas = AreaOfLaw::allLaws();
+             $total_area = AreaOfLaw::totalLaws();
+
+             /**
+              * Matters type
+             */
+
+             $total_types = MatterType::totalTypes();
+             $matter_types = MatterType::allMattersType();
+
+             return view('admin.auth.dashboard', compact('law_areas', 'total_area', 'total_types', 'matter_types'));
      }
 
      /**

@@ -26,4 +26,20 @@ class MatterType extends Model
     {
             return $this->hasMany(ClientRoles::class);
     }
+
+    /**
+     * getter function
+    */
+
+    public static function totalTypes()
+    {
+           $total = count(MatterType::all());
+           return $total;
+    }
+
+    public static function allMattersType()
+    {
+           $types = MatterType::orderBy('area')->get();
+           return $types;
+    }
 }

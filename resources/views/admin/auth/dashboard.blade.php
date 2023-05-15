@@ -39,6 +39,7 @@
                                     <table class="table bg-white">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Area of Law</th>
                                                 <th>Date</th>
                                                 <th>Edit</th>
@@ -46,8 +47,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($law_areas as $law_area)
+                                            @foreach($law_areas as $key => $law_area)
                                             <tr>
+                                                <td> {{ ($key + 1) }} </td>
                                                 <td> {{ $law_area->area }} </td>
                                                 <td> {{ $law_area->created_at->format("d-m-Y") }} </td>
                                                 <td> <a
@@ -55,17 +57,13 @@
                                                             type="button"
                                                             class="btn btn-primary btn-sm">Edit</button></a> </td>
                                                 <td>
-                                                    <button type="button" onclick="sw_alert1(<?php echo $law_area->id ?>);"
+                                                    <button type="button" onclick="sw_alert1(<?php echo $law_area->id ?>, 'law');"
                                                             class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
-
-                                    <div class="m-2">
-                                        {{ $law_areas->links() }}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -75,7 +73,7 @@
 
                             <div class="col-md-12">
                                 <div class="opnmtrs">
-                                    <h5>ALL (0)</h5>
+                                    <h5>ALL ({{ $total_types }})</h5>
                                 </div>
                                 <div class="btnmtrs">
                                     <a href="{{ route('admin.matter.type-add') }}"><button type="button"
@@ -86,6 +84,7 @@
                                     <table class="table bg-white">
                                         <thead>
                                             <tr>
+                                                <td>#</td>
                                                 <th>Area of Law</th>
                                                 <th>Matter Type</th>
                                                 <th>Date</th>
@@ -94,14 +93,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @foreach($matter_types as  $key => $matter_type)
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{ ($key + 1) }}</td>
+                                                <td>{{ $matter_type->area }}</td>
+                                                <td>{{ $matter_type->matters_type }}</td>
+                                                <td>{{ $matter_type->created_at->format("d-m-Y") }}</td>
+                                                <td>
+                                                <a href="{{ route('admin.matter.type-edit', $matter_type->unique_matter_id) }}">
+                                                    <button type="button" class="btn btn-primary btn-sm">Edit</button>
+                                                </a>
+                                                </td>
+                                                <td>
+                                                <button type="button" onclick="sw_alert1(<?php echo $matter_type->id ?>, 'matter');"
+                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
                                             </tr>
-
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -158,28 +166,4 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
 
-    <script>
-    function sw_alert1(area_id) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            padding: '1em',
-            showCancelButton: true,
-            // showCloseButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "{{ route('admin.matter.law-area-delete', '') }}/"+area_id;
-                Swal.fire(
-                    'Deleted!',
-                    'Your file has been deleted.',
-                    'success'
-                )
-            }
-        })
-    }
-    </script>
     <x-adminDashboardFooter />

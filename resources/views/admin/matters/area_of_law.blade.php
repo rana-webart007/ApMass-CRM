@@ -39,7 +39,7 @@
                                     @csrf
 
                                     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#accordion" style="">
+                                        data-parent="#accordion">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12">

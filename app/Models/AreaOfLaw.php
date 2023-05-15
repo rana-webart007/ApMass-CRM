@@ -19,4 +19,20 @@ class AreaOfLaw extends Model
     {
             return $this->hasMany(MatterType::class);
     }
+
+    /**
+     * getter functions
+    */
+
+    public static function totalLaws()
+    {
+            $total = count(AreaOfLaw::get());
+            return $total;
+    }
+
+    public static function allLaws()
+    {
+            $laws = AreaOfLaw::orderBy('area')->get();
+            return $laws;
+    }
 }
