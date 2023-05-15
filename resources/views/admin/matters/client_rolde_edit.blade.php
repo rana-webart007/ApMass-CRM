@@ -11,9 +11,7 @@
                 <div class="sidelstg">
                     <h5>Quick Links:</h5>
                     <ul>
-                        <li><a href="{{ route('admin.matter.area-of-law-add') }}">Add Area of law</a></li>
-                        <li><a href="{{ route('admin.matter.type-add') }}">Add Matter Type</a></li>
-                        <li><a href="{{ route('admin.matter.client-role-add') }}">Add Client Role</a></li>
+                          <li><a href="{{ route('admin.dashboard') }}">Back</a></li>
                     </ul>
                 </div>
             </div>
@@ -35,7 +33,7 @@
 
                                 @include('commons.session-msg')
 
-                                <form action="{{ route('admin.matter.client-role-add-action') }}" method="post">
+                                <form action="{{ route('admin.matter.client-role-edit-action', $role->role_id) }}" method="post">
                                 @csrf
 
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
@@ -48,10 +46,12 @@
                                                    
                                                         <select name="area_of_law" id="area_of_law" onchange="return area_change()" class="form-control"
                                                             id="exampleSelectexpense">
-                                                            <option value="Select A Law Area">Select A Law Area</option>
+                                                            <option value="{{ $role->area}}">{{ $role->area}}</option>
                                                             @foreach($law_areas as $law_area)
+                                                            @if($law_area->area != $role->area)
                                                             <option value="{{ $law_area->area}}">{{$law_area->area}}
                                                             </option>
+                                                            @endif
                                                             @endforeach
                                                         </select>
 
@@ -79,7 +79,7 @@
                                                 <div class="form-group reperiod">
                                                     <label for="exampleSelectGender">Client's Role</label>
                                                     <input type="text" name="clients_role" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('clients_role') }}">
+                                                        id="exampleSelectexpense" value="{{ $role->client_role }}">
 
                                                         @if ($errors->has('clients_role'))
                                                         <span

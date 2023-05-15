@@ -162,6 +162,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::get('matters/type-delete/{id}', 'type_delete')->name('matter.type-delete');
             Route::get('matters/type-edit/{id}', 'type_edit')->name('matter.type-edit');
             Route::post('matters/type-edit/action/{id}', 'type_edit_action')->name('matter.type-edit-action');
+
+            /**
+             * Client Role
+            */
+
+            Route::get('matters/client/get-matters-by-area/{area}', 'get_matters_by_area')->name('matter.get-by-area');
+            Route::post('matters/client/role-add-action', 'client_role_add_action')->name('matter.client-role-add-action');
+            Route::get('matters/client/role-delete/{id}', 'client_rolde_delete')->name('matter.client-role-delete');
+            Route::get('matters/client/role-edit/{id}', 'client_rolde_edit')->name('matter.client-role-edit');
+            Route::post('matters/client/role-edit-action/{id}', 'client_role_edit_action')->name('matter.client-role-edit-action');
         });
     });
 });

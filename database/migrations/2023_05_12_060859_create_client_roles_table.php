@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('client_roles', function (Blueprint $table) {
             $table->id();
             $table->integer("matter_id")->unsigned();
+            $table->string('role_id', 100)->nullable();
             $table->string("area");
             $table->string("matters_type");
             $table->string("client_role");

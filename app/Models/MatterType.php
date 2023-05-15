@@ -42,4 +42,10 @@ class MatterType extends Model
            $types = MatterType::orderBy('area')->get();
            return $types;
     }
+
+    public static function getTypesByAreaName($area)
+    {
+           $areas = MatterType::whereArea($area)->get(["matters_type", "id"]);
+           return $areas;
+    }
 }

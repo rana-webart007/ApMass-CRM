@@ -122,7 +122,7 @@
 
                             <div class="col-md-12">
                                 <div class="opnmtrs">
-                                    <h5>ALL (0)</h5>
+                                    <h5>ALL ({{ $total_roles }})</h5>
                                 </div>
                                 <div class="btnmtrs">
                                     <a href="{{ route('admin.matter.client-role-add') }}"><button type="button"
@@ -133,6 +133,7 @@
                                     <table class="table bg-white">
                                         <thead>
                                             <tr>
+                                                <th>#</th>
                                                 <th>Area of Law</th>
                                                 <th>Matter Type</th>
                                                 <th>Client Role</th>
@@ -142,15 +143,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-
+                                            @foreach($roles as $key => $role)
+                                                 <tr>
+                                                    <td>{{ ($key + 1) }}</td>
+                                                    <td>{{ $role->area }}</td>
+                                                    <td>{{ $role->matters_type }}</td>
+                                                    <td>{{ $role->client_role }}</td>
+                                                    <td>{{ $role->created_at->format("d-m-Y") }}</td>
+                                                    <td>
+                                                    <a href="{{ route('admin.matter.client-role-edit', $role->role_id) }}">
+                                                        <button type="button" class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                    </td>
+                                                    <td>
+                                                    <button type="button" onclick="sw_alert1(<?php echo $role->id ?>, 'client_role');"
+                                                                class="btn btn-danger btn-sm">Delete</button>
+                                                    </td>
+                                                 </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

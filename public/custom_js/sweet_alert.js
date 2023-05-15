@@ -22,6 +22,9 @@ function sw_alert1(id, type) {
             if(type == "matter"){
               window.location.href = "matters/type-delete/"+id;
             }
+            if(type == "client_role"){
+                window.location.href = "matters/client/role-delete/"+id;
+            }
 
             Swal.fire(
                 'Deleted!',

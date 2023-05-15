@@ -12,6 +12,7 @@ class ClientRoles extends Model
     protected $table="client_roles";
     protected $fillable = [
         "matter_id",
+        'role_id',
         "area",
         "matters_type",
         "client_role"
@@ -20,5 +21,21 @@ class ClientRoles extends Model
     public function adminMattersType()
     {
            return $this->belongsTo(MatterType::class);
+    }
+
+    /**
+     * getter method
+    */
+
+    public static function totalRoles()
+    {
+           $total = count(ClientRoles::all());
+           return $total;
+    }
+
+    public static function getAllRoles()
+    {
+           $all = ClientRoles::orderBy('area')->get();
+           return $all;
     }
 }

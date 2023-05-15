@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{AreaOfLaw, MatterType};
+use App\Models\{AreaOfLaw, MatterType, ClientRoles};
 
 class AdminMattersManageController extends Controller
 {
@@ -149,6 +149,107 @@ class AdminMattersManageController extends Controller
 
     public function matters_client_role_add()
     {
-        return view('admin.matters.matters_client_role_add');
+        $law_areas = AreaOfLaw::allLaws();
+        return view('admin.matters.matters_client_role_add', compact('law_areas'));
+    }
+
+    public function get_matters_by_area($area)
+    {
+           $data = MatterType::getTypesByAreaName(trim($area));
+           return response()->json($data);
+    }
+
+    public function client_role_add_action(Request $request)
+    {
+            $request->validate([
+                  'area_of_law' => 'required|not_in:Select A Law Area',
+                  'matters_type' => 'required|not_in:Select A Matter Type',
+                  'clients_role' => 'required|max:200'
+            ]);
+
+            $check = ClientRoles::whereArea($request->area_of_law)
+                     ->where('matters_type', $request->matters_type)
+                     ->where('client_role', $request->clients_role)->first();
+
+            if($check == null){
+                    $rand_id = substr(md5(date("d-m-Y").time()), 0, 35);
+
+                    $matter_detail = MatterType::whereArea($request->area_of_law)
+                    ->where('matters_type', $request->matters_type)->first();
+
+                    ClientRoles::create([
+                          'matter_id' => $matter_detail->id,
+                          'role_id' => $rand_id,
+                          'area' => $request->area_of_law,
+                          'matters_type' => $request->matters_type,
+                          'client_role' => $request->clients_role,
+                    ]);
+
+                    return redirect()->back()->with('success', 'Successfully Saved');
+            }else{
+              return redirect()->back()->with('danger', 'This Role Already exists');
+            }
+    }
+
+    public function client_rolde_delete($id)
+    {
+              ClientRoles::find($id)->delete();
+              return redirect()->back()->with('success', 'Successfully Deleted');
+    }
+
+    public function client_rolde_edit($id)
+    {
+           $law_areas = AreaOfLaw::allLaws();
+           $role = ClientRoles::where('role_id', $id)->first();
+           return view('admin.matters.client_rolde_edit', compact('law_areas', 'role'));
+    }
+
+    public function client_role_edit_action(Request $request, $id)
+    {
+              $request->validate([
+                     'area_of_law' => 'required|not_in:Select A Law Area',
+                     'clients_role' => 'required|max:200'
+              ]);
+
+              if($request->has('matters_type')){
+                     $check = ClientRoles::whereArea($request->area_of_law)
+                     ->where('matters_type', $request->matters_type)
+                     ->where('client_role', $request->clients_role)
+                     ->where('role_id', '!=', $id)
+                     ->first();
+
+                     if($check == null){
+                            ClientRoles::where('role_id', $id)->update([
+                                   'area' => $request->area_of_law,
+                                   'matters_type' => $request->matters_type,
+                                   'client_role' => $request->clients_role,
+                            ]);
+
+                            return redirect()->back()->with('success', 'Successfully Saved');
+                     }else{
+                            return redirect()->back()->with('danger', 'This Role Already exists');
+                          }
+              }else{
+                       $old_details = ClientRoles::whereArea($request->area_of_law)
+                       ->where('role_id', $id)
+                       ->first();
+
+                     $check = ClientRoles::whereArea($request->area_of_law)
+                     ->where('matters_type', $old_details->matters_type)
+                     ->where('client_role', $request->clients_role)
+                     ->where('role_id', '!=', $id)
+                     ->first();
+
+                     if($check == null){
+                            ClientRoles::where('role_id', $id)->update([
+                                   'area' => $request->area_of_law,
+                                   'client_role' => $request->clients_role,
+                            ]);
+
+                            return redirect()->back()->with('success', 'Successfully Saved');
+                     }else{
+                            return redirect()->back()->with('danger', 'This Role Already exists');
+                     }
+              }
     }
 }
