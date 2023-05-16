@@ -64,6 +64,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(MatterManageController::class)
         ->group(function(){
             Route::get('matter-add', 'matter_add')->name('matters.add.page');
+            Route::get('matter/get-by-area/{area}', 'matter_get_by_area')->name('matter.get-by-area');
+            Route::get('matter/get-client-role', 'get_client_role')->name('matter.get-client-role');
         });
 
         /**

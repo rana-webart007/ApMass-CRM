@@ -38,4 +38,10 @@ class ClientRoles extends Model
            $all = ClientRoles::orderBy('area')->get();
            return $all;
     }
+
+    public static function getTypesByAreaAndMatterName($area, $matter)
+    {
+           $all = ClientRoles::where('area', $area)->where('matters_type', $matter)->get(['client_role']);
+           return $all;
+    }
 }

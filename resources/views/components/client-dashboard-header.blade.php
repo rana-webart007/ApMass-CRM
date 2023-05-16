@@ -24,6 +24,9 @@
     <!-- ck editor-->
     <script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
 
+    <!-- font icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
 </head>
 
 <body>
