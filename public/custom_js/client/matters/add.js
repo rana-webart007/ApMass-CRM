@@ -162,7 +162,25 @@ function change(type){
     if(type == "invoive_sub_title_custom"){
         document.getElementById('custom_invoice_sub_title_field_div').style.display = "block";
     }
+
+    /**
+     * surcharge
+     */
+
+    if(type == "surcharge_check"){
+        document.getElementById('surcharge_type_div').style.display = "block";
+    }
+
+    if(type == "surcharge_type"){
+         let stype = document.getElementById('surcharge_type').value;
+         if(stype != "Select" && stype != "None"){
+             document.getElementById('surcharge_type_details_div').style.display = "block";
+         }else{
+             document.getElementById('surcharge_type_details_div').style.display = "none";
+         }
+    }
 }
+
 
 /**
  * Billing Types Js

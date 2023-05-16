@@ -366,12 +366,12 @@
                                                 <div id="custom_override_default_rate_div" style="display:none;">
                                                 <div class="col-md-12" >
                                                 <div class="form-group">
-                                                        <select name="custom_override_default_rate" id="custom_override_default_rate" class="form-control">
+                                                        <select name="custom_override_default_client" id="custom_override_default_rate" class="form-control">
                                                                <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option>
                                                         </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="number" name="custom_override_rate" id="custom_override_rate" class="form-control" placeholder="$ per hour">
+                                                    <input type="number" name="custom_override_default_rate" id="custom_override_default_rate" class="form-control" placeholder="$ per hour">
                                                 </div>
                                                 <div class="form-group">
                                                     <button type="button" class="btn btn-primary">Add</button>
@@ -401,13 +401,13 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="radio" id="override_rate" name="not_applicable"
+                                                    <input type="radio" id="override_rate" name="late_payment"
                                                         value="override rate" onclick="change('grace_not_applicable')">
                                                     <label for="override">Not Applicable</label><br>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <input type="radio" id="Grace period" name="not_applicable"
+                                                    <input type="radio" id="Grace period" name="late_payment"
                                                         value="override_rate_staff" onclick="change('grace_applicable')">
                                                     <label for="override">Grace period</label><br>
                                                 </div>
@@ -594,18 +594,53 @@
                                                     <option value="Enabled">Enabled</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 mt-2">
                                                 <label for="">SURCHARGE</label>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="checkbox" id="override-surcharge"
-                                                        name="override-surcharge" value="override-surcharge">
+                                                    <input type="checkbox" id="surcharge_check"
+                                                        name="surcharge_check" onclick="change('surcharge_check')"
+                                                        required>
                                                     <label for="override-surcharge">Override default surcharge
                                                         settings</label>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <!-- -->
+                                        <div class="row" id="surcharge_type_div" style="display:none;">
+                                            <div class="col-md-12">
+                                                <select name="surcharge_type" onchange="change('surcharge_type')" class="form-control" id="surcharge_type">
+                                                    <option value="Select">Select</option>
+                                                    <option value="None">None</option>
+                                                    <option value="Surcharge(in %)">Surcharge(in %)</option>
+                                                    <option value="Surcharge(in $)">Surcharge(in $)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" id="surcharge_type_details_div" style="display:none;">
+                                            <div class="col-md-12 mt-2">
+                                                <label for="">Percentage/Amount</label>
+                                                <input type="number" name="surcharge_percent_or_amount" id="surcharge_percent_or_amount" class="form-control">
+                                            </div>
+
+                                            <div class="col-md-12 mt-1">
+                                                <label for="surcharge_apply_to">Apply To</label>
+                                                <select name="surcharge_apply_to" id="surcharge_apply_to" class="form-control">
+                                                    <option value="Select">Select</option>
+                                                    <option value="Time & Fees Only">Time & Fees Only</option>
+                                                    <option value="Time & Fees and expenses">Time & Fees and expenses</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-12 mt-2">
+                                                <label for="">Label on invoice</label>
+                                                <input type="text" name="surcharge_liable" id="surcharge_liable" class="form-control" value="Surcharge">
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
