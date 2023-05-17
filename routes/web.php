@@ -41,7 +41,13 @@ Route::get('/', function () {
 Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
     Route::controller(ClientAuthManageController::class)->group(function(){
            Route::get('login', 'login')->name('login');
-           Route::post('login/action', 'login_action')->name('login.action');
+
+           /**
+            * a client can attempt for login for 5 times in a minute
+            * check -- app\provider\RouteServicePrtovider
+           */
+
+           Route::post('login/action', 'login_action')->middleware('throttle:client_login')->name('login.action');
 
            Route::get('register', 'register')->name('register');
            Route::post('register/action', 'register_action')->name('register.action');

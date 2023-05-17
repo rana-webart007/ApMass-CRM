@@ -600,8 +600,8 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <input type="checkbox" id="surcharge_check"
-                                                        name="surcharge_check" onclick="change('surcharge_check')"
-                                                        required>
+                                                        name="surcharge_check" onchange="change('surcharge_check')"
+                                                        >
                                                     <label for="override-surcharge">Override default surcharge
                                                         settings</label>
                                                 </div>
@@ -651,8 +651,8 @@
                         <button type="submit" class="btn btn-primary btn-lg font-weight-medium auth-form-btn"
                             >Create Matter</button>
 
-                            <button type="button" class="btn btn-dark btn-lg font-weight-medium auth-form-btn"
-                        >Cancel Matter</button>
+                        <a href="{{ route('client.dashboard') }}"><button type="button" class="btn btn-dark btn-lg font-weight-medium auth-form-btn"
+                        >Cancel Matter</button></a>
                     </div>
                     </form>
                     <!-- MATTER DETAILS start --->

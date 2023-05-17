@@ -168,7 +168,13 @@ function change(type){
      */
 
     if(type == "surcharge_check"){
-        document.getElementById('surcharge_type_div').style.display = "block";
+        if (document.getElementById('surcharge_check').checked){
+            document.getElementById('surcharge_type_div').style.display = "block";
+        }
+        else{
+            document.getElementById('surcharge_type_div').style.display = "none";
+            document.getElementById('surcharge_type_details_div').style.display = "none";
+        }
     }
 
     if(type == "surcharge_type"){
