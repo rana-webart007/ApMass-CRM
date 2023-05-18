@@ -25,6 +25,9 @@ function sw_alert1(id, type) {
             if(type == "client_role"){
                 window.location.href = "matters/client/role-delete/"+id;
             }
+            if(type == "admin_contact_address_del"){
+                window.location.href = "address/delete/"+id
+            }
 
             Swal.fire(
                 'Deleted!',
@@ -33,4 +36,20 @@ function sw_alert1(id, type) {
             )
         }
     })
+}
+
+/**
+ * sweet alert for warning
+ */
+
+function warning_alert(){
+    Swal.fire({
+        title: 'Warning',
+        text: "Please Select a Valid Type",
+        icon: 'warning',
+        padding: '1em',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Okay'
+      })
 }

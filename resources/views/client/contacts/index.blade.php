@@ -123,8 +123,20 @@
                                           <div class="form-group">
                                              <label class="col-form-label">Title</label>
                                              <select class="form-control">
-                                                <option>Mr</option>
-                                                <option>Mrs</option>
+                                                <option value="Mr">Mr</option>
+                                                <option value="Mrs">Mrs</option>
+                                                <option value="Miss">Miss</option>
+                                                <option value="Ms">Ms</option>
+                                                <option value="Mx">Mx</option>
+                                                <option value="Dr">Dr</option>
+                                                <option value="Master">Master</option>
+                                                <option value="Honorable">Honorable</option>
+                                                <option value="Professor">Professor</option>
+                                                <option value="Reverend">Reverend</option>
+                                                <option value="Magistrate">Magistrate</option>
+                                                <option value="Judge">Judge</option>
+                                                <option value="Father">Father</option>
+                                                <option value="Attorney">Attorney</option>
                                              </select>
                                           </div>
                                        </div>
@@ -169,11 +181,32 @@
                                           </div>
                                        </div>
                                     </div>
+
+                                    <!-- search address -->
+                                    <div class="row">
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <label for="search_address" class="col-form-label">Search Address:</label>
+                                             <input type="text" class="form-control" id="search_address" name="search_address" onkeyup="search();" placeholder="Search Address Here..">
+                                          </div>
+                                       </div>
+                                    </div>
+
+                                    <!--  address found -->
+                                    <div class="row" style="display:none;" id="address_found_div">
+                                       <div class="col-md-12">
+                                          <div class="form-group">
+                                             <label for="address_found" class="col-form-label">Addresses:</label>
+                                             <select class="form-control" id="address_found" onchange="select_address();" name="search_address"></select>
+                                          </div>
+                                       </div>
+                                    </div>
+
                                     <div class="row">
                                        <div class="col-md-12">
                                           <div class="form-group">
                                              <label for="address line 1" class="col-form-label">ADDRESS LINE 1:</label>
-                                             <input type="text" class="form-control" id="">
+                                             <input type="text" class="form-control" id="address_line_1">
                                           </div>
                                        </div>
                                     </div>
@@ -181,7 +214,7 @@
                                        <div class="col-md-12">
                                           <div class="form-group">
                                              <label for="address line 1" class="col-form-label">ADDRESS LINE 2:</label>
-                                             <input type="text" class="form-control" id="">
+                                             <input type="text" class="form-control" id="address_line_2">
                                           </div>
                                        </div>
                                     </div>
@@ -189,19 +222,19 @@
                                        <div class="col-md-5">
                                           <div class="form-group">
                                              <label for="address line 1" class="col-form-label">CITY:</label>
-                                             <input type="text" class="form-control" id="">
+                                             <input type="text" class="form-control" id="city">
                                           </div>
                                        </div>
                                        <div class="col-md-3">
                                           <div class="form-group">
                                              <label for="address line 1" class="col-form-label">STATE:</label>
-                                             <input type="text" class="form-control" id="">
+                                             <input type="text" class="form-control" id="state">
                                           </div>
                                        </div>
                                        <div class="col-md-4">
                                           <div class="form-group">
                                              <label for="address line 1" class="col-form-label">ZIP CODE:</label>
-                                             <input type="text" class="form-control" id="">
+                                             <input type="text" class="form-control" id="zip">
                                           </div>
                                        </div>
                                     </div>
@@ -213,10 +246,10 @@
                                           </div>
                                        </div>
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                        <label for="message-text" class="col-form-label">Message:</label>
                                        <textarea class="form-control" id="message-text"></textarea>
-                                    </div>
+                                    </div> -->
                                  </form>
                               </div>
                               <div class="modal-footer">
@@ -499,5 +532,9 @@
       </div>
    </div>
 </div>
-               
+
+<!-- dropdown dependency -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ asset('custom_js/client/contact/add.js') }}"></script>
+
 <x-clientDashboardFooter />

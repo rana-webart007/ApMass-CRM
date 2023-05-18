@@ -12,6 +12,7 @@ use App\Http\Controllers\client\MatterManageController;
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminMattersManageController;
+use App\Http\Controllers\Admin\AdminContactsManageController;
 
 
 /*
@@ -81,6 +82,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(ContactsManageController::class)
         ->group(function(){
             Route::get('contacts/page', 'page')->name('contacts.page');
+            Route::get('contacts/search/address/{search_for}', 'search_address')->name('contacts.search.address');
+            Route::get('contacts/search/address/by-id/{search_id}', 'search_address_by_id')->name('contacts.search.address.by.id');
         });
 
         /**
@@ -181,5 +184,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
             Route::get('matters/client/role-edit/{id}', 'client_rolde_edit')->name('matter.client-role-edit');
             Route::post('matters/client/role-edit-action/{id}', 'client_role_edit_action')->name('matter.client-role-edit-action');
         });
+
+        /**
+         * Contacts
+        */
+
+        Route::controller(AdminContactsManageController::class)->group(function(){
+              Route::get('contact/page', 'contact_page')->name('contact.page');
+              Route::get('contact/add/address', 'contact_add_address')->name('contact.add.address');
+              Route::post('contact/add/address/action', 'contact_add_address_action')->name('contact.add.address.action');
+              Route::get('contact/address/delete/{id}', 'contact_address_delete')->name('contact.address.delete');
+              Route::get('contact/edit/address/{id}', 'contact_edit_address')->name('contact.edit.address');
+              Route::post('contact/edit/address/action/{id}', 'contact_edit_address_action')->name('contact.edit.address.action');
+        });
+
     });
 });

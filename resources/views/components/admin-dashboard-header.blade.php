@@ -340,6 +340,13 @@
                         </a>
                     </li>
                     
+                    <li class="nav-item @if($segments == 'contact') active @endif">
+                        <a class="nav-link" href="{{ route('admin.contact.page') }}">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Contacts</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                    </li>
                 
                 </ul>
             </nav>

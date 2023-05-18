@@ -32,5 +32,16 @@
       <script src="{{ asset('js/dashboard.js')}}"></script>
       <script src="{{ asset('js/Chart.roundedBarCharts.js')}}"></script>
       <!-- End custom js for this page-->
+
+      <!-- for modal -->
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="{{ asset('js/modal-demo.js') }}"></script>
+
+      <!-- sweet alert -->
+      <script src="{{ asset('custom_js/sweet_alert.js') }}"></script>
+
+      <!-- sweet alert -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
    </body>
 </html>
