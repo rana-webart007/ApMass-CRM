@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('person_contacts', function (Blueprint $table) {
             $table->id();
+            $table->string('client_id')->nullable();
             $table->text('name');
             $table->string('email');
             $table->text('home');

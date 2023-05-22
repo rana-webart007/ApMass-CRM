@@ -84,6 +84,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::get('contacts/page', 'page')->name('contacts.page');
             Route::get('contacts/search/address/{search_for}', 'search_address')->name('contacts.search.address');
             Route::get('contacts/search/address/by-id/{search_id}', 'search_address_by_id')->name('contacts.search.address.by.id');
+            Route::post('contacts/person/add/action', 'person_contact_add_action')->name('contacts.person.add.action');
         });
 
         /**

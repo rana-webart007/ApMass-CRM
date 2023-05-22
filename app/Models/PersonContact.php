@@ -11,6 +11,7 @@ class PersonContact extends Model
 
     protected $table = "person_contacts";
     protected $fillable = [
+        "client_id",
         "name",
         "email",
         "home",
@@ -22,4 +23,17 @@ class PersonContact extends Model
         "zip",
         "add_to_existing_org",
     ];
+
+    public static function totalPersonContact($client_id)
+    {
+           $total = count(PersonContact::where('client_id', $client_id)->get());
+           return $total;
+    }
+
+    public static function allPersonContact($client_id)
+    {
+           $all = PersonContact::where('client_id', $client_id)
+                  ->orderBy('id', 'desc')->get();
+           return $all;
+    }
 }

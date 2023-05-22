@@ -45,7 +45,7 @@ function sw_alert1(id, type) {
 function warning_alert(){
     Swal.fire({
         title: 'Warning',
-        text: "Please Select a Valid Type",
+        text: "Please Select a Valid Option",
         icon: 'warning',
         padding: '1em',
         confirmButtonColor: '#3085d6',
