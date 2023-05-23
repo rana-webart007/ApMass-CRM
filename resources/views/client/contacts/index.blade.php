@@ -130,6 +130,7 @@
                                                     <span aria-hidden="true">×</span>
                                                 </button>
                                             </div>
+
                                             <div class="modal-body">
                                                 <ul class="nav nav-tabs" role="tablist">
                                                     <li class="nav-item">
@@ -149,7 +150,7 @@
                                                         <div class="media">
                                                             <form
                                                                 action="{{ route('client.contacts.person.add.action') }}"
-                                                                method="post">
+                                                                method="post" id="person_contact_form">
                                                                 @csrf
 
                                                                 <div class="row">
@@ -159,7 +160,7 @@
                                                                     <div class="col-md-3">
                                                                         <div class="form-group">
                                                                             <label class="col-form-label">Title</label>
-                                                                            <select class="form-control" name="title">
+                                                                            <select class="form-control" name="title" id="title">
                                                                                 <option value="Select A Title">Select A
                                                                                     Title</option>
                                                                                 <option value="Mr">Mr</option>
@@ -195,7 +196,7 @@
                                                                                 class="col-form-label">Frist
                                                                                 Name:</label>
                                                                             <input type="text" class="form-control"
-                                                                                name="first_name" id="Frist-name">
+                                                                                name="first_name" id="first_name" required>
 
                                                                             @if($errors->has('first_name'))
                                                                             <span
@@ -209,7 +210,7 @@
                                                                                 class="col-form-label">Last
                                                                                 Name:</label>
                                                                             <input type="text" class="form-control"
-                                                                                name="last_name" id="Last-name">
+                                                                                name="last_name" id="last_name" required>
 
                                                                             @if($errors->has('last_name'))
                                                                             <span
@@ -224,7 +225,7 @@
                                                                             <label for="Email"
                                                                                 class="col-form-label">Email:</label>
                                                                             <input type="text" class="form-control"
-                                                                                name="email" id="Email">
+                                                                                name="email" id="Email" required>
 
                                                                             @if($errors->has('email'))
                                                                             <span
@@ -239,7 +240,7 @@
                                                                             class="col-form-label">HOME:</label>
                                                                         <div class="form-group">
                                                                             <input type="number" name="home_1"
-                                                                                class="form-control">
+                                                                                class="form-control" id="home_1" required>
                                                                             @if($errors->has('home_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('home_1') }}</span>
@@ -247,7 +248,7 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <input type="number" name="home_2"
-                                                                                class="form-control">
+                                                                                class="form-control" id="home_2" required>
                                                                             @if($errors->has('home_2'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('home_2') }}</span>
@@ -259,15 +260,15 @@
                                                                             class="col-form-label">CELL:</label>
                                                                         <div class="form-group">
                                                                             <input type="number" name="cell_1"
-                                                                                class="form-control">
+                                                                                class="form-control" id="cell_1" required>
                                                                             @if($errors->has('cell_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('cell_1') }}</span>
                                                                             @endif
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <input type="number" name="cell_2"
-                                                                                class="form-control">
+                                                                            <input type="number" id="cell_2" name="cell_2"
+                                                                                class="form-control" required>
                                                                             @if($errors->has('cell_2'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('cell_2') }}</span>
@@ -317,7 +318,7 @@
                                                                                 1:</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="address_line_1"
-                                                                                name="address_line_1">
+                                                                                name="address_line_1" required>
                                                                             @if($errors->has('address_line_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('address_line_1') }}</span>
@@ -343,7 +344,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">CITY:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="city" name="city">
+                                                                                id="city" name="city" required>
                                                                             @if($errors->has('city'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('city') }}</span>
@@ -355,7 +356,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">STATE:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="state" name="state">
+                                                                                id="state" name="state" required>
                                                                             @if($errors->has('state'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('state') }}</span>
@@ -367,7 +368,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">ZIP CODE:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="zip" name="zip">
+                                                                                id="zip" name="zip" required>
                                                                             @if($errors->has('zip'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('zip') }}</span>
@@ -382,8 +383,12 @@
                                                                                 class="col-form-label">ADD TO EXISTING
                                                                                 ORGANIZATION?:</label>
                                                                             <select name="add_to_existing_org"
-                                                                                class="form-control" id="">
+                                                                                class="form-control" id="add_to_existing_org1">
                                                                                 <option value="None">None</option>
+
+                                                                                @foreach($existing_org as $exst_org)
+                                                                                       <option value="{{ $exst_org->company_name }}">{{ $exst_org->company_name }}</option>
+                                                                                @endforeach
                                                                             </select>
                                                                         </div>
                                                                     </div>
@@ -392,18 +397,22 @@
 
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="cmnbtn">Save</button>
-                                                                    <button type="button" class="btn btn-light"
+                                                                    <button type="button" onclick="save_and_new('person')" class="btn btn-light"
                                                                         data-bs-dismiss="modal">Save
-                                                                        a New</button>
+                                                                        & New</button>
                                                                 </div>
                                                             </form>
                                                         </div>
                                                     </div>
 
+                                                    <!-- Business/Organization Details -->
+
                                                     <div class="tab-pane fade" id="profile-1" role="tabpanel"
                                                         aria-labelledby="profile-tab">
                                                         <div class="media">
-                                                            <form>
+                                                            <form action="{{ route('client.contacts.business.add.action') }}" method="post">
+                                                                @csrf
+
                                                                 <div class="row">
                                                                     <h4>Organization Details</h4>
                                                                 </div>
@@ -413,7 +422,7 @@
                                                                             <label for="name" class="col-form-label">
                                                                                 Name:</label>
                                                                             <input type="text" name="name"
-                                                                                class="form-control" id="name">
+                                                                                class="form-control" id="name" required>
                                                                             @if($errors->has('name'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('name') }}</span>
@@ -457,7 +466,7 @@
                                                                             <label for="Email"
                                                                                 class="col-form-label">Email:</label>
                                                                             <input type="text" name="email"
-                                                                                class="form-control" id="Email">
+                                                                                class="form-control" id="Email" required>
                                                                             @if($errors->has('email'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('email') }}</span>
@@ -471,7 +480,7 @@
                                                                             class="col-form-label">Phone:</label>
                                                                         <div class="form-group">
                                                                             <input type="text" name="phone_1"
-                                                                                class="form-control">
+                                                                                class="form-control" required>
                                                                             @if($errors->has('phone_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('phone_1') }}</span>
@@ -479,7 +488,7 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <input type="text" name="phone_2"
-                                                                                class="form-control">
+                                                                                class="form-control" required>
                                                                             @if($errors->has('phone_2'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('phone_2') }}</span>
@@ -491,7 +500,7 @@
                                                                             class="col-form-label">FAX:</label>
                                                                         <div class="form-group">
                                                                             <input type="text" name="fax_1"
-                                                                                class="form-control">
+                                                                                class="form-control" required>
                                                                             @if($errors->has('fax_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('fax_1') }}</span>
@@ -499,7 +508,7 @@
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <input type="text" name="fax_2"
-                                                                                class="form-control">
+                                                                                class="form-control" required>
                                                                             @if($errors->has('fax_2'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('fax_2') }}</span>
@@ -548,7 +557,7 @@
                                                                                 1:</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="address_line_1"
-                                                                                name="address_line_1">
+                                                                                name="address_line_1" required>
                                                                             @if($errors->has('address_line_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('address_line_1') }}</span>
@@ -573,7 +582,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">CITY:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="city" name="city">
+                                                                                id="city" name="city" required>
                                                                             @if($errors->has('city'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('city') }}</span>
@@ -585,7 +594,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">STATE:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="state" name="state">
+                                                                                id="state" name="state" required>
                                                                             @if($errors->has('state'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('state') }}</span>
@@ -597,7 +606,7 @@
                                                                             <label for="address line 1"
                                                                                 class="col-form-label">ZIP CODE:</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="zip" name="zip">
+                                                                                id="zip" name="zip" required>
                                                                             @if($errors->has('zip'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('zip') }}</span>
@@ -621,14 +630,11 @@
 
 
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="cmnbtn">Save</button>
+                                                                    <button type="submit" class="cmnbtn">Save</button>
                                                                     <button type="button" class="btn btn-light"
                                                                         data-bs-dismiss="modal">Save
-                                                                        a New</button>
+                                                                        & New</button>
                                                                 </div>
-
-
-
 
                                                             </form>
                                                         </div>

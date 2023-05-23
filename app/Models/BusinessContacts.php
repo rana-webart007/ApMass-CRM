@@ -23,4 +23,10 @@ class BusinessContacts extends Model
         "state",
         "zip",
     ];
+
+    public static function existingOrganization($client_id)
+    {
+           $org = BusinessContacts::where('client_id', $client_id)->get();
+           return $org;
+    }
 }

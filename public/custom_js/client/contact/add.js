@@ -116,7 +116,7 @@ function add_more_contacts(){
                     class="col-form-label">Frist
                     Name:</label>
                 <input type="text" class="form-control"
-                    name="more_first_name[]" id="Frist-name">
+                    name="more_first_name[]" id="Frist-name" required>
             </div>
         </div>
         <div class="col-md-4">
@@ -125,7 +125,7 @@ function add_more_contacts(){
                     class="col-form-label">Last
                     Name:</label>
                 <input type="text" class="form-control"
-                    name="more_last_name[]" id="Last-name">
+                    name="more_last_name[]" id="Last-name" required>
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@ function add_more_contacts(){
                 <label for="Email"
                     class="col-form-label">Email:</label>
                 <input type="text" class="form-control"
-                    name="more_email[]" id="Email">
+                    name="more_email[]" id="Email" required>
             </div>
         </div>
    
@@ -144,13 +144,13 @@ function add_more_contacts(){
             <label for="Email"
                 class="col-form-label">HOME:</label>
             <div class="form-group">
-                <input type="text" name="more_home_1[]"
-                    class="form-control">
+                <input type="number" name="more_home_1[]"
+                    class="form-control" required>
                 
             </div>
             <div class="form-group">
-                <input type="text" name="more_home_2[]"
-                    class="form-control">
+                <input type="number" name="more_home_2[]"
+                    class="form-control" required>
                 
             </div>
         </div>
@@ -158,13 +158,13 @@ function add_more_contacts(){
             <label for="Email"
                 class="col-form-label">CELL:</label>
             <div class="form-group">
-                <input type="text" name="more_cell_1[]"
-                    class="form-control">
+                <input type="number" name="more_cell_1[]"
+                    class="form-control" required>
                 
             </div>
             <div class="form-group">
-                <input type="text" name="more_cell_2[]"
-                    class="form-control">     
+                <input type="number" name="more_cell_2[]"
+                    class="form-control" required>     
             </div>
         </div>
     </div>
@@ -193,3 +193,96 @@ function removeField(button) {
     var container = row.parentNode;
     container.removeChild(row);
 }
+
+/**
+ * Save & New
+*/
+
+function save_and_new(type){
+
+    /**
+     * save & new person contacts 
+    */
+
+    if(type == "person"){
+       let title = document.getElementById('title').value;
+       let first_name = document.getElementById('first_name').value;
+       let last_name = document.getElementById('last_name').value;
+       let email = document.getElementById('Email').value;
+       let home_1 = document.getElementById('home_1').value;
+       let home_2 = document.getElementById('home_2').value;
+       let cell_1 = document.getElementById('cell_1').value;
+       let cell_2 = document.getElementById('cell_2').value;
+       let address_line_1 = document.getElementById('address_line_1').value;
+       let address_line_2 = document.getElementById('address_line_2').value;
+       let city = document.getElementById('city').value;
+       let state = document.getElementById('state').value;
+       let zip = document.getElementById('zip').value;
+       let add_to_existing_org1 = document.getElementById('add_to_existing_org1').value;
+
+       // csrf
+       let csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+
+       // 
+       let req = "ajax";
+
+       $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': csrfToken
+        }
+       });
+
+        $.ajax({
+                url: 'person/add/action',
+                type: 'POST',
+                data:{
+                    title: title,
+                    first_name: first_name,
+                    last_name: last_name,
+                    email: email,
+                    home_1: home_1,
+                    home_2: home_2,
+                    cell_1: cell_1,
+                    cell_2: cell_2,
+                    address_line_1: address_line_1,
+                    address_line_2: address_line_2,
+                    city: city,
+                    state: state,
+                    zip: zip,
+                    add_to_existing_org1: add_to_existing_org1,
+                    req:req,
+                },
+                dataType: 'json',
+                success: function(data) {
+
+                    // Reset the form
+                    $('#person_contact_form')[0].reset();
+
+                    // open the modal
+                    $('#exampleModal-2').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    // Reset the form
+                    $('#person_contact_form')[0].reset();
+
+                    // open the modal
+                    $('#exampleModal-2').modal('show');
+                }
+        });
+    }
+
+
+    /**
+     * save & new business contacts 
+    */
+
+    
+}
+
+/**
+ * select2
+ */
+
+$(document).ready(function() {
+    $('#add_to_existing_org').select2();
+});
