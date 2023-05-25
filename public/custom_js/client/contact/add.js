@@ -81,7 +81,7 @@ function add_more_contacts(){
                 <label
                     class="col-form-label">Title</label>
                 <select class="form-control"
-                    name="more_title[]">
+                    name="more_title[]" id="more_title">
                     <option value="Select A Title">
                         Select A
                         Title</option>
@@ -116,7 +116,7 @@ function add_more_contacts(){
                     class="col-form-label">Frist
                     Name:</label>
                 <input type="text" class="form-control"
-                    name="more_first_name[]" id="Frist-name" required>
+                    name="more_first_name[]" id="more_first_name" required>
             </div>
         </div>
         <div class="col-md-4">
@@ -125,7 +125,7 @@ function add_more_contacts(){
                     class="col-form-label">Last
                     Name:</label>
                 <input type="text" class="form-control"
-                    name="more_last_name[]" id="Last-name" required>
+                    name="more_last_name[]" id="more_last_name" required>
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@ function add_more_contacts(){
                 <label for="Email"
                     class="col-form-label">Email:</label>
                 <input type="text" class="form-control"
-                    name="more_email[]" id="Email" required>
+                    name="more_email[]" id="more_email" required>
             </div>
         </div>
    
@@ -144,13 +144,13 @@ function add_more_contacts(){
             <label for="Email"
                 class="col-form-label">HOME:</label>
             <div class="form-group">
-                <input type="number" name="more_home_1[]"
+                <input type="number" id="more_home_1" name="more_home_1[]"
                     class="form-control" required>
                 
             </div>
             <div class="form-group">
                 <input type="number" name="more_home_2[]"
-                    class="form-control" required>
+                    class="form-control" id="more_home_2" required>
                 
             </div>
         </div>
@@ -158,12 +158,12 @@ function add_more_contacts(){
             <label for="Email"
                 class="col-form-label">CELL:</label>
             <div class="form-group">
-                <input type="number" name="more_cell_1[]"
+                <input type="number" id="more_cell_1" name="more_cell_1[]"
                     class="form-control" required>
                 
             </div>
             <div class="form-group">
-                <input type="number" name="more_cell_2[]"
+                <input type="number" id="more_cell_2" name="more_cell_2[]"
                     class="form-control" required>     
             </div>
         </div>
@@ -175,7 +175,7 @@ function add_more_contacts(){
                     class="col-form-label">Business
                     Role:</label>
                 <input type="text" class="form-control"
-                    id="Email" name="more_business_role[]">
+                    id="more_business_role" name="more_business_role[]">
             </div>
         </div>
     
@@ -273,10 +273,133 @@ function save_and_new(type){
 
 
     /**
-     * save & new business contacts 
+     * save & new business contacts (trying..)
     */
 
-    
+    if(type == "business"){
+        let name = document.getElementById('name').value;
+        let company_type = document.getElementById('company_type').value;
+        let email = document.getElementById('Email').value;
+        let phone_1 = document.getElementById('phone_1').value;
+        let phone_2 = document.getElementById('phone_2').value;
+        let fax_1 = document.getElementById('fax_1').value;
+        let fax_2 = document.getElementById('fax_2').value;
+        let address_line_1 = document.getElementById('address_line_1').value;
+        let address_line_2 = document.getElementById('address_line_2').value;
+        let city = document.getElementById('city').value;
+        let state = document.getElementById('state').value;
+        let zip = document.getElementById('zip').value;
+
+
+        let more_title = document.getElementsByName('more_title[]');
+        let more_first_name = document.getElementsByName('more_first_name[]');
+        let more_last_name = document.getElementsByName('more_last_name[]');
+        let more_email = document.getElementsByName('more_email[]');
+        let more_home_1 = document.getElementsByName('more_home_1[]');
+        let more_home_2 = document.getElementsByName('more_home_2[]');
+        let more_cell_1 = document.getElementsByName('more_cell_1[]');
+        let more_cell_2 = document.getElementsByName('more_cell_2[]');
+        let more_business_role = document.getElementsByName('more_business_role[]');
+
+        for(var i=0; i<more_email.length; i++){
+            more_email = more_email[i];
+        }
+
+        for(var i=0; i<more_title.length; i++){
+            more_title = more_title[i];
+        }
+
+        for(var i=0; i<more_first_name.length; i++){
+            more_first_name = more_first_name[i];
+        }
+
+        for(var i=0; i<more_last_name.length; i++){
+            more_last_name = more_last_name[i];
+        }
+
+        for(var i=0; i<more_home_1.length; i++){
+            more_home_1 = more_home_1[i];
+        }
+
+        for(var i=0; i<more_home_2.length; i++){
+            more_home_2 = more_home_2[i];
+        }
+
+        for(var i=0; i<more_cell_1.length; i++){
+            more_cell_1 = more_cell_1[i];
+        }
+
+        for(var i=0; i<more_cell_2.length; i++){
+            more_cell_2 = more_cell_2[i];
+        }
+
+        for(var i=0; i<more_business_role.length; i++){
+            more_business_role = more_business_role[i];
+        }
+
+        /**
+         * https://www.geeksforgeeks.org/how-to-get-values-from-html-input-array-using-javascript/
+        */
+ 
+        // csrf
+        let csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
+ 
+        // 
+        let req = "ajax";
+
+        $.ajaxSetup({
+            headers: {
+              'X-CSRF-TOKEN': csrfToken
+            }
+           });
+
+           $.ajax({
+            url: 'business/add/action',
+            type: 'POST',
+            data:{
+                name: name,
+                company_type: company_type,
+                email: email,
+                phone_1: phone_1,
+                phone_2: phone_2,
+                fax_1: fax_1,
+                fax_2: fax_2,
+                address_line_1: address_line_1,
+                address_line_2: address_line_2,
+                city: city,
+                state: state,
+                zip: zip,
+
+                more_title: more_title,
+                more_first_name: more_first_name,
+                more_last_name: more_last_name,
+                more_email: more_email,
+                more_home_1: more_home_1,
+                more_home_2: more_home_2,
+                more_cell_1: more_cell_1,
+                more_cell_2: more_cell_2,
+                more_business_role: more_business_role,
+                req:req,
+            },
+            dataType: 'json',
+            success: function(data) {
+                console.log("success");
+                // Reset the form
+                $('#person_contact_form')[0].reset();
+
+                // open the modal
+                $('#exampleModal-2').modal('show');
+            },
+            error: function(xhr, status, error) {
+                // Reset the form
+                $('#person_contact_form')[0].reset();
+
+                // open the modal
+                $('#exampleModal-2').modal('show');
+            }
+    });
+
+    }
 }
 
 /**

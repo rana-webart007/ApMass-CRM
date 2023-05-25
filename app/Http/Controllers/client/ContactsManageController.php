@@ -84,6 +84,18 @@ class ContactsManageController extends Controller
            }
     }
 
+    public function person_delete($id)
+    {
+            PersonContact::find($id)->delete();
+            return redirect()->back()->with('success', 'Successfully Deleted');
+    }
+
+    public function person_edit_page($id)
+    {
+            $detail = PersonContact::whereId($id)->first();
+            return view('client.contacts.person_edit');
+    }
+
     /**
      * Business Contact
     */

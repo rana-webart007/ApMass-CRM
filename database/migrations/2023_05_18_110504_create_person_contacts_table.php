@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('zip');
             $table->string('add_to_existing_org')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

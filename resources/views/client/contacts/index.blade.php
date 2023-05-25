@@ -435,7 +435,7 @@
                                                                             <label class="col-form-label">Company
                                                                                 Type</label>
                                                                             <select class="form-control"
-                                                                                name="company_type">
+                                                                                name="company_type" id="company_type">
                                                                                 <option value="Select..">Select..
                                                                                 </option>
                                                                                 <option value="Corporation">Corporation
@@ -480,14 +480,14 @@
                                                                             class="col-form-label">Phone:</label>
                                                                         <div class="form-group">
                                                                             <input type="text" name="phone_1"
-                                                                                class="form-control" required>
+                                                                                class="form-control" id="phone_1" required>
                                                                             @if($errors->has('phone_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('phone_1') }}</span>
                                                                             @endif
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <input type="text" name="phone_2"
+                                                                            <input type="text" id="phone_2" name="phone_2"
                                                                                 class="form-control" required>
                                                                             @if($errors->has('phone_2'))
                                                                             <span
@@ -500,14 +500,14 @@
                                                                             class="col-form-label">FAX:</label>
                                                                         <div class="form-group">
                                                                             <input type="text" name="fax_1"
-                                                                                class="form-control" required>
+                                                                                class="form-control" id="fax_1" required>
                                                                             @if($errors->has('fax_1'))
                                                                             <span
                                                                                 class="text-danger">{{ $errors->first('fax_1') }}</span>
                                                                             @endif
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <input type="text" name="fax_2"
+                                                                            <input type="text" id="fax_2" name="fax_2"
                                                                                 class="form-control" required>
                                                                             @if($errors->has('fax_2'))
                                                                             <span
@@ -631,9 +631,11 @@
 
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="cmnbtn">Save</button>
-                                                                    <button type="button" class="btn btn-light"
-                                                                        data-bs-dismiss="modal">Save
-                                                                        & New</button>
+
+                                                                    <button type="submit" class="btn btn-light">Save & New</button>
+                                                                    <!-- <button type="button" class="btn btn-light"
+                                                                        data-bs-dismiss="modal" onclick="save_and_new('business')">Save
+                                                                        & New</button> -->
                                                                 </div>
 
                                                             </form>
@@ -673,13 +675,13 @@
                                                 <td> {{ $allContact->cell }} </td>
                                                 <td> {{ $allContact->email }} </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick=""
+                                                    <button type="button" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact');"
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>

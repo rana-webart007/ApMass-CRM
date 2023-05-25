@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('cell')->nullable();
             $table->string('business_role')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

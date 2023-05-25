@@ -28,6 +28,9 @@ function sw_alert1(id, type) {
             if(type == "admin_contact_address_del"){
                 window.location.href = "address/delete/"+id
             }
+            if(type == "client-person-contact"){
+                window.location.href = "person/delete/"+id
+            }
 
             Swal.fire(
                 'Deleted!',
