@@ -73,6 +73,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::get('matter-add', 'matter_add')->name('matters.add.page');
             Route::get('matter/get-by-area/{area}', 'matter_get_by_area')->name('matter.get-by-area');
             Route::get('matter/get-client-role', 'get_client_role')->name('matter.get-client-role');
+            Route::post('matter/add-action', 'add_action')->name('matter.add.action');
         });
 
         /**
@@ -88,7 +89,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::post('contacts/business/add/action', 'business_contact_add_action')->name('contacts.business.add.action');
             Route::get('contacts/person/delete/{id}', 'person_delete')->name('contacts.person.delete');
             Route::get('contacts/person/edit/page/{id}', 'person_edit_page')->name('contacts.person.edit.page');
-
+            Route::post('contacts/person/edit/action/{id}', 'person_edit_action')->name('contacts.person.edit.action');
         });
 
         /**

@@ -33,182 +33,144 @@
 
                                 @include('commons.session-msg')
 
-                                <form action="#" method="post">
-                                @csrf
+                                <form action="{{ route('client.contacts.person.edit.action', $detail->id)}}" method="post">
+                                    @csrf
 
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label class="col-form-label">Title</label>
-                                                                            <select class="form-control" name="title" id="title">
-                                                                                <option value="Select A Title">Select A
-                                                                                    Title</option>
-                                                                                <option value="Mr">Mr</option>
-                                                                                <option value="Mrs">Mrs</option>
-                                                                                <option value="Miss">Miss</option>
-                                                                                <option value="Ms">Ms</option>
-                                                                                <option value="Mx">Mx</option>
-                                                                                <option value="Dr">Dr</option>
-                                                                                <option value="Master">Master</option>
-                                                                                <option value="Honorable">Honorable
-                                                                                </option>
-                                                                                <option value="Professor">Professor
-                                                                                </option>
-                                                                                <option value="Reverend">Reverend
-                                                                                </option>
-                                                                                <option value="Magistrate">Magistrate
-                                                                                </option>
-                                                                                <option value="Judge">Judge</option>
-                                                                                <option value="Father">Father</option>
-                                                                                <option value="Attorney">Attorney
-                                                                                </option>
-                                                                            </select>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                        data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="row">
 
-                                                                            @if($errors->has('title'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('title') }}</span>
-                                                                            @endif
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="frist-name" class="col-form-label">
+                                                            Name:</label>
+                                                        <input type="text" class="form-control" name="name" value="{{ $detail->name }}" id="name"
+                                                            required>
+
+                                                        @if($errors->has('name'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('first_name') }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label for="frist-name"
-                                                                                class="col-form-label">Frist
-                                                                                Name:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="first_name" id="first_name" required>
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">Email:</label>
+                                                        <input type="text" class="form-control"  value="{{ $detail->email }}" name="email" id="Email"
+                                                            required>
 
-                                                                            @if($errors->has('first_name'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('first_name') }}</span>
-                                                                            @endif
+                                                        @if($errors->has('email'))
+                                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                                        @endif
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label for="last-name"
-                                                                                class="col-form-label">Last
-                                                                                Name:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="last_name" id="last_name" required>
 
-                                                                            @if($errors->has('last_name'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('last_name') }}</span>
-                                                                            @endif
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">HOME:</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="home" value="{{ $detail->home }}" class="form-control"
+                                                                id="home" required>
+                                                            @if($errors->has('home'))
+                                                            <span
+                                                                class="text-danger">{{ $errors->first('home') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label for="Email"
-                                                                                class="col-form-label">Email:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                name="email" id="Email" required>
-
-                                                                            @if($errors->has('email'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('email') }}</span>
-                                                                            @endif
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">CELL:</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="cell" value="{{ $detail->cell }}" class="form-control"
+                                                                id="cell" required>
+                                                            @if($errors->has('cell'))
+                                                            <span
+                                                                class="text-danger">{{ $errors->first('cell') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label for="Email"
-                                                                            class="col-form-label">HOME:</label>
-                                                                        <div class="form-group">
-                                                                            <input type="number" name="home_1"
-                                                                                class="form-control" id="home_1" required>
-                                                                            @if($errors->has('home_1'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('home_1') }}</span>
-                                                                            @endif
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">Address Line
+                                                            1:</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="address_line_1"
+                                                                class="form-control" id="address_line_1" value="{{ $detail->address_line_1 }}" required>
+                                                            @if($errors->has('address_line_1'))
+                                                            <span
+                                                                class="text-danger">{{ $errors->first('address_line_1') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                <label for="Email"
-                                                                            class="col-form-label">HOME:</label>
-                                                                        <div class="form-group">
-                                                                            <input type="number" name="home_2"
-                                                                                class="form-control" id="home_2" required>
-                                                                            @if($errors->has('home_2'))
-                                                                            <span
-                                                                                class="text-danger">{{ $errors->first('home_2') }}</span>
-                                                                            @endif
-                                                                        </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">Address Line
+                                                            2:</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="address_line_2"
+                                                                class="form-control" id="address_line_2" value="{{ $detail->address_line_2 }}" required>
+                                                            @if($errors->has('address_line_2'))
+                                                            <span
+                                                                class="text-danger">{{ $errors->first('address_line_2') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">City *</label>
-                                                    <input type="text" name="city" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('city') }}">
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="Email" class="col-form-label">State:</label>
+                                                        <div class="form-group">
+                                                            <input type="text" name="state" value="{{ $detail->state }}" class="form-control"
+                                                                id="state" required>
+                                                            @if($errors->has('state'))
+                                                            <span
+                                                                class="text-danger">{{ $errors->first('state') }}</span>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="exampleSelectGender">City *</label>
+                                                        <input type="text" name="city" value="{{ $detail->city }}" class="form-control"
+                                                            id="exampleSelectexpense">
 
                                                         @if ($errors->has('city'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('city') }}</span>
+                                                        <span class="text-danger">{{ $errors->first('city') }}</span>
                                                         @endif
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">City *</label>
-                                                    <input type="text" name="city" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('city') }}">
+                                                <div class="col-md-12">
+                                                    <div class="form-group reperiod">
+                                                        <label for="exampleSelectGender">Zip *</label>
+                                                        <input type="text" name="zip" value="{{ $detail->zip }}" class="form-control"
+                                                            id="exampleSelectexpense">
 
-                                                        @if ($errors->has('city'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('city') }}</span>
+                                                        @if ($errors->has('zip'))
+                                                        <span class="text-danger">{{ $errors->first('zip') }}</span>
                                                         @endif
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">City *</label>
-                                                    <input type="text" name="city" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('city') }}">
-
-                                                        @if ($errors->has('city'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('city') }}</span>
-                                                        @endif
+                                                <div class="btnmtrs">
+                                                    <button type="submit" class="cmnbtn">Save</button>
                                                 </div>
+
                                             </div>
-
-
-                                            <div class="col-md-12">
-                                                <div class="form-group reperiod">
-                                                    <label for="exampleSelectGender">Zip Code *</label>
-                                                    <input type="text" name="zip_code" class="form-control"
-                                                        id="exampleSelectexpense" value="{{ old('zip_code') }}">
-
-                                                        @if ($errors->has('zip_code'))
-                                                        <span
-                                                            class="text-danger">{{ $errors->first('zip_code') }}</span>
-                                                        @endif
-                                                </div>
-                                            </div>
-
-                                            <div class="btnmtrs">
-                                                <button type="submit" class="cmnbtn">Save</button>
-                                            </div>
-
                                         </div>
                                     </div>
-                                </div>
                                 </form>
                             </div>
 
@@ -221,4 +183,4 @@
     </div>
     <!-- content-wrapper ends -->
 
-<x-clientDashboardFooter />
+    <x-clientDashboardFooter />

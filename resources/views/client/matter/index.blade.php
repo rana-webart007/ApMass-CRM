@@ -9,6 +9,9 @@
                               <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">MATTER</button>
                            </li>
                         </ul>
+
+                        @include('commons.session-msg')
+                        
                         <div class="tab-content" id="myTabContent">
                            <div class="tab-panel fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                               <div class="row">

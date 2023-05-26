@@ -24,7 +24,9 @@
             <div class="col-md-9">
                 <div class="matter-right-side">
                     <!-- MATTER DETAILS start --->
-                    <form action="">
+                    <form action="{{ route('client.matter.add.action') }}" method="post">
+                        @csrf
+
                     <div class="matter-row" class="matter-accordian">
                         <div id="accordion">
                             <div class="card">
@@ -44,22 +46,22 @@
                                             <div class="col-md-4">
                                                 <div class="form-group reperiod">
                                                     <label for="exampleSelectGender">MATTER TYPE*</label>
-                                                    <select class="form-control" name="state" id="exampleSelectexpense">
+                                                    <select class="form-control" name="state_abbr" id="exampleSelectexpense">
                                                         @foreach($states as $state)
                                                         <option value="{{ $state->state_abbr }}">
                                                             {{ $state->state_abbr }} </option>
                                                         @endforeach
                                                     </select>
 
-                                                    @if ($errors->has('state'))
+                                                    @if ($errors->has('state_abbr'))
                                                         <span
-                                                            class="text-danger">{{ $errors->first('state') }}</span>
+                                                            class="text-danger">{{ $errors->first('state_abbr') }}</span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group">
-                                                    <label for="area_of_law">MATTER TYPE*</label>
+                                                    <label for="area_of_law">Law Area*</label>
                                                     <select class="form-control" name="law_area" id="area_of_law" onchange="return change('area');">
                                                         <option value="Select an area of law" selected>Select an area of law</option>
                                                         @foreach($areas as $area)
@@ -201,6 +203,9 @@
                                                     <label for="exampleInputCity1">CLIENT </label>
                                                     <select class="form-control" name="client" id="exampleSelectGender">
                                                         <option value=""></option>
+                                                        @foreach($contacts as $contact)
+                                                            <option value="{{ $contact->id }}">{{ $contact->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <a href="{{ route('client.contacts.page') }}" target="_blank"><i class="fa fa-plus mt-2">&nbsp; Add New Contact</i></a>
 
@@ -216,6 +221,9 @@
                                                     <label for="exampleSelectGender">DEBTORS</label>
                                                     <select class="form-control" name="debtors" id="exampleSelectGender">
                                                         <option></option>
+                                                        @foreach($contacts as $contact)
+                                                            <option value="{{ $contact->id }}">{{ $contact->name }}</option>
+                                                        @endforeach
                                                     </select>
                                                     <a href="{{ route('client.contacts.page') }}" target="_blank"><i class="fa fa-plus mt-2">&nbsp; Add New Contact</i></a>
 
@@ -526,10 +534,10 @@
                                                     <input type="radio" id="none" name="invoive_title" onclick="change('invoive_title_none')" value="none">
                                                     <label for="none">None</label>
                                                     <input type="radio" id="matter_title" onclick="change('invoive_title_matter')" name="invoive_title"
-                                                        value="matter_title">
+                                                        value="Matter Title">
                                                     <label for="none">Matter Title</label>
                                                     <input type="radio" id="matter_description"  onclick="change('invoive_title_matter_desc')" name="invoive_title"
-                                                        value="matter_description">
+                                                        value="Matter Description">
                                                     <label for="none">Matter Description</label>
                                                     <input type="radio" id="custom_text" onclick="change('invoive_title_custom')" name="invoive_title"
                                                         value="custom_text">

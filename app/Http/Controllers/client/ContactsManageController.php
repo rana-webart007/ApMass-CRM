@@ -93,7 +93,35 @@ class ContactsManageController extends Controller
     public function person_edit_page($id)
     {
             $detail = PersonContact::whereId($id)->first();
-            return view('client.contacts.person_edit');
+            return view('client.contacts.person_edit', compact('detail'));
+    }
+
+    public function person_edit_action(Request $request, $id)
+    {
+           $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|max:200',
+                'home' => 'required',
+                'cell' => 'required',
+                'address_line_1' => 'required',
+                'city' => 'required|max:200',
+                'state' => 'required',
+                'zip' => 'required|max:200',
+           ]);
+
+           PersonContact::whereId($id)->update([
+                 'name' => $request->name,
+                 'email' => $request->email,
+                 'home' => $request->home,
+                 'cell' => $request->cell,
+                 'address_line_1' => $request->address_line_1,
+                 'address_line_2' => $request->address_line_2,
+                 'city' => $request->city,
+                 'state' => $request->state,
+                 'zip' => $request->zip,
+           ]);
+
+           return redirect()->route('client.contacts.page')->with('success', 'Successfully Saved');
     }
 
     /**
