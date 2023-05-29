@@ -5,7 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AddressSearch;
-use App\Models\{PersonContact, BusinessContacts, BusinessContactDetails};
+use App\Models\{PersonContact, BusinessContacts, BusinessContactDetails, Matters};
 use Illuminate\Support\Facades\Auth;
 
 class ContactsManageController extends Controller
@@ -223,4 +223,36 @@ class ContactsManageController extends Controller
             }
 
     }
+
+    /**
+     * Filter Contacts
+     */
+
+     public function contacts_filter($type)
+     {
+            $totalContacts = PersonContact::totalPersonContact(Auth::guard('client')->user()->id);
+            $allContacts = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+            $existing_org = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+
+            if($type == "person"){
+                  $details = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+            }
+            if($type == "business"){
+                $details = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+            }
+            if($type == "client"){
+                $details = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+            }
+            if($type == "all"){
+                $person_details = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+                $business_details = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+
+                $details = [
+                    'person' => $person_details,
+                    'business' => $business_details
+                ];
+            }
+
+            return view('client.contacts.filter_page', compact('totalContacts', 'allContacts', 'existing_org', 'details', 'type'));
+     }
 }

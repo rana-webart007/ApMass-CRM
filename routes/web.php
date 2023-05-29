@@ -9,6 +9,7 @@ use App\Http\Controllers\client\InvoicesManageController;
 use App\Http\Controllers\client\AccountsManageController;
 use App\Http\Controllers\client\ReportManageController;
 use App\Http\Controllers\client\MatterManageController;
+use App\Http\Controllers\client\ServiceManageController;
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminMattersManageController;
@@ -70,6 +71,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
 
         Route::controller(MatterManageController::class)
         ->group(function(){
+            Route::get('matter/page', 'page')->name('matters.page');
             Route::get('matter-add', 'matter_add')->name('matters.add.page');
             Route::get('matter/get-by-area/{area}', 'matter_get_by_area')->name('matter.get-by-area');
             Route::get('matter/get-client-role', 'get_client_role')->name('matter.get-client-role');
@@ -90,6 +92,12 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::get('contacts/person/delete/{id}', 'person_delete')->name('contacts.person.delete');
             Route::get('contacts/person/edit/page/{id}', 'person_edit_page')->name('contacts.person.edit.page');
             Route::post('contacts/person/edit/action/{id}', 'person_edit_action')->name('contacts.person.edit.action');
+
+            /**
+             * Filter Contacts
+            */
+
+            Route::get('contacts/page/filter/{type}', 'contacts_filter')->name('contacts.page.filter');
         });
 
         /**
@@ -126,6 +134,15 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(ReportManageController::class)
         ->group(function(){
             Route::get('report/page', 'page')->name('report.page');
+        });
+
+        /**
+         * Services
+        */
+
+        Route::controller(ServiceManageController::class)
+        ->group(function(){
+            Route::get('service/page', 'page')->name('service.page');
         });
 
     });

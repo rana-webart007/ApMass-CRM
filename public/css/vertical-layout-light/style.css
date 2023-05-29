@@ -28440,6 +28440,13 @@ div.tagsinput span.tag a {
   -webkit-flex-direction: column;
   flex-direction: column;
 }
+.dashboard .card-body{
+   background: inherit !important;
+    
+}
+.wrapers{
+  padding: 2.375rem 2.375rem;
+}
 
 @media (max-width: 991px) {
   .main-panel {

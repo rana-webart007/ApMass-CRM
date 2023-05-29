@@ -5,8 +5,8 @@
     <div class="col-lg-4 mx-auto">
         <div class="auth-form-light text-left py-5 px-4 px-sm-5">
             <div class="brand-logo text-center">
-                <!-- <img src="{{asset('images/logo-icon.png')}}" alt="logo"> -->
-                <p><strong> APMASS CRM </strong></p>
+                <img src="{{asset('images/logo.jpg')}}" alt="logo">
+                <!-- <p><strong> APMASS CRM </strong></p> -->
             </div>
             <h4></h4>
             <h6 class="font-weight-light text-center">Sign Up to continue.</h6>

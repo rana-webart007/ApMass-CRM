@@ -382,7 +382,7 @@
                                                     <input type="number" name="custom_override_default_rate" id="custom_override_default_rate" class="form-control" placeholder="$ per hour">
                                                 </div>
                                                 <div class="form-group">
-                                                    <button type="button" class="btn btn-primary">Add</button>
+                                                    <!-- <button type="button" class="btn btn-primary">Add</button> -->
                                                 </div>
                                                 </div>
                                                 </div>

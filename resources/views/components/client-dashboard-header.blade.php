@@ -19,7 +19,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('css/vertical-layout-light/style.css')}}">
     <!-- endinject -->
-    <!-- <link rel="shortcut icon" href="{{ asset('images/favicon.png')}}" /> -->
+    <link rel="shortcut icon" href="{{ asset('logo.jpg')}}" />
 
     <!-- ck editor-->
     <script src="https://cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
@@ -41,7 +41,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <!-- <a class="navbar-brand brand-logo mr-5" href="#"><img src="{{ asset('images/logo.svg')}}" class="mr-2" alt="logo"/></a> -->
+                <a class="navbar-brand brand-logo mr-5" href="#"><img src="{{ asset('images/logo.jpg')}}" class="mr-2" alt="logo"/></a>
                 <!-- <a class="navbar-brand brand-logo-mini" href="#"><img src="{{ asset('images/logo-mini.svg')}}" alt="logo"/></a> -->
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
@@ -345,10 +345,19 @@
                     <li class="nav-item @if($segments == 'dashboard') active @endif">
                         <a class="nav-link" href="{{ route('client.dashboard') }}">
                             <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Dashboard</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item @if($segments == 'dashboard') active @endif">
+                        <a class="nav-link" href="{{ route('client.matters.page') }}">
+                            <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">Matters</span>
                             <i class="menu-arrow"></i>
                         </a>
                     </li>
+
                     <li class="nav-item @if($segments == 'contacts') active @endif">
                         <a class="nav-link" href="{{ route('client.contacts.page') }}">
                             <i class="icon-layout menu-icon"></i>
@@ -405,12 +414,22 @@
                             <span class="menu-title">Report</span>
                             <i class="menu-arrow"></i>
                         </a>
+
                         <!-- <div class="collapse" id="icons">
                         <ul class="nav flex-column sub-menu">
                           <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Mdi icons</a></li>
                         </ul>
                         </div> -->
                     </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{ route('client.service.page') }}">
+                            <i class="icon-contract menu-icon"></i>
+                            <span class="menu-title">Services</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                    </li>
+
                     <!--  <li class="nav-item">
                      <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                        <i class="icon-head menu-icon"></i>

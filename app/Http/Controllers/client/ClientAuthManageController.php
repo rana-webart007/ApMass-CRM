@@ -4,8 +4,9 @@ namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Clients};
+use App\Models\{Clients, Matters, PersonContact, BusinessContacts};
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClientAuthManageController extends Controller
 {
@@ -83,7 +84,11 @@ class ClientAuthManageController extends Controller
 
      public function dashboard()
      {
-             return view('client.matter.index');
+            $total_matters = count(Matters::getAllMAtters());
+            $total_person_contacts = PersonContact::totalPersonContact(Auth::guard('client')->user()->id);
+            $total_business = BusinessContacts::totalBusinessCount(Auth::guard('client')->user()->id);
+
+            return view('client.dashboard', compact('total_matters', 'total_person_contacts', 'total_business'));
      }
 
      /**

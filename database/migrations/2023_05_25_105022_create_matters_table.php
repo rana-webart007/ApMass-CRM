@@ -17,6 +17,7 @@ return new class extends Migration
         Schema::create('matters', function (Blueprint $table) {
             $table->id();
             $table->string('matter_id');
+            $table->string('added_by', 50)->nullable();
             $table->string('state_abbr', 20);
             $table->text('matter_area')->nullable();
             $table->text('matter_type')->nullable();

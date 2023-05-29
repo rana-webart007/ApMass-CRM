@@ -34,10 +34,10 @@
                                             <div class="card-body">
                                                 <div class="panel-filter side-menu-block">
                                                     <ul class="side-menu-list capitalize">
-                                                        <li class="py-2 active"><a href="{{ route('client.contacts.page.filter', 'all') }}">All</a></li>
-                                                        <li><a href="{{ route('client.contacts.page.filter', 'client') }}">Clients</a></li>
-                                                        <li><a href="{{ route('client.contacts.page.filter', 'person') }}">Contacts (Person)</a></li>
-                                                        <li><a href="{{ route('client.contacts.page.filter', 'business') }}">Contacts (Business)</a></li>
+                                                        <li class="py-2 @if($type == 'all') active @endif"><a href="{{ route('client.contacts.page.filter', 'all') }}">All</a></li>
+                                                        <li class="@if($type == 'client') active @endif"><a href="{{ route('client.contacts.page.filter', 'client') }}">Clients</a></li>
+                                                        <li class="@if($type == 'person') active @endif"><a href="{{ route('client.contacts.page.filter', 'person') }}">Contacts (Person)</a></li>
+                                                        <li class="@if($type == 'business') active @endif"><a href="{{ route('client.contacts.page.filter', 'business') }}">Contacts (Business)</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="opnmtrs">
-                                    <h5>ALL ( {{ $totalContacts }} )</h5>
+                                    <h5> {{ ucfirst($type) }} </h5>
                                 </div>
                                 <div class="btnmtrs">
                                     <button type="button" class="cmnbtn" data-bs-toggle="modal"
@@ -519,37 +519,7 @@
                                                                     </div>
                                                                 </div>
 
-                                                                <!-- search address -->
-                                                                <!-- <div class="row">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="search_address"
-                                                                        class="col-form-label">Search
-                                                                        Address:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="search_address"
-                                                                        name="search_address"
-                                                                        onkeyup="search();"
-                                                                        placeholder="Search Address Here..">
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
-
-                                                                <!--  address found -->
-                                                                <!-- <div class="row" style="display:none;"
-                                                            id="address_found_div">
-                                                            <div class="col-md-12">
-                                                                <div class="form-group">
-                                                                    <label for="address_found"
-                                                                        class="col-form-label">Addresses:</label>
-                                                                    <select
-                                                                        class="form-control border border-danger"
-                                                                        id="address_found"
-                                                                        onchange="select_address();"
-                                                                        name="search_address"></select>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
+                                                            
 
                                                                 <div class="row">
                                                                     <div class="col-md-12">
@@ -653,6 +623,7 @@
                                 <div class="table-responsive">
                                     <table class="table bg-white">
                                         <thead>
+                                        @if($type == "person")
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Organization</th>
@@ -662,9 +633,47 @@
                                                 <th>Edit</th>
                                                 <th>Delete</th>
                                             </tr>
+                                        @endif
+
+                                        @if($type == "all")
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Cell</th>
+                                                <th>Email</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        @endif
+
+                                        @if($type == "business")
+                                            <tr>
+                                                <th>Company Name</th>
+                                                <th>Company Type</th>
+                                                <th>Email</th>
+                                                <th>City</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        @endif
+
+                                        @if($type == "client")
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Cell</th>
+                                                <th>Email</th>
+                                                <th>Address</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        @endif
                                         </thead>
                                         <tbody>
-                                            @foreach($allContacts as $allContact)
+ 
+                                            <!-- for person  -->
+
+                                            @if($type == "person")
+                                            @foreach($details as $allContact)
                                             @php
                                             $organization = ($allContact->add_to_existing_org == "None") ? " " :
                                             $allContact->add_to_existing_org;
@@ -677,17 +686,113 @@
                                                 <td> {{ $allContact->cell }} </td>
                                                 <td> {{ $allContact->email }} </td>
                                                 <td>
-                                                    <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
+                                                    <a href="#">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <button type="button" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact');"
+                                                    <button type="button" 
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
+                                            @endif
+
+                                            <!-- for business -->
+
+                                            @if($type == "business")
+                                            @foreach($details as $allContact)
+                                            
+                                            <tr>
+                                                <td> {{ $allContact->company_name }} </td>
+                                                <td> {{ $allContact->company_type }} </td>
+                                                <td> {{ $allContact->email }} </td>
+                                                <td> {{ $allContact->city }} </td>
+                                                <td>
+                                                    <a href="#">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" 
+                                                        class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endif
+
+
+                                            <!-- for client --> 
+                                            @if($type == "client")
+                                            @foreach($details as $allContact)
+
+                                            <tr>
+                                                <td> {{ $allContact->name }} </td>
+                                                <td> {{ $allContact->cell }} </td>
+                                                <td> {{ $allContact->email }} </td>
+                                                <td> {{ $allContact->address_line_1 }} </td>
+                                                <td>
+                                                    <a href="#">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" 
+                                                        class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endif
+
+
+                                            <!-- for all -->
+                                            @if($type == "all")
+                                                  @php
+                                                       $total = (count($details['person']) + count($details['business']));
+                                                  @endphp
+                                                  
+                                                             @foreach($details['person'] as $p)
+                                                              <tr>
+                                                                    <td> {{ $p->name }} </td>
+                                                                    <td> {{ $p->home }} </td>
+                                                                    <td> {{ $p->cell }} </td>
+                                                                    <td> {{ $p->email }} </td>
+                                                                    <td>
+                                                                        <a href="#">
+                                                                            <button type="button"
+                                                                                class="btn btn-primary btn-sm">Edit</button>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button" 
+                                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+
+                                                             @foreach($details['business'] as $b)
+                                                              <tr>
+                                                                    <td> {{ $b->name }} </td>
+                                                                    <td> {{ $b->home }} </td>
+                                                                    <td> {{ $b->cell }} </td>
+                                                                    <td> {{ $b->email }} </td>
+                                                                    <td>
+                                                                        <a href="#">
+                                                                            <button type="button"
+                                                                                class="btn btn-primary btn-sm">Edit</button>
+                                                                        </a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button" 
+                                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+                                                      
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

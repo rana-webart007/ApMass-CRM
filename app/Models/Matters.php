@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Matters extends Model
 {
@@ -13,6 +14,7 @@ class Matters extends Model
     protected $table = "matters";
     protected $fillable = [
         'matter_id',
+        'added_by',
         'state_abbr',
         'matter_area',
         'matter_type',
@@ -53,4 +55,10 @@ class Matters extends Model
         'surcharge_apply_to',
         'surcharge_label_on_invoice',
     ];
+
+    public static function getAllMAtters()
+    {
+           $matters = Matters::where('added_by', Auth::guard('client')->user()->id)->paginate(15);
+           return $matters;
+    }
 }

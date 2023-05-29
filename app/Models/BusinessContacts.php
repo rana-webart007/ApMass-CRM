@@ -30,4 +30,10 @@ class BusinessContacts extends Model
            $org = BusinessContacts::where('client_id', $client_id)->get();
            return $org;
     }
+
+    public static function totalBusinessCount($client_id)
+    {
+           $tot = count(BusinessContacts::where('client_id', $client_id)->get());
+           return $tot;
+    }
 }

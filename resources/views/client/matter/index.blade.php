@@ -203,56 +203,61 @@
                                           <thead>
                                              <tr>
                                                 <th>Client(s)</th>
+                                                <th>Matter Area</th>
                                                 <th>Matter Type</th>
                                                 <th>Other Party</th>
                                                 <th>Attorney</th>
                                                 <th>Unbilled</th>
                                                 <th>Due</th>
+                                                <th>Actions</th>
                                              </tr>
                                           </thead>
                                           <tbody>
+
+                                       @if(count($matters) > 0)
+                                          @foreach($matters as $matter)
+                                          @php
+                                               $client = App\Models\PersonContact::whereId($matter->client)->first();
+                                          @endphp
+
                                              <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{{ $client->name }}</td>
+                                                <td>{{ $matter->matter_area }}</td>
+                                                <td>{{ $matter->matter_type }}</td>
+                                                <td> - </td>
+                                                <td>{{ $matter->attorney_responsible }}</td>
+                                                <td> - </td>
+                                                <td> - </td>
+                                                <td>
+                                                    <a href="#">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
                                              </tr>
-                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                             </tr>
-                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                             </tr>
-                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                             </tr>
-                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                             </tr>
+                                          @endforeach
+                                       @else
+                                       <tr>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>
+                                                 <p class="font-weight-bold">No Matters Found</p>
+                                          </td>
+                                          <td></td>
+                                          <td></td>
+                                       </tr>
+                                       @endif
+                                             
                                           </tbody>
                                        </table>
+
+                                       <div class="m-2 float-right">
+                                             {{ $matters->links() }}
+                                       </div>
                                     </div>
                                  </div>
                               </div>

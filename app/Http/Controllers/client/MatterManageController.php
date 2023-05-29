@@ -12,6 +12,12 @@ class MatterManageController extends Controller
 {
     //
 
+    public function page()
+    {
+        $matters = Matters::getAllMAtters();
+        return view('client.matter.index', compact('matters'));
+    }
+
     public function matter_add()
     {
            $states = DB::table('county_lists')->where('state_abbr', '!=', 'state_abbr')->get();
@@ -52,6 +58,7 @@ class MatterManageController extends Controller
 
            Matters::create([
                 'matter_id' => $rand_id,
+                'added_by' => Auth::guard('client')->user()->id,
                 'state_abbr' => $request->state_abbr,
                 'matter_area' => $request->law_area,
                 'matter_type' => $request->matter_type,
@@ -93,6 +100,6 @@ class MatterManageController extends Controller
                 'surcharge_label_on_invoice' => $request->surcharge_liable,
            ]);
 
-           return redirect()->route('client.dashboard')->with('success', 'Successfully Saved');
+           return redirect()->route('client.matters.page')->with('success', 'Successfully Saved');
     }
 }
