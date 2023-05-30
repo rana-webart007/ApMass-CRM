@@ -193,7 +193,7 @@
                                  </div>
                                  <div class="col-md-9">
                                     <div class="opnmtrs">
-                                       <h5>OPEN MATTERS</h5>
+                                       <h5>MATTERS</h5>
                                     </div>
                                     <div class="btnmtrs">
                                        <a href="{{ route('client.matters.add.page') }}" class="cmnbtn">Add Matter</a>
@@ -221,7 +221,7 @@
                                           @endphp
 
                                              <tr>
-                                                <td>{{ $client->name }}</td>
+                                                <td><a href="{{ route('client.contacts.person.edit.page', $matter->client) }}" target="_blank">{{ $client->name }}</a></td>
                                                 <td>{{ $matter->matter_area }}</td>
                                                 <td>{{ $matter->matter_type }}</td>
                                                 <td> - </td>

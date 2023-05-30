@@ -409,3 +409,25 @@ function save_and_new(type){
 $(document).ready(function() {
     $('#add_to_existing_org').select2();
 });
+
+
+/**
+ * contact filteration
+*/
+
+function contact_filter(type, page){
+    if(document.getElementById('all_filter').checked){
+        document.getElementById('current_filter').setAttribute('checked','checked');
+        document.getElementById('delete_filter').setAttribute('checked','checked');
+    }
+    else{
+        document.getElementById('current_filter').removeAttribute('checked');
+        document.getElementById('delete_filter').removeAttribute('checked');
+    }
+
+    if(page == "index"){
+      window.location.href = "page/filter/"+type;
+    }else{
+        window.location.href = "./"+type;
+    }
+}

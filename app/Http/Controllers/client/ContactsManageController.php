@@ -14,9 +14,16 @@ class ContactsManageController extends Controller
 
     public function page()
     {
-            $totalContacts = PersonContact::totalPersonContact(Auth::guard('client')->user()->id);
-            $allContacts = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+            
+            $person_cont = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+            $business_cont = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+            $allContacts = [
+                'person' => $person_cont,
+                'business' => $business_cont,
+            ];
+
             $existing_org = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+            $totalContacts =  $this->numberOfContacts();
 
             return view('client.contacts.index', compact('totalContacts', 'allContacts', 'existing_org'));
     }
@@ -86,14 +93,25 @@ class ContactsManageController extends Controller
 
     public function person_delete($id)
     {
-            PersonContact::find($id)->delete();
-            return redirect()->back()->with('success', 'Successfully Deleted');
+        $detail = PersonContact::whereId($id)->first();
+            
+        if(Auth::guard('client')->user()->id == $detail->client_id){
+           PersonContact::find($id)->delete();
+           return redirect()->back()->with('success', 'Successfully Deleted');
+        }else{
+            abort(403);
+        }
     }
 
     public function person_edit_page($id)
     {
             $detail = PersonContact::whereId($id)->first();
-            return view('client.contacts.person_edit', compact('detail'));
+
+            if(Auth::guard('client')->user()->id == $detail->client_id){
+               return view('client.contacts.person_edit', compact('detail'));
+            }else{
+                abort(403);
+            }
     }
 
     public function person_edit_action(Request $request, $id)
@@ -230,7 +248,6 @@ class ContactsManageController extends Controller
 
      public function contacts_filter($type)
      {
-            $totalContacts = PersonContact::totalPersonContact(Auth::guard('client')->user()->id);
             $allContacts = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
             $existing_org = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
 
@@ -246,13 +263,101 @@ class ContactsManageController extends Controller
             if($type == "all"){
                 $person_details = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
                 $business_details = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+                $person_delete = PersonContact::deletedRecords(Auth::guard('client')->user()->id);
+                $business_delete = BusinessContacts::deletedRecords(Auth::guard('client')->user()->id);
 
                 $details = [
                     'person' => $person_details,
-                    'business' => $business_details
+                    'business' => $business_details,
+                    'person_del' => $person_delete,
+                    'business_del' => $business_delete
+                ];
+            }
+            if($type == "current"){
+                $person_details = PersonContact::allPersonContact(Auth::guard('client')->user()->id);
+                $business_details = BusinessContacts::existingOrganization(Auth::guard('client')->user()->id);
+
+                $details = [
+                    'person' => $person_details,
+                    'business' => $business_details,
+                ];
+            }
+            if($type == "delete"){
+                $person_delete = PersonContact::deletedRecords(Auth::guard('client')->user()->id);
+                $business_delete = BusinessContacts::deletedRecords(Auth::guard('client')->user()->id);
+                $details = [
+                    'person' => $person_delete,
+                    'business' => $business_delete
                 ];
             }
 
+            /**
+             * No of contacts
+            */
+
+            $totalContacts =  $this->numberOfContacts();
+
             return view('client.contacts.filter_page', compact('totalContacts', 'allContacts', 'existing_org', 'details', 'type'));
      }
+
+     /**
+      * contacts restore
+     */
+
+     public function contact_restore($id, $type)
+     {
+             if($type == "person"){
+                PersonContact::onlyTrashed()->find($id)->restore();
+             }
+             if($type == "business"){
+                BusinessContacts::onlyTrashed()->find($id)->restore();
+             }
+
+             return redirect()->route('client.contacts.page')->with('success', 'Successfully Restored');
+     }
+
+     /**
+      * Numbers
+      */
+
+      public function numberOfContacts()
+      {
+                $persons = PersonContact::totalPersonContact(Auth::guard('client')->user()->id);
+                $business = BusinessContacts::totalBusinessCount(Auth::guard('client')->user()->id);
+                $person_del = PersonContact::totalDeletedRecords(Auth::guard('client')->user()->id);
+                $business_del = BusinessContacts::totalDeletedRecords(Auth::guard('client')->user()->id);
+
+                $all_total = ($persons + $business + $person_del + $business_del);
+                $current_rotal = ($persons + $business);
+                $del_total = ($person_del + $business_del);
+            
+                $totalContacts = ([
+                    'all' => $all_total,
+                    'current' => $current_rotal,
+                    'delete' => $del_total
+                ]);
+
+            return  $totalContacts;
+      }
+
+      public function business_delete($id)
+      {
+            $detail = BusinessContacts::whereId($id)->first();
+                
+            if(Auth::guard('client')->user()->id == $detail->client_id){
+            BusinessContacts::find($id)->delete();
+            return redirect()->back()->with('success', 'Successfully Deleted');
+            }else{
+                abort(403);
+            }
+      }
+
+      /**
+       * Business Edit Page
+      */
+
+      public function business_edit_page($id)
+      {
+              dd($id);
+      }
 }

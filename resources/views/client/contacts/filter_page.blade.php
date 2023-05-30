@@ -64,9 +64,13 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1"> {{ $totalContacts }} </a>
+                                                            <a href="#" class="numbtn mr-1"> {{ $totalContacts['all'] }} </a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                @if($type == "all")
+                                                                   <input type="checkbox" id="all_filter" onclick="contact_filter('all', 'filter');" checked>
+                                                                @else
+                                                                   <input type="checkbox" id="all_filter" onclick="contact_filter('all', 'filter');">
+                                                                @endif
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -80,9 +84,13 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1">0</a>
+                                                            <a href="#" class="numbtn mr-1">{{ $totalContacts['current'] }}</a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                @if($type == "all" || $type == "current")
+                                                                    <input type="checkbox" id="current_filter" onclick="contact_filter('current','filter');" checked>
+                                                                @else
+                                                                    <input type="checkbox" id="current_filter" onclick="contact_filter('current','filter');">
+                                                                @endif
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -96,9 +104,13 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1">0</a>
+                                                            <a href="#" class="numbtn mr-1">{{ $totalContacts['delete'] }}</a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                @if($type == "all" || $type == "delete")
+                                                                     <input type="checkbox" id="delete_filter" onclick="contact_filter('delete', 'filter');" checked>
+                                                                @else
+                                                                     <input type="checkbox" id="delete_filter" onclick="contact_filter('delete', 'filter');">
+                                                                @endif
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -635,14 +647,32 @@
                                             </tr>
                                         @endif
 
+                                        @if($type == "current")
+                                           <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                        @endif
+
                                         @if($type == "all")
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Phone</th>
-                                                <th>Cell</th>
                                                 <th>Email</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
+                                            </tr>
+                                        @endif
+
+                                        @if($type == "delete")
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Action</th>
                                             </tr>
                                         @endif
 
@@ -686,13 +716,55 @@
                                                 <td> {{ $allContact->cell }} </td>
                                                 <td> {{ $allContact->email }} </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
                                                     <button type="button" 
+                                                        class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact-new');">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @endif
+
+
+                                            <!-- for current -->
+                                            @if($type == "current")
+                                            @foreach($details['person'] as $allContact)
+
+                                            <tr>
+                                                <td> {{ $allContact->name }} </td>
+                                                <td> {{ $allContact->home }} </td>
+                                                <td> {{ $allContact->email }} </td>
+                                                <td>
+                                                    <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" 
+                                                        class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact-new');">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                            @foreach($details['business'] as $allContact)
+
+                                            <tr>
+                                                <td> {{ $allContact->company_name }} </td>
+                                                <td> {{ $allContact->phone }} </td>
+                                                <td> {{ $allContact->email }} </td>
+                                                <td>
+                                                    <a href="{{ route('client.contacts.business.edit.page', $allContact->id) }}">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button"  onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-business-contact-new');"
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>
@@ -710,13 +782,13 @@
                                                 <td> {{ $allContact->email }} </td>
                                                 <td> {{ $allContact->city }} </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="{{ route('client.contacts.business.edit.page', $allContact->id) }}">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <button type="button" 
+                                                    <button type="button"  onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-business-contact-new');"
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>
@@ -734,14 +806,14 @@
                                                 <td> {{ $allContact->email }} </td>
                                                 <td> {{ $allContact->address_line_1 }} </td>
                                                 <td>
-                                                    <a href="#">
+                                                    <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
                                                 </td>
                                                 <td>
                                                     <button type="button" 
-                                                        class="btn btn-danger btn-sm">Delete</button>
+                                                        class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact-new');">Delete</button>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -750,25 +822,21 @@
 
                                             <!-- for all -->
                                             @if($type == "all")
-                                                  @php
-                                                       $total = (count($details['person']) + count($details['business']));
-                                                  @endphp
-                                                  
+                                                 
                                                              @foreach($details['person'] as $p)
                                                               <tr>
                                                                     <td> {{ $p->name }} </td>
                                                                     <td> {{ $p->home }} </td>
-                                                                    <td> {{ $p->cell }} </td>
                                                                     <td> {{ $p->email }} </td>
                                                                     <td>
-                                                                        <a href="#">
+                                                                        <a href="{{ route('client.contacts.person.edit.page', $p->id) }}">
                                                                             <button type="button"
                                                                                 class="btn btn-primary btn-sm">Edit</button>
                                                                         </a>
                                                                     </td>
                                                                     <td>
                                                                         <button type="button" 
-                                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                                            class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $p->id ?>, 'client-person-contact-new');">Delete</button>
                                                                     </td>
                                                                 </tr>
                                                              @endforeach
@@ -777,22 +845,79 @@
                                                               <tr>
                                                                     <td> {{ $b->name }} </td>
                                                                     <td> {{ $b->home }} </td>
-                                                                    <td> {{ $b->cell }} </td>
                                                                     <td> {{ $b->email }} </td>
                                                                     <td>
-                                                                        <a href="#">
+                                                                        <a href="{{ route('client.contacts.business.edit.page', $b->id) }}">
                                                                             <button type="button"
                                                                                 class="btn btn-primary btn-sm">Edit</button>
                                                                         </a>
                                                                     </td>
                                                                     <td>
-                                                                        <button type="button" 
+                                                                        <button type="button"  onclick="sw_alert1(<?php echo $b->id ?>, 'client-business-contact-new');"
                                                                             class="btn btn-danger btn-sm">Delete</button>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+
+                                                             @foreach($details['person_del'] as $p)
+                                                              <tr>
+                                                                    <td> {{ $p->name }} </td>
+                                                                    <td> {{ $p->home }} </td>
+                                                                    <td> {{ $p->email }} </td>
+                                                                    <td>
+                                                                        <p class="text-center font-weight-bold">NA</p>
+                                                                    </td>
+                                                                    <td>
+                                                                        <p class="text-center font-weight-bold">NA</p>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+
+                                                             @foreach($details['business_del'] as $b)
+                                                              <tr>
+                                                                    <td> {{ $b->company_name }} </td>
+                                                                    <td> {{ $b->phone }} </td>
+                                                                    <td> {{ $b->email }} </td>
+                                                                    <td>
+                                                                         <p class="text-center font-weight-bold">NA</p>
+                                                                    </td>
+                                                                    <td>
+                                                                         <p class="text-center font-weight-bold">NA</p>
                                                                     </td>
                                                                 </tr>
                                                              @endforeach
                                                       
                                             @endif
+
+                                            <!-- delete -->
+                                            @if($type == "delete")
+                                                  
+                                                             @foreach($details['person'] as $p)
+                                                                <tr>
+                                                                    <td> {{ $p->name }} </td>
+                                                                    <td> {{ $p->home }} </td>
+                                                                    <td> {{ $p->email }} </td>
+                                                                    <td>
+                                                                        <a href="{{ route('client.contacts.restore', ['id' => $p->id, 'type' => 'person']) }}"><button type="button" 
+                                                                            class="btn btn-danger btn-sm">Restore</button></a>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+
+                                                             @foreach($details['business'] as $b)
+                                                                <tr>
+                                                                    <td> {{ $b->company_name }} </td>
+                                                                    <td> {{ $b->phone }} </td>
+                                                                    <td> {{ $b->email }} </td>
+                                                                    <td>
+                                                                      <a href="{{ route('client.contacts.restore', ['id' => $b->id, 'type' => 'business']) }}"><button type="button" 
+                                                                            class="btn btn-danger btn-sm">Restore</button></a>
+                                                                    </td>
+                                                                </tr>
+                                                             @endforeach
+                                                      
+                                            @endif
+
                                         </tbody>
                                     </table>
                                 </div>

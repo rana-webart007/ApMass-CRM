@@ -64,9 +64,9 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1"> {{ $totalContacts }} </a>
+                                                            <a href="#" class="numbtn mr-1"> {{ $totalContacts['all'] }} </a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                <input type="checkbox" id="all_filter" onclick="contact_filter('all', 'index');">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -80,9 +80,9 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1">0</a>
+                                                            <a href="#" class="numbtn mr-1">{{ $totalContacts['current'] }}</a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                <input type="checkbox" id="current_filter" onclick="contact_filter('current', 'index');" checked>
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -96,9 +96,9 @@
                                                     </li>
                                                     <li>
                                                         <div class="my-2">
-                                                            <a href="#" class="numbtn mr-1">0</a>
+                                                            <a href="#" class="numbtn mr-1">{{ $totalContacts['delete'] }}</a>
                                                             <label class="switch">
-                                                                <input type="checkbox">
+                                                                <input type="checkbox" id="delete_filter" onclick="contact_filter('delete', 'index');">
                                                                 <span class="slider round"></span>
                                                             </label>
                                                         </div>
@@ -111,7 +111,7 @@
                             </div>
                             <div class="col-md-9">
                                 <div class="opnmtrs">
-                                    <h5>ALL ( {{ $totalContacts }} )</h5>
+                                    <h5>ALL ( {{ $totalContacts['all'] }} )</h5>
                                 </div>
                                 <div class="btnmtrs">
                                     <button type="button" class="cmnbtn" data-bs-toggle="modal"
@@ -655,26 +655,18 @@
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Organization</th>
                                                 <th>Phone</th>
-                                                <th>Cell</th>
                                                 <th>Email</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach($allContacts as $allContact)
-                                            @php
-                                            $organization = ($allContact->add_to_existing_org == "None") ? " " :
-                                            $allContact->add_to_existing_org;
-                                            @endphp
-
+                                            @foreach($allContacts['person'] as $allContact)
+                                            
                                             <tr>
                                                 <td> {{ $allContact->name }} </td>
-                                                <td> {{ $organization }} </td>
                                                 <td> {{ $allContact->home }} </td>
-                                                <td> {{ $allContact->cell }} </td>
                                                 <td> {{ $allContact->email }} </td>
                                                 <td>
                                                     <a href="{{ route('client.contacts.person.edit.page', $allContact->id) }}">
@@ -684,6 +676,25 @@
                                                 </td>
                                                 <td>
                                                     <button type="button" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-person-contact');"
+                                                        class="btn btn-danger btn-sm">Delete</button>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+
+                                            @foreach($allContacts['business'] as $allContact)
+                                            
+                                            <tr>
+                                                <td> {{ $allContact->company_name }} </td>
+                                                <td> {{ $allContact->phone }} </td>
+                                                <td> {{ $allContact->email }} </td>
+                                                <td>
+                                                    <a href="#">
+                                                        <button type="button"
+                                                            class="btn btn-primary btn-sm">Edit</button>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="sw_alert1(<?php echo $allContact->id ?>, 'client-business-contact');"
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                             </tr>

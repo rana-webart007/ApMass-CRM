@@ -6,7 +6,7 @@ function sw_alert1(id, type) {
         
     Swal.fire({
         title: 'Are you sure?',
-        text: "You want to delete this for forever!",
+        text: "You want to delete this!",
         icon: 'warning',
         padding: '1em',
         showCancelButton: true,
@@ -30,6 +30,15 @@ function sw_alert1(id, type) {
             }
             if(type == "client-person-contact"){
                 window.location.href = "person/delete/"+id
+            }
+            if(type == "client-person-contact-new"){
+                window.location.href = "../../person/delete/"+id
+            }
+            if(type == "client-business-contact"){
+                window.location.href = "business/delete/"+id
+            }
+            if(type == "client-business-contact-new"){
+                window.location.href = "../../business/delete/"+id
             }
 
             Swal.fire(

@@ -98,6 +98,20 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             */
 
             Route::get('contacts/page/filter/{type}', 'contacts_filter')->name('contacts.page.filter');
+
+            /**
+             * Restore deleted contacts
+            */
+
+            Route::get('contacts/restore/{id}/{type}', 'contact_restore')->name('contacts.restore');
+            Route::get('contacts/business/delete/{id}', 'business_delete')->name('contacts.business.delete');
+
+            /**
+             * Business Edit
+            */
+
+            Route::get('contacts/business/edit/page/{id}', 'business_edit_page')->name('contacts.business.edit.page');
+
         });
 
         /**

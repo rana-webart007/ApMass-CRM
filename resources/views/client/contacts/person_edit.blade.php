@@ -11,7 +11,7 @@
                 <div class="sidelstg">
                     <h5>Quick Links:</h5>
                     <ul>
-                        <li><a href="#">Back</a></li>
+                        <li><a href="{{ route('client.contacts.page') }}">Back</a></li>
                     </ul>
                 </div>
             </div>

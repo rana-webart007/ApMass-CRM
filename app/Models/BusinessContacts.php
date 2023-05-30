@@ -36,4 +36,18 @@ class BusinessContacts extends Model
            $tot = count(BusinessContacts::where('client_id', $client_id)->get());
            return $tot;
     }
+
+    public static function deletedRecords($client_id)
+    {
+           $all = BusinessContacts::where('client_id', $client_id)
+                  ->orderBy('id', 'desc')->onlyTrashed()->get();
+           return $all;
+    }
+
+    public static function totalDeletedRecords($client_id)
+    {
+           $tot = count(BusinessContacts::where('client_id', $client_id)
+                  ->orderBy('id', 'desc')->onlyTrashed()->get());
+           return $tot;
+    }
 }
