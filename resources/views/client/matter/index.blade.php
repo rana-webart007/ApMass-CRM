@@ -220,8 +220,11 @@
                                                $client = App\Models\PersonContact::whereId($matter->client)->first();
                                           @endphp
 
+                                          @if($client != null)
+
                                              <tr>
-                                                <td><a href="{{ route('client.contacts.person.edit.page', $matter->client) }}" target="_blank">{{ $client->name }}</a></td>
+                                                <td><a href="{{ route('client.contacts.person.edit.page', $client->id) }}">{{ $client->name }}</a></td>
+                                                <!-- <td><p style="cursor: pointer;" onclick="openNewTabs('{{ $client->id }}');">{{ $client->name }}</p></td> -->
                                                 <td>{{ $matter->matter_area }}</td>
                                                 <td>{{ $matter->matter_type }}</td>
                                                 <td> - </td>
@@ -238,6 +241,7 @@
                                                         class="btn btn-danger btn-sm">Delete</button>
                                                 </td>
                                              </tr>
+                                             @endif
                                           @endforeach
                                        @else
                                        <tr>
@@ -268,4 +272,7 @@
                </div>
                <!-- content-wrapper ends -->
 
+<!-- dropdown dependency -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{{ asset('custom_js/client/matters/index.js') }}"></script>
 <x-clientDashboardFooter />

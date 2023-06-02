@@ -10,6 +10,7 @@ use App\Http\Controllers\client\AccountsManageController;
 use App\Http\Controllers\client\ReportManageController;
 use App\Http\Controllers\client\MatterManageController;
 use App\Http\Controllers\client\ServiceManageController;
+use App\Http\Controllers\client\TabManageController;
 
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminMattersManageController;
@@ -158,6 +159,16 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         ->group(function(){
             Route::get('service/page', 'page')->name('service.page');
         });
+
+        /**
+         * Manage Tabs
+         */
+
+         Route::controller(TabManageController::class)
+        ->group(function(){
+            Route::get('delete/tab/{id}/{type}', 'delete_tab')->name('delete.tab');
+        });
+
 
     });
 

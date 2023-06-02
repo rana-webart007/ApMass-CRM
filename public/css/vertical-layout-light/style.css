@@ -28447,6 +28447,17 @@ div.tagsinput span.tag a {
 .wrapers{
   padding: 2.375rem 2.375rem;
 }
+.buttonCS{
+  display: flex;
+}
+
+.croseI{
+  margin-left: -3px;
+    font-size: 17px;
+    position: relative;
+    right: 23px;
+    top: 5px;
+}
 
 @media (max-width: 991px) {
   .main-panel {

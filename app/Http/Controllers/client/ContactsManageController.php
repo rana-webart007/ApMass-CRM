@@ -5,7 +5,7 @@ namespace App\Http\Controllers\client;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AddressSearch;
-use App\Models\{PersonContact, BusinessContacts, BusinessContactDetails, Matters};
+use App\Models\{PersonContact, BusinessContacts, BusinessContactDetails, Matters, TabsControlManage};
 use Illuminate\Support\Facades\Auth;
 
 class ContactsManageController extends Controller
@@ -103,12 +103,22 @@ class ContactsManageController extends Controller
         }
     }
 
-    public function person_edit_page($id)
+    public function person_edit_page($id, Request $request)
     {
             $detail = PersonContact::whereId($id)->first();
 
             if(Auth::guard('client')->user()->id == $detail->client_id){
+
+                $get_session = $request->session()->get('delete_this_tab');
+                
+             if($get_session == null){
+               TabsControlManage::storeTabs(Auth::guard('client')->user()->id, 'person-contact', $id);
                return view('client.contacts.person_edit', compact('detail'));
+             }
+             else{
+                TabsControlManage::storeTabs(Auth::guard('client')->user()->id, 'person-contact', $id);
+                return view('client.contacts.person_edit', compact('detail'));
+             }
             }else{
                 abort(403);
             }
@@ -358,6 +368,12 @@ class ContactsManageController extends Controller
 
       public function business_edit_page($id)
       {
-              dd($id);
-      }
+            $detail = BusinessContacts::whereId($id)->first();
+
+            if(Auth::guard('client')->user()->id == $detail->client_id){
+                return view('client.contacts.person_edit', compact('detail'));
+            }else{
+                abort(403);
+            }
+        }
 }

@@ -51,4 +51,16 @@ class PersonContact extends Model
                   ->orderBy('id', 'desc')->onlyTrashed()->get());
            return $tot;
     }
+
+    public static function specificPersonContact($ids)
+    {
+           $detail = PersonContact::whereIn('id', $ids)->get();
+           return $detail;
+    }
+
+    public static function specificOnePersonContact($id)
+    {
+           $detail = PersonContact::where('id', $id)->first();
+           return $detail;
+    }
 }
