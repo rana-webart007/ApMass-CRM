@@ -366,14 +366,51 @@ class ContactsManageController extends Controller
        * Business Edit Page
       */
 
-      public function business_edit_page($id)
+      public function business_edit_page($id, Request $request)
       {
             $detail = BusinessContacts::whereId($id)->first();
 
             if(Auth::guard('client')->user()->id == $detail->client_id){
-                return view('client.contacts.person_edit', compact('detail'));
+                $get_session = $request->session()->get('delete_this_tab');
+                
+                if($get_session == null){
+                  TabsControlManage::storeTabs(Auth::guard('client')->user()->id, 'business-contact', $id);
+                  return view('client.contacts.business_edit', compact('detail'));
+                }
+                else{
+                   TabsControlManage::storeTabs(Auth::guard('client')->user()->id, 'business-contact', $id);
+                   return view('client.contacts.business_edit', compact('detail'));
+                }
             }else{
                 abort(403);
             }
+        }
+
+        public function business_edit_action(Request $request, $id)
+        {
+                $request->validate([
+                    'company_name' => 'required|max:200',
+                    'email' => 'required|email|max:200',
+                    'phone' => 'required|max:50',
+                    'fax' => 'required|max:50',
+                    'address_line_1' => 'required',
+                    'city' => 'required|max:200',
+                    'state' => 'required|max:200',
+                    'zip' => 'required|max:200',
+                ]);
+
+                BusinessContacts::whereId($id)->update([
+                      'company_name' => $request->company_name,
+                      'email' => $request->email,
+                      'phone' => $request->phone,
+                      'fax' => $request->fax,
+                      'address_line_1' => $request->address_line_1,
+                      'address_line_2' => $request->address_line_2,
+                      'city' => $request->city,
+                      'state' => $request->state,
+                      'zip' => $request->zip,
+                ]);
+
+                return redirect()->route('client.contacts.page')->with('success', 'Success');
         }
 }

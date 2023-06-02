@@ -40,6 +40,9 @@ function sw_alert1(id, type) {
             if(type == "client-business-contact-new"){
                 window.location.href = "../../business/delete/"+id
             }
+            if(type == "client-matter"){
+                window.location.href = "./delete/"+id
+            }
 
             Swal.fire(
                 'Deleted!',

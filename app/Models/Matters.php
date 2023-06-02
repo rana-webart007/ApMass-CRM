@@ -61,4 +61,16 @@ class Matters extends Model
            $matters = Matters::where('added_by', Auth::guard('client')->user()->id)->paginate(15);
            return $matters;
     }
+
+    public static function countAllMatters($client_id)
+    {
+           $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->get());
+           return $total;
+    }
+
+    public static function countDeletedMatters($client_id)
+    {
+        $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->withTrashed()->get());
+        return $total;
+    }
 }

@@ -1,5 +1,9 @@
 <x-clientDashboardHeader />
 
+@php
+    $segment = Request::segment(4);
+@endphp
+
 <div class="main-panel ysecprty">
                <div class="content-wrapper">
                   <div class="row">
@@ -56,9 +60,13 @@
                                                    </li>
                                                    <li>
                                                       <div class="my-2">
-                                                         <a href="#" class="numbtn mr-1">0</a>
+                                                         <!-- <a href="#" class="numbtn mr-1">0</a> -->
                                                          <label class="switch">
-                                                         <input type="checkbox" onclick="matter_filter('recently-view')">
+                                                         @if($segment == "recently-view")
+                                                         <input type="checkbox" checked onclick="matter_filter('recently-view-new')">
+                                                         @else
+                                                         <input type="checkbox" onclick="matter_filter('recently-view-new')">
+                                                         @endif
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>

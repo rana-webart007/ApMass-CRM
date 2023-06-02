@@ -50,4 +50,16 @@ class BusinessContacts extends Model
                   ->orderBy('id', 'desc')->onlyTrashed()->get());
            return $tot;
     }
+
+    public static function specificBusinessContact($ids)
+    {
+           $detail = BusinessContacts::whereIn('id', $ids)->get();
+           return $detail;
+    }
+
+    public static function specificOneBusinessContact($id)
+    {
+           $detail = BusinessContacts::where('id', $id)->first();
+           return $detail;
+    }
 }

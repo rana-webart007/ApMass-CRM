@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{AreaOfLaw, MatterType, ClientRoles, PersonContact, Matters};
+use App\Models\{AreaOfLaw, MatterType, ClientRoles, PersonContact, Matters, TabsControlManage};
 
 class MatterManageController extends Controller
 {
@@ -15,7 +15,9 @@ class MatterManageController extends Controller
     public function page()
     {
         $matters = Matters::getAllMAtters();
-        return view('client.matter.index', compact('matters'));
+        $total_matters = Matters::countAllMatters(Auth::guard('client')->user()->id);
+        $total_deleted_matters = Matters::countDeletedMatters(Auth::guard('client')->user()->id);
+        return view('client.matter.index', compact('matters', 'total_matters', 'total_deleted_matters'));
     }
 
     public function matter_add()
@@ -101,5 +103,28 @@ class MatterManageController extends Controller
            ]);
 
            return redirect()->route('client.matters.page')->with('success', 'Successfully Saved');
+    }
+
+    public function matter_delete($id)
+    {
+           Matters::find($id)->delete();
+           return redirect()->back()->with('success', 'Deleted');
+    }
+
+
+    /**
+     * Matter's Filter
+    */
+
+    public function matter_filter($type)
+    {
+        if($type == "recently-view"){
+           $matters = Matters::getAllMAtters();
+        }
+
+        $total_matters = Matters::countAllMatters(Auth::guard('client')->user()->id);
+        $total_deleted_matters = Matters::countDeletedMatters(Auth::guard('client')->user()->id);
+
+        return view('client.matter.filter_matters', compact('matters', 'total_matters', 'total_deleted_matters'));
     }
 }
