@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminMattersManageController;
 use App\Http\Controllers\Admin\AdminContactsManageController;
 
+use App\Http\Controllers\client\firm\FirmManageController;
+use App\Http\Controllers\client\firm\FirmDetailsManageController;
+use App\Http\Controllers\client\firm\StaffManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -178,6 +181,37 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
          Route::controller(TabManageController::class)
         ->group(function(){
             Route::get('delete/tab/{id}/{type}', 'delete_tab')->name('delete.tab');
+        });
+
+        /**
+         * Firm Manage
+        */
+
+        Route::controller(FirmManageController::class)
+        ->group(function(){
+            Route::get('firm/details', 'firm_details')->name('firm.details');
+            Route::get('firm/stuff-users', 'firm_stuff_users')->name('firm.stuff-users');
+        });
+
+        /**
+         * Firm Details
+         */
+
+        Route::controller(FirmDetailsManageController::class)
+        ->group(function(){
+            Route::post('firm/details/action', 'firm_details_action')->name('firm.details.action');
+        });
+
+        /**
+         * Staff & User 
+        */
+
+        Route::controller(StaffManageController::class)
+        ->group(function(){
+            Route::post('staff/add/action', 'staff_add_action')->name('staff.add.action');
+            Route::get('staff/delete/{id}', 'staff_delete')->name('staff.delete');
+            Route::get('staff/edit/{id}', 'staff_edit')->name('staff.edit');
+            Route::post('staff/edit/action/{id}', 'staff_edit_action')->name('staff.edit.action');
         });
 
 

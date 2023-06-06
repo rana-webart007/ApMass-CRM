@@ -43,6 +43,9 @@ function sw_alert1(id, type) {
             if(type == "client-matter"){
                 window.location.href = "./delete/"+id
             }
+            if(type == "staff"){
+                window.location.href = "../staff/delete/"+id
+            }
 
             Swal.fire(
                 'Deleted!',
