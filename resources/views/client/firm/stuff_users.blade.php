@@ -30,6 +30,8 @@
            </div>
         </div>
 
+        @extends('commons.session-toaster-msg')
+
         <!-- Add Form -->
         <div class="m-2 border border-dark rounded bg-white" id="staff-add-form" style="display:none;">
         <form action="{{ route('client.staff.add.action') }}" method="post">

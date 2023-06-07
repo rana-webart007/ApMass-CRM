@@ -71,3 +71,19 @@ function warning_alert(){
         confirmButtonText: 'Okay'
       })
 }
+
+/**
+ * cuatom warning
+ */
+
+function custom_warning(msg){
+    Swal.fire({
+        title: 'Warning',
+        text: msg,
+        icon: 'warning',
+        padding: '1em',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Okay'
+    })
+}

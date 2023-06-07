@@ -37,13 +37,13 @@ class StaffManageController extends Controller
                   'former_staff' => $former_member
             ]);
 
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Successfully Saved');
     }
 
     public function staff_delete($id)
     {
            ClientFirmStaff::find($id)->delete();
-           return redirect()->back();
+           return redirect()->back()->with('danger', 'Staff Deleted');
     }
 
     public function staff_edit($id)
@@ -78,6 +78,6 @@ class StaffManageController extends Controller
                 'time_entries' => $time_entries,
         ]);
 
-        return redirect()->route('client.firm.stuff-users');
+        return redirect()->route('client.firm.stuff-users')->with('success', 'Successfully Updated');
     }
 }

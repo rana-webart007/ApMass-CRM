@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\AdminContactsManageController;
 use App\Http\Controllers\client\firm\FirmManageController;
 use App\Http\Controllers\client\firm\FirmDetailsManageController;
 use App\Http\Controllers\client\firm\StaffManageController;
+use App\Http\Controllers\client\firm\TimeAndActivitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -191,6 +192,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         ->group(function(){
             Route::get('firm/details', 'firm_details')->name('firm.details');
             Route::get('firm/stuff-users', 'firm_stuff_users')->name('firm.stuff-users');
+            Route::get('firm/time-activities', 'time_and_activities')->name('firm.time-activities');
+            Route::get('firm/activity/create', 'activity_create')->name('firm.activity.create');
         });
 
         /**
@@ -214,6 +217,14 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::post('staff/edit/action/{id}', 'staff_edit_action')->name('staff.edit.action');
         });
 
+        /**
+         *  Time & Activities 
+        */
+
+        Route::controller(TimeAndActivitiesController::class)
+        ->group(function(){
+            Route::post('firm/billing/action', 'firm_billing_action')->name('firm.billing.action');
+        });
 
     });
 

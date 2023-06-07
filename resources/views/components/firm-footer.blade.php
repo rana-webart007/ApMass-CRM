@@ -38,5 +38,14 @@
     <!-- sweet alert -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.all.min.js"></script>
+
+    <!-- auto close session msg after 5 seconds -->
+    <script>
+      $("document").ready(function(){
+         setTimeout(function(){
+            $("#session-msges").remove();
+         }, 5000 );
+       });
+    </script>
  </body>
 </html>

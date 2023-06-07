@@ -1,5 +1,7 @@
 <x-firmHeader />
 
+@extends('commons.session-toaster-msg')
+
 <div class="main-panel matterinside">
     <div class="content-wrapper">
         <div class="row m-2">
