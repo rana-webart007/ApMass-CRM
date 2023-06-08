@@ -20,8 +20,15 @@ class TimeAndActivitiesController extends Controller
             ]);
 
             $check = FirmBillingUnits::where('client_id', Auth::guard('client')->user()->id)->first();
-            $time = ($request->custom_time != null) ? ($request->custom_time) : ($request->time_entries);
-            $custom_or_not = ($request->custom_time != null) ? "custom" : "normal";
+
+            if($request->time_entries == "custom"){
+              $time = ($request->custom_time != null) ? ($request->custom_time) : ($request->time_entries);
+            }
+            else{
+                $time = $request->time_entries;
+            }
+
+            $custom_or_not = ($request->time_entries == "custom") ? "custom" : "normal";
         
             if($check == null){
                      FirmBillingUnits::create([
@@ -39,6 +46,4 @@ class TimeAndActivitiesController extends Controller
 
             return redirect()->back()->with('success', 'Successfully Saved');
     }
-
-
 }

@@ -60,10 +60,22 @@
                         <option value="6">6 minutes</option>
                         <option value="15">15 minutes</option>
                         @else
+                        @if($billings->time == 1)
                         <option value="1">1 minute</option>
                         <option value="6">6 minutes</option>
                         <option value="15">15 minutes</option>
                         <option value="custom">custom</option>
+                        @elseif($billings->time == 6)
+                        <option value="6">6 minutes</option>
+                        <option value="1">1 minute</option>
+                        <option value="15">15 minutes</option>
+                        <option value="custom">custom</option>
+                        @else
+                        <option value="15">15 minutes</option>
+                        <option value="1">1 minute</option>
+                        <option value="6">6 minutes</option>
+                        <option value="custom">custom</option>
+                        @endif
                         @endif
                     </select>
 

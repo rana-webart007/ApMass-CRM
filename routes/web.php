@@ -20,6 +20,7 @@ use App\Http\Controllers\client\firm\FirmManageController;
 use App\Http\Controllers\client\firm\FirmDetailsManageController;
 use App\Http\Controllers\client\firm\StaffManageController;
 use App\Http\Controllers\client\firm\TimeAndActivitiesController;
+use App\Http\Controllers\client\firm\AccountManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -191,9 +192,10 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(FirmManageController::class)
         ->group(function(){
             Route::get('firm/details', 'firm_details')->name('firm.details');
-            Route::get('firm/stuff-users', 'firm_stuff_users')->name('firm.stuff-users');
+            Route::get('firm/staff-users', 'firm_stuff_users')->name('firm.stuff-users');
             Route::get('firm/time-activities', 'time_and_activities')->name('firm.time-activities');
             Route::get('firm/activity/create', 'activity_create')->name('firm.activity.create');
+            Route::get('firm/account/page', 'account_page')->name('firm.account.page');
         });
 
         /**
@@ -224,6 +226,15 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(TimeAndActivitiesController::class)
         ->group(function(){
             Route::post('firm/billing/action', 'firm_billing_action')->name('firm.billing.action');
+        });
+
+        /**
+         * Accounts
+        */
+
+        Route::controller(AccountManageController::class)
+        ->group(function(){
+             Route::post('firm/trust/account/add/action', 'trust_add_action')->name('firm.trust.account.add.action');
         });
 
     });

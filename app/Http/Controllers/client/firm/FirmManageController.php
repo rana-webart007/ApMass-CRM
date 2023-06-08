@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits};
+use Illuminate\Support\Facades\DB;
 
 class FirmManageController extends Controller
 {
@@ -45,5 +46,11 @@ class FirmManageController extends Controller
     public function activity_create()
     {
            return view('client.firm.activity.activity_create');
+    }
+
+    public function account_page()
+    {
+           $states = DB::table('county_lists')->where('state_name', '!=', 'state_name')->get();
+           return view('client.firm.account.page', compact('states'));
     }
 }

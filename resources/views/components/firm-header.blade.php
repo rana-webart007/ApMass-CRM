@@ -287,7 +287,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('client.firm.account.page') }}">
                             <span class="menu-title">Accounts</span>
                         </a>
                     <li class="nav-item">
