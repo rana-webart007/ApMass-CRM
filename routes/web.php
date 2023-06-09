@@ -235,6 +235,13 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
         Route::controller(AccountManageController::class)
         ->group(function(){
              Route::post('firm/trust/account/add/action', 'trust_add_action')->name('firm.trust.account.add.action');
+             Route::get('firm/trust/account/delete/{id}', 'account_delete')->name('firm.trust.account.delete');
+             Route::get('firm/trust/account/edit/page/{id}', 'account_edit_page')->name('firm.trust.account.edit.page');
+             Route::post('firm/trust/account/edit/action/{id}', 'account_edit_action')->name('firm.trust.account.edit.action');
+             Route::get('firm/trust/account/{id}/{status}', 'status_change')->name('firm.trust.account.status.change');
+             Route::post('firm/trust/bankaccount/setting', 'bank_account_settings')->name('firm.trust.bank.account.setting');
+
+             Route::post('firm/trust/operating/checks', 'trust_operating_checks')->name('firm.trust.operating.check');
         });
 
     });

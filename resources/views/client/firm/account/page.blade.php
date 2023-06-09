@@ -1,5 +1,7 @@
 <x-firmHeader />
 
+@extends('commons.session-toaster-msg')
+
 <div class="main-panel matterinside">
     <div class="content-wrapper">
          
@@ -66,21 +68,39 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @if(count($open_accounts) > 0)
+                      @foreach($open_accounts as $key => $account)
                       <tr>
-                        <th scope="row">1</th>
-                        <td>test</td>
-                        <td>Test</td>
-                        <td>Bank</td>
-                        <td>-</td>
+                        <th scope="row"> {{ ($key + 1) }}</th>
+                        <td>{{ $account->trust_account_name }}</td>
+                        <td>{{ $account->display_name }}</td>
+                        <td>{{ $account->bank_name }}</td>
+                        <td>{{ $account->state }}</td>
                         <td>
-                            <a href="#">
+                            <a href="{{ route('client.firm.trust.account.edit.page', $account->trust_account_id) }}">
                                 <button type="button"
                                     class="btn btn-primary btn-sm">Edit</button>
                             </a>
-                            <button type="button" onclick="#"
-                                class="btn btn-danger btn-sm">Delete</button>
+                            <button type="button"
+                                class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $account->id ?>, 'trust-account');">Delete</button>
+                            
+                            <a href="{{ route('client.firm.trust.account.status.change', ['id' => $account->trust_account_id, 'status' => 'close']) }}">
+                                <button type="button"
+                                    class="btn btn-dark btn-sm">Close Account</button>
+                            </a>
                         </td>
                       </tr>
+                       @endforeach
+                       @else
+                       <tr>
+                           <td></td>
+                           <td></td>
+                           <td><b>No Record Found</b></td>
+                           <td></td>
+                           <td></td>
+                           <td></td>
+                       </tr>
+                      @endif
                     </tbody>
                   </table>
               </div>
@@ -102,36 +122,59 @@
                      </tr>
                    </thead>
                    <tbody>
-                     <tr>
-                       <th scope="row">1</th>
-                       <td>test</td>
-                       <td>Test</td>
-                       <td>Bank</td>
-                       <td>-</td>
-                       <td>
-                           <a href="#">
-                               <button type="button"
-                                   class="btn btn-primary btn-sm">Edit</button>
-                           </a>
-                           <button type="button" onclick="#"
-                               class="btn btn-danger btn-sm">Delete</button>
-                       </td>
-                     </tr>
+                    @if(count($close_accounts) > 0)
+                    @foreach($close_accounts as $key => $account)
+                    <tr>
+                      <th scope="row"> {{ ($key + 1) }}</th>
+                      <td>{{ $account->trust_account_name }}</td>
+                      <td>{{ $account->display_name }}</td>
+                      <td>{{ $account->bank_name }}</td>
+                      <td>{{ $account->state }}</td>
+                      <td>
+                        <a href="{{ route('client.firm.trust.account.status.change', ['id' => $account->trust_account_id, 'status' => 'open']) }}">
+                            <button type="button"
+                                class="btn btn-primary btn-sm">Re-open</button>
+                        </a>
+                          <button type="button"
+                              class="btn btn-danger btn-sm" onclick="sw_alert1(<?php echo $account->id ?>, 'trust-account');">Delete</button>
+                      </td>
+                    </tr>
+                     @endforeach
+                     @else
+                           <tr>
+                               <td></td>
+                               <td></td>
+                               <td><b>No Record Found</b></td>
+                               <td></td>
+                               <td></td>
+                               <td></td>
+                           </tr>
+                     @endif
                    </tbody>
                  </table>
              </div>
            </div>
 
            <!-- default payment -->
-           <form action="#" id="default_payment">
+           <form action="{{ route('client.firm.trust.bank.account.setting') }}" method="post" id="default_payment"> 
+              @csrf
+
            <div class="row m-2">
                 <div class="col-md-12 m-2">
                      <h4>Default Payment Account</h4>
                 </div>
                 <div class="col-md-8 m-2">
-                     <select name="state_found" id="state_found" class="form-control" disabled style="cursor: no-drop">
+                    @if(count($open_accounts) > 0)
+                    <select name="state_found" id="state_found" class="form-control">
+                        @foreach($open_accounts as $open_account)
+                          <option value="{{ $open_account->id }}">{{ $open_account->trust_account_name }}</option>
+                        @endforeach
+                     </select>
+                    @else
+                    <select name="state_found" id="state_found" class="form-control" disabled style="cursor: no-drop">
                         <option value="No states found">No Staes Found on trust accounts</option>
                      </select>
+                    @endif
                 </div>
 
                 <!-- checkboxes -->
@@ -142,7 +185,15 @@
                 <div class="col-md-12 mt-1 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
-                            <input type="checkbox" name="pdf_trust_deposite">
+                            @if ($bank_details == null)
+                             <input type="checkbox" name="pdf_trust_deposite">
+                            @else
+                            @if ($bank_details->pdf_trust_deposite == "yes")
+                             <input type="checkbox" name="pdf_trust_deposite" checked>
+                             @else
+                             <input type="checkbox" name="pdf_trust_deposite">
+                             @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -154,7 +205,15 @@
                 <div class="col-md-12 mt-1 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if ($bank_details == null)
                             <input type="checkbox" name="pdf_trust_payment">
+                            @else
+                                @if ($bank_details->pdf_trust_payment == "yes")
+                                   <input type="checkbox" name="pdf_trust_payment" checked>        
+                                @else
+                                   <input type="checkbox" name="pdf_trust_payment">
+                                @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -166,7 +225,15 @@
                 <div class="col-md-12 mt-1 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if ($bank_details == null)
                             <input type="checkbox" name="pdf_operating_payment">
+                            @else
+                               @if ($bank_details->pdf_operating_payment == "yes")
+                                 <input type="checkbox" name="pdf_operating_payment" checked>
+                               @else
+                                 <input type="checkbox" name="pdf_operating_payment">
+                               @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -178,7 +245,15 @@
                 <div class="col-md-12 mt-1 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if ($bank_details == null)
                             <input type="checkbox" name="pdf_trust_transfer">
+                            @else
+                               @if ($bank_details->pdf_trust_transfer == "yes")
+                               <input type="checkbox" name="pdf_trust_transfer" checked>
+                               @else
+                               <input type="checkbox" name="pdf_trust_transfer">
+                               @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -205,7 +280,7 @@
                     </div>
                     <div class="col-md-5 m-2">
                          <label for="">Trust Account Name *</label>
-                         <input type="text" name="trust_account_name" id="trust_account_name" class="form-control"> 
+                         <input type="text" name="trust_account_name" id="trust_account_name" class="form-control" required> 
                     </div>
                     <div class="col-md-5 m-2">
                         <label for="">Display Name</label>
@@ -245,7 +320,9 @@
 
         <!-- trust & operating check -->
         <div class="row m-2" id="trust_operating_check" style="display: none;">
-            <form action="#">
+            <form action="{{ route('client.firm.trust.operating.check') }}" method="post">
+                @csrf
+
             <div class="col-md-12 m-2">
                   <h4><b> Trust and Operating Checks </b></h4>
             </div>
@@ -258,35 +335,85 @@
             </div>
 
             <div class="col-md-8 ml-4 mt-3">
+                @if($operating_checks == null)
                 <input type="checkbox" name="trust_check_print" onclick="activate_trust_check();" id="trust_check_print" class="form-check-input">
+                @else
+                    @if($operating_checks->trust_check_print == "yes")
+                    <input type="checkbox" name="trust_check_print" onclick="activate_trust_check();" id="trust_check_print" class="form-check-input" checked>
+                    @else
+                    <input type="checkbox" name="trust_check_print" onclick="activate_trust_check();" id="trust_check_print" class="form-check-input">
+                    @endif
+                @endif
                 <label for="" class="form-check-label">Activate Trust Check Printing</label>
             </div>
 
             <div class="col-md-9 ml-2 mt-3">
                 <label for="">Check Style</label>
                 <select name="trust_check_style" id="trust_check_style" class="form-control" disabled style="cursor: no-drop;">
+                  @if($operating_checks == null)
                     <option value="Standard">Standard</option>
                     <option value="Voucher">Voucher</option>
+                  @else
+                     @if($operating_checks->trust_check_style == "Standard")
+                        <option value="Standard">Standard</option>
+                        <option value="Voucher">Voucher</option>
+                     @else
+                        <option value="Voucher">Voucher</option>
+                        <option value="Standard">Standard</option>
+                     @endif
+                  @endif
                 </select>
             </div>
 
             <div class="col-md-9 ml-2 mt-3">
                 <label for="">Printing Method</label>
                 <select name="trust_printing_method" id="trust_printing_method" class="form-control" disabled style="cursor: no-drop;">
+                    @if($operating_checks == null)
                     <option value="Print Manually">Print Manually</option>
                     <option value="Print Now">Print Now</option>
                     <option value="Print Later">Print Later</option>
+                    @else
+                       @if($operating_checks->trust_printing_method == "Print Manually")
+                       <option value="Print Manually">Print Manually</option>
+                       <option value="Print Now">Print Now</option>
+                       <option value="Print Later">Print Later</option>
+                       @elseif($operating_checks->trust_printing_method == "Print Now")
+                       <option value="Print Now">Print Now</option>
+                       <option value="Print Manually">Print Manually</option>
+                       <option value="Print Later">Print Later</option>
+                       @elseif($operating_checks->trust_printing_method == "Print Later")
+                       <option value="Print Later">Print Later</option>
+                       <option value="Print Manually">Print Manually</option>
+                       <option value="Print Now">Print Now</option>
+                       @endif
+                    @endif
                 </select>
             </div>
 
             <!-- -->
             <div class="col-md-8 ml-4 mt-3">
+                @if($operating_checks == null)
                 <input type="checkbox" name="operating_check_print" onclick="activate_operating_check();" id="operating_check_print" class="form-check-input">
+                @else
+                  @if ($operating_checks->operating_check_print == "yes")
+                  <input type="checkbox" name="operating_check_print" onclick="activate_operating_check();" id="operating_check_print" class="form-check-input" checked>
+                  @else
+                  <input type="checkbox" name="operating_check_print" onclick="activate_operating_check();" id="operating_check_print" class="form-check-input">
+                  @endif
+                @endif
                 <label for="" class="form-check-label">Activate Operating Check Printing</label>
             </div>
 
             <div class="col-md-8 ml-4 mt-3">
+                @if($operating_checks == null)
                 <input type="checkbox" name="vendor_address_on_check" id="vendor_address_on_check" class="form-check-input" disabled style="cursor: no-drop;">
+                @else
+                @if ($operating_checks->operating_check_print == "yes")
+                <input type="checkbox" name="vendor_address_on_check" id="vendor_address_on_check" class="form-check-input">
+                @else
+                <input type="checkbox" name="vendor_address_on_check" id="vendor_address_on_check" class="form-check-input" disabled style="cursor: no-drop;">
+                @endif
+                @endif
                 <label for="" class="form-check-label">Include Vendor Address on Check</label>
             </div>
 

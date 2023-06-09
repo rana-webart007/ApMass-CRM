@@ -97,7 +97,7 @@ class ContactsManageController extends Controller
             
         if(Auth::guard('client')->user()->id == $detail->client_id){
            PersonContact::find($id)->delete();
-           return redirect()->back()->with('success', 'Successfully Deleted');
+           return redirect()->back()->with('danger', 'Successfully Deleted');
         }else{
             abort(403);
         }
@@ -356,7 +356,7 @@ class ContactsManageController extends Controller
                 
             if(Auth::guard('client')->user()->id == $detail->client_id){
             BusinessContacts::find($id)->delete();
-            return redirect()->back()->with('success', 'Successfully Deleted');
+            return redirect()->back()->with('danger', 'Successfully Deleted');
             }else{
                 abort(403);
             }

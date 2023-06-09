@@ -40,5 +40,15 @@
 
       <!-- sweet alert -->
       <script src="{{ asset('custom_js/sweet_alert.js') }}"></script>
+
+      <!-- auto close session msg after 5 seconds -->
+      <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+    <script>
+      $("document").ready(function(){
+         setTimeout(function(){
+            $("#session-msges-1").remove();
+         }, 5000 );
+       });
+    </script>
    </body>
 </html>

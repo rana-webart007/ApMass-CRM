@@ -155,7 +155,7 @@
                                                             2:</label>
                                                         <div class="form-group">
                                                             <input type="text" name="address_line_2"
-                                                                class="form-control" id="address_line_2" value="{{ $new_details->address_line_2 }}" required>
+                                                                class="form-control" id="address_line_2" value="{{ $new_details->address_line_2 }}">
                                                             @if($errors->has('address_line_2'))
                                                             <span
                                                                 class="text-danger">{{ $errors->first('address_line_2') }}</span>

@@ -46,6 +46,9 @@ function sw_alert1(id, type) {
             if(type == "staff"){
                 window.location.href = "../staff/delete/"+id
             }
+            if(type == "trust-account"){
+                window.location.href = "../trust/account/delete/"+id;
+            }
 
             Swal.fire(
                 'Deleted!',

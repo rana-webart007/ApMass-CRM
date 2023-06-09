@@ -5,7 +5,7 @@ namespace App\Http\Controllers\client\firm;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits};
+use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits, TrustAccounts, BankAccountSettings, TrustAndOperatingCheck};
 use Illuminate\Support\Facades\DB;
 
 class FirmManageController extends Controller
@@ -51,6 +51,10 @@ class FirmManageController extends Controller
     public function account_page()
     {
            $states = DB::table('county_lists')->where('state_name', '!=', 'state_name')->get();
-           return view('client.firm.account.page', compact('states'));
+           $open_accounts = TrustAccounts::getDetailsByStatus('open');
+           $close_accounts = TrustAccounts::getDetailsByStatus('close');
+           $bank_details = BankAccountSettings::bankDetails(Auth::guard('client')->user()->id);
+           $operating_checks = TrustAndOperatingCheck::trustDetails(Auth::guard('client')->user()->id);
+           return view('client.firm.account.page', compact('states', 'open_accounts', 'close_accounts', 'bank_details', 'operating_checks'));
     }
 }
