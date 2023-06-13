@@ -442,21 +442,47 @@
         </div>
 
         <!-- evergreen retainer -->
-        <form action="#" id="ever_green_retainer" style="display: none;">
+        <form action="{{ route('client.firm.trust.account.ever.green.retainer.action') }}" method="post" id="ever_green_retainer" style="display: none;">
+            @csrf
+
         <div class="row m-2">
             <div class="col-md-12 ml-4 mt-2">
+                @if($retainer_details == null)
                 <input type="checkbox" name="activate_ever_green_retainer" id="activate_ever_green_retainer" onclick="ever_green_retainer();" class="form-check-input">
+                @else
+                @if($retainer_details->retainer_activate == "yes")
+                <input type="checkbox" name="activate_ever_green_retainer" id="activate_ever_green_retainer" onclick="ever_green_retainer();" class="form-check-input" checked>
+                @else
+                <input type="checkbox" name="activate_ever_green_retainer" id="activate_ever_green_retainer" onclick="ever_green_retainer();" class="form-check-input">
+                @endif
+                @endif
                 <label for="" class="form-check-label">Evergreen Retainer Activated</label>
             </div>
 
             <div class="col-md-9 ml-4 mt-2">
                 <label for="" class="form-check-label">Minimum Threshold</label>
+                @if($retainer_details == null)
                 <input type="number" name="minimum_threshold" id="minimum_threshold" class="form-control mt-1" placeholder="Amount in $" disabled style="cursor: no-drop">
+                @else
+                @if($retainer_details->retainer_activate == "yes")
+                <input type="number" name="minimum_threshold" id="minimum_threshold" class="form-control mt-1" value="{{ $retainer_details->min_thresold }}">
+                @else
+                <input type="number" name="minimum_threshold" id="minimum_threshold" class="form-control mt-1" value="{{ $retainer_details->min_thresold }}" disabled style="cursor: no-drop">
+                @endif
+                @endif
             </div>
 
             <div class="col-md-9 ml-4 mt-2">
                 <label for="" class="form-check-label">Replenish Up To</label>
+                @if($retainer_details == null)
                 <input type="number" name="replenish_upto" id="replenish_upto" class="form-control mt-1" placeholder="Amount in $" disabled style="cursor: no-drop">
+                @else
+                @if($retainer_details->retainer_activate == "yes")
+                <input type="number" name="replenish_upto" id="replenish_upto" class="form-control mt-1" value="{{ $retainer_details->replenish_upto }}">
+                @else
+                <input type="number" name="replenish_upto" id="replenish_upto" class="form-control mt-1" value="{{ $retainer_details->replenish_upto }}" disabled style="cursor: no-drop">
+                @endif
+                @endif
             </div>
 
             <div class="col-md-8 m-2">
@@ -466,7 +492,9 @@
         </form>
 
         <!-- trust transaction number -->
-        <form action="#" id="trust_transaction_number" style="display: none;">
+        <form action="{{ route('client.firm.trust.account.transaction.action') }}" method="post" id="trust_transaction_number" style="display: none;">
+            @csrf
+
               <div class="row m-2">
                     <div class="col-md-12 m-2">
                         <h4>Trust Transaction Numbering</h4>
@@ -485,17 +513,29 @@
 
                     <div class="col-md-12 m-2">
                         <label for="">Starting Number</label>
+                        @if($transaction_numbers == null)
                         <input type="number" name="starting_no" id="starting_no" value="1" class="form-control">
+                        @else
+                        <input type="number" name="starting_no" id="starting_no" value="{{ $transaction_numbers->starting_no }}" class="form-control">
+                        @endif
                     </div>
 
                     <div class="col-md-5 m-2">
                         <label for="">Number of Leading Zeros</label>
+                        @if($transaction_numbers == null)
                         <input type="number" name="leading_zeros" id="leading_zeros" value="0" class="form-control">
+                        @else
+                        <input type="number" name="leading_zeros" id="leading_zeros" value="{{ $transaction_numbers->leading_zeros }}" class="form-control">
+                        @endif
                     </div>
 
                     <div class="col-md-5 m-2">
                         <label for="">Example Number</label>
+                        @if($transaction_numbers == null)
                         <input type="number" name="example_no" id="example_no" value="1" class="form-control" disabled>
+                        @else
+                        <input type="number" name="example_no" id="example_no" value="1" class="form-control" disabled>
+                        @endif
                     </div>
 
                     <div class="col-md-8 m-2">
@@ -505,7 +545,9 @@
         </form>
 
         <!-- finalize with payments -->
-        <form action="#" id="finalize_payment" style="display: none;">
+        <form action="{{ route('client.firm.trust.account.payment.action') }}" method="post" id="finalize_payment" style="display: none;">
+            @csrf
+
         <div class="row m-2">
               <div class="col-md-12 m-2">
                   <h4>For payments, choose which fund to use first:</h4>
@@ -516,14 +558,32 @@
               </div>
 
               <div class="col-md-9 m-2">
+                  @if($payment == null)
                    <select name="second_preference" id="second_preference" onchange="third_pref()" class="form-control">
                            <option value="Operating">Operating</option>
                            <option value="Trust">Trust</option>
                    </select>
+                  @else
+                      @if($payment->second_preference == "Operating")
+                      <select name="second_preference" id="second_preference" onchange="third_pref()" class="form-control">
+                        <option value="Operating">Operating</option>
+                        <option value="Trust">Trust</option>
+                      </select>
+                      @else
+                      <select name="second_preference" id="second_preference" onchange="third_pref()" class="form-control">
+                        <option value="Trust">Trust</option>
+                        <option value="Operating">Operating</option>
+                      </select> 
+                      @endif
+                  @endif
               </div>
 
               <div class="col-md-9 m-2">
+                @if($payment == null)
                 <input type="text" name="third_preference" id="third_preference" class="form-control" readonly>
+                @else
+                <input type="text" name="third_preference" id="third_preference" value="{{ $payment->third_preference }}" class="form-control" readonly>
+                @endif
                 {{-- <select name="third_preference" id="third_preference" class="form-control">
                         <option value="Operating">Operating</option>
                         <option value="Trust">Trust</option>

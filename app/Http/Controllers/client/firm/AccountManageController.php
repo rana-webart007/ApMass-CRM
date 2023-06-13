@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\{TrustAccounts, BankAccountSettings, TrustAndOperatingCheck};
+use App\Models\{TrustAccounts, BankAccountSettings, TrustAndOperatingCheck, FinalizeWithPayments, EvergreenRetainer, TrustTransactionNumber};
 use Illuminate\Support\Facades\DB;
 
 class AccountManageController extends Controller
@@ -150,5 +150,85 @@ class AccountManageController extends Controller
             }
 
             return redirect()->back()->with('success', 'Checks saved');
+    }
+
+    /**
+     * Ever-green retainer
+    */
+
+    public function retainer_action(Request $request){
+        $check = EvergreenRetainer::retainerDetails(Auth::guard('client')->user()->id);  
+
+        $activation = ($request->has('activate_ever_green_retainer')) ? "yes" : "no";
+        
+        if($check == null){
+                  EvergreenRetainer::create([
+                       'client_id' => Auth::guard('client')->user()->id,
+                       'retainer_activate' => $activation,
+                       'min_thresold' => $request->minimum_threshold,
+                       'replenish_upto' => $request->replenish_upto,
+                  ]);
+        }
+        else{
+               EvergreenRetainer::where('client_id', Auth::guard('client')->user()->id)->update([
+                        'retainer_activate' => $activation,
+                        'min_thresold' => $request->minimum_threshold,
+                        'replenish_upto' => $request->replenish_upto,
+               ]);
+        }
+
+        return redirect()->back()->with('success', 'Successfully saved');
+    }
+
+    /**
+     * trust transaction number
+    */
+
+    public function transaction_action(Request $request){
+           $check = TrustTransactionNumber::trustTransaction(Auth::guard('client')->user()->id);
+           if($check == null){
+                    TrustTransactionNumber::create([
+                        'client_id' => Auth::guard('client')->user()->id,
+                        'account' => $request->account,
+                        'starting_no' => $request->starting_no,
+                        'leading_zeros' => $request->leading_zeros,
+                        'example_no' => $request->example_no
+                    ]);
+           }
+           else{
+                    TrustTransactionNumber::where('client_id', Auth::guard('client')->user()->id)->update([
+                        'account' => $request->account,
+                        'starting_no' => $request->starting_no,
+                        'leading_zeros' => $request->leading_zeros,
+                    ]);
+           }
+
+           return redirect()->back()->with('success', 'Successfully saved');
+    }
+
+    /**
+     * payment
+    */
+
+    public function payment_action(Request $request) {
+             $check = FinalizeWithPayments::paymentDetails(Auth::guard('client')->user()->id);
+
+             if($check == null){
+                   FinalizeWithPayments::create([
+                           'client_id' => Auth::guard('client')->user()->id,
+                           'first_preference' => $request->first_preference,
+                           'second_preference' => $request->second_preference,
+                           'third_preference' => $request->third_preference,
+                   ]);
+             }
+             else{
+                  FinalizeWithPayments::where('client_id', Auth::guard('client')->user()->id)->update([
+                            'first_preference' => $request->first_preference,
+                            'second_preference' => $request->second_preference,
+                            'third_preference' => $request->third_preference,
+                  ]);
+             }
+
+             return redirect()->back()->with('success', 'Successfully saved');
     }
 }

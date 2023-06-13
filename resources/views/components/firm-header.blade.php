@@ -34,11 +34,14 @@
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" /> -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
-    {{-- <style>
+    <style>
         .navbar .navbar-menu-wrapper{
             width: calc(100%) !important;
         }
-    </style> --}}
+        #nav_back{
+            margin-left: 85%;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,14 +53,19 @@
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
                     <span> <b> Settings </b> </span>
                 </button>
-            </div>
 
-            <div class="d-flex bg-white">
-                <a href="{{ route('client.dashboard') }}">
+                <a href="{{ route('client.dashboard') }}" id="nav_back">
                     <button type="button"
                         class="btn btn-primary">Back</button>
                 </a>
             </div>
+
+            {{-- <div class="d-flex bg-white">
+                <a href="{{ route('client.dashboard') }}">
+                    <button type="button"
+                        class="btn btn-primary">Back</button>
+                </a>
+            </div> --}}
         </nav>
 
 
@@ -282,7 +290,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('client.firm.email.template.page') }}">
                             <span class="menu-title">Email Templates</span>
                         </a>
                     </li>

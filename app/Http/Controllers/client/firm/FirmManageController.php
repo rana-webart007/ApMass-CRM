@@ -5,7 +5,7 @@ namespace App\Http\Controllers\client\firm;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits, TrustAccounts, BankAccountSettings, TrustAndOperatingCheck};
+use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits, TrustAccounts, FinalizeWithPayments, BankAccountSettings, TrustAndOperatingCheck, EvergreenRetainer, TrustTransactionNumber};
 use Illuminate\Support\Facades\DB;
 
 class FirmManageController extends Controller
@@ -55,6 +55,17 @@ class FirmManageController extends Controller
            $close_accounts = TrustAccounts::getDetailsByStatus('close');
            $bank_details = BankAccountSettings::bankDetails(Auth::guard('client')->user()->id);
            $operating_checks = TrustAndOperatingCheck::trustDetails(Auth::guard('client')->user()->id);
-           return view('client.firm.account.page', compact('states', 'open_accounts', 'close_accounts', 'bank_details', 'operating_checks'));
+           $retainer_details = EvergreenRetainer::retainerDetails(Auth::guard('client')->user()->id);
+           $transaction_numbers = TrustTransactionNumber::trustTransaction(Auth::guard('client')->user()->id);
+           $payment = FinalizeWithPayments::paymentDetails(Auth::guard('client')->user()->id);
+           return view('client.firm.account.page', compact('states', 'payment', 'open_accounts', 'close_accounts', 'bank_details', 'operating_checks', 'retainer_details', 'transaction_numbers'));
+    }
+
+    /**
+     *  Template page
+    */
+
+    public function template_page(){
+           return view('client.firm.email.template_page');
     }
 }

@@ -196,6 +196,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::get('firm/time-activities', 'time_and_activities')->name('firm.time-activities');
             Route::get('firm/activity/create', 'activity_create')->name('firm.activity.create');
             Route::get('firm/account/page', 'account_page')->name('firm.account.page');
+            Route::get('firm/email/template/page', 'template_page')->name('firm.email.template.page');
         });
 
         /**
@@ -240,8 +241,10 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
              Route::post('firm/trust/account/edit/action/{id}', 'account_edit_action')->name('firm.trust.account.edit.action');
              Route::get('firm/trust/account/{id}/{status}', 'status_change')->name('firm.trust.account.status.change');
              Route::post('firm/trust/bankaccount/setting', 'bank_account_settings')->name('firm.trust.bank.account.setting');
-
              Route::post('firm/trust/operating/checks', 'trust_operating_checks')->name('firm.trust.operating.check');
+             Route::post('firm/trust/account/ever/green/retainer/action', 'retainer_action')->name('firm.trust.account.ever.green.retainer.action');
+             Route::post('firm/trust/account/transaction/action', 'transaction_action')->name('firm.trust.account.transaction.action');
+             Route::post('firm/trust/account/payment/action', 'payment_action')->name('firm.trust.account.payment.action');
         });
 
     });
