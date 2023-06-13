@@ -143,7 +143,11 @@
                                                     <label for="exampleInputCity1">ATTORNEY RESPONSIBLE</label>
                                                     <select class="form-control" name="attorney_responsible" id="exampleSelectGender">
                                                         <option value="Select">Select Staff responsible for Matter..</option>
-                                                        <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option>
+                                                        {{-- <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option> --}}
+
+                                                        @foreach ($all_staffs as $all_staff)
+                                                            <option value="{{ $all_staff->name }}">{{ $all_staff->name }}</option>
+                                                        @endforeach
                                                     </select>
 
                                                     @if ($errors->has('attorney_responsible'))
@@ -157,7 +161,11 @@
                                                     <label for="exampleSelectGender">PERSON ASSISTING</label>
                                                     <select class="form-control" name="person_assisting" id="exampleSelectGender">
                                                         <option value="Select">Select Staff assisting Matter..</option>
-                                                        <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option>
+                                                        {{-- <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option> --}}
+
+                                                        @foreach ($all_staffs as $all_staff)
+                                                            <option value="{{ $all_staff->name }}">{{ $all_staff->name }}</option>
+                                                        @endforeach
                                                     </select>
 
                                                     @if ($errors->has('person_assisting'))
@@ -171,7 +179,11 @@
                                                     <label for="exampleTextarea1">ORIGINATING ATTORNEY</label>
                                                     <select class="form-control" name="organization_attorney" id="exampleSelectGender">
                                                         <option value="Select">Select Staff assisting Matter..</option>
-                                                        <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option>
+                                                        {{-- <option value="{{ Auth::guard('client')->user()->name }}">{{ Auth::guard('client')->user()->name }}</option> --}}
+
+                                                        @foreach ($all_staffs as $all_staff)
+                                                            <option value="{{ $all_staff->name }}">{{ $all_staff->name }}</option>
+                                                        @endforeach
                                                     </select>
 
                                                     @if ($errors->has('organization_attorney'))

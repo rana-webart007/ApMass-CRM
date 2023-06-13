@@ -21,6 +21,7 @@ use App\Http\Controllers\client\firm\FirmDetailsManageController;
 use App\Http\Controllers\client\firm\StaffManageController;
 use App\Http\Controllers\client\firm\TimeAndActivitiesController;
 use App\Http\Controllers\client\firm\AccountManageController;
+use App\Http\Controllers\client\firm\EmailTemplateManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -197,6 +198,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::get('firm/activity/create', 'activity_create')->name('firm.activity.create');
             Route::get('firm/account/page', 'account_page')->name('firm.account.page');
             Route::get('firm/email/template/page', 'template_page')->name('firm.email.template.page');
+            Route::get('firm/invoice/setting/page', 'invoice_setting_page')->name('firm.invoice.setting.page');
         });
 
         /**
@@ -245,6 +247,18 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
              Route::post('firm/trust/account/ever/green/retainer/action', 'retainer_action')->name('firm.trust.account.ever.green.retainer.action');
              Route::post('firm/trust/account/transaction/action', 'transaction_action')->name('firm.trust.account.transaction.action');
              Route::post('firm/trust/account/payment/action', 'payment_action')->name('firm.trust.account.payment.action');
+        });
+
+        /**
+         * Email Templates
+        */
+
+        Route::controller(EmailTemplateManageController::class)
+        ->group(function(){
+             Route::post('firm/email/invoice/action', 'invoice_action')->name('firm.email.invoice.action');
+             Route::post('firm/email/invoice/remainder/action', 'invoice_remainder_action')->name('firm.email.invoice.remainder.action');
+             Route::post('firm/email/evergreen/action', 'evergreen_action')->name('firm.email.evergreen.action');
+             Route::post('firm/email/deposit/action', 'deposit_action')->name('firm.email.deposit.action');
         });
 
     });

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{AreaOfLaw, MatterType, ClientRoles, PersonContact, Matters, TabsControlManage};
+use App\Models\{AreaOfLaw, MatterType, ClientRoles, PersonContact, Matters, TabsControlManage, ClientFirmStaff};
 
 class MatterManageController extends Controller
 {
@@ -25,8 +25,9 @@ class MatterManageController extends Controller
            $states = DB::table('county_lists')->where('state_abbr', '!=', 'state_abbr')->get();
            $areas = AreaOfLaw::allLaws();
            $contacts = PersonContact::where('client_id', Auth::guard('client')->user()->id)->orderBy('name')->get();
+           $all_staffs = ClientFirmStaff::all_clients();
 
-           return view('client.matter.add', compact('states', 'areas', 'contacts'));
+           return view('client.matter.add', compact('states', 'areas', 'contacts', 'all_staffs'));
     }
 
     public function matter_get_by_area($area)

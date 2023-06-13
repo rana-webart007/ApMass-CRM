@@ -5,7 +5,22 @@ namespace App\Http\Controllers\client\firm;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\{ClientFirmDetails, ClientFirmStaff, FirmBillingUnits, TrustAccounts, FinalizeWithPayments, BankAccountSettings, TrustAndOperatingCheck, EvergreenRetainer, TrustTransactionNumber};
+use App\Models\{
+       ClientFirmDetails, 
+       ClientFirmStaff, 
+       FirmBillingUnits, 
+       TrustAccounts, 
+       FinalizeWithPayments, 
+       BankAccountSettings, 
+       TrustAndOperatingCheck, 
+       EvergreenRetainer, 
+       TrustTransactionNumber,
+       FirmEmailInvoices,
+       FirmEmailInvoiceRemainders,
+       FirmEmailEvergreenRetainers,
+       FirmEmailDepositRequest
+};
+
 use Illuminate\Support\Facades\DB;
 
 class FirmManageController extends Controller
@@ -66,6 +81,26 @@ class FirmManageController extends Controller
     */
 
     public function template_page(){
-           return view('client.firm.email.template_page');
+           $invoice = FirmEmailInvoices::getInvoceDetails(Auth::guard('client')->user()->id);
+           $invoice_remainders = FirmEmailInvoiceRemainders::getInvoceRemaindersDetails(Auth::guard('client')->user()->id);
+           $evergreen_retainers = FirmEmailEvergreenRetainers::getEvergreenRetainersDetails(Auth::guard('client')->user()->id);
+           $deposits = FirmEmailDepositRequest::getDepositRequestDetails(Auth::guard('client')->user()->id);
+
+           $all_datas = [
+              'invoice' => $invoice,
+              'remainders' => $invoice_remainders,
+              'retainers' => $evergreen_retainers,
+              'deposits' => $deposits
+           ];
+
+           return view('client.firm.email.template_page', compact('all_datas'));
+    }
+
+    /**
+     * Invoice Setting Page
+    */
+
+    public function invoice_setting_page(){
+         return view('client.firm.invoice.page');
     }
 }

@@ -29,11 +29,18 @@
 
             <!-- Invoices -->
 
-            <form action="#" id="invoices" style="display: block;">
+            <form action="{{ route('client.firm.email.invoice.action') }}" method="post" id="invoices" style="display: block;">
+                @csrf
+
             <div class="row m-2" >
                 <div class="col-md-12 m-2">
-                      <label for="">Email Subject</label>
+                      <label for="">Email Subject (Your New Invoices) </label>
+
+                      @if ($all_datas['invoice'] == null)
                       <input type="text" name="email_subject" id="email_subject" class="form-control" placeholder="Email Subject">
+                      @else
+                      <input type="text" name="email_subject" id="email_subject" value="{{ $all_datas['invoice']->email_subject }}" class="form-control" placeholder="Email Subject">
+                      @endif
                 </div>
 
                 <div class="col-md-8 m-2">
@@ -50,12 +57,16 @@
                 </div>
 
                 <div class="col-md-3 mt-4 p-3">
-                    <a href="#" class="btn btn-primary">Insert</a>
+                    <a href="#" class="btn btn-primary" onclick="addInvoices()">Insert</a>
                 </div>
 
                 <div class="col-md-12 m-2">
                       <label for="">Email Body</label>
+                      @if ($all_datas['invoice'] == null)
                       <textarea name="inv_email_body" id="inv_email_body" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                      @else
+                      <textarea name="inv_email_body" id="inv_email_body" cols="30" rows="10" class="form-control ck_editor_txt">{!! $all_datas['invoice']->inv_email_body !!}</textarea>
+                      @endif
                 </div>
 
 
@@ -81,7 +92,15 @@
                 <div class="col-md-12 mt-2 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if ($all_datas['invoice'] == null)
                             <input type="checkbox" name="send_copy_of_email_to_user">
+                            @else
+                            @if ($all_datas['invoice']->send_copy_of_email_to_user == 'yes')
+                            <input type="checkbox" name="send_copy_of_email_to_user" checked>
+                            @else
+                            <input type="checkbox" name="send_copy_of_email_to_user">
+                            @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -93,7 +112,15 @@
                 <div class="col-md-12 mt-2 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if ($all_datas['invoice'] == null)
                             <input type="checkbox" name="attach_invoice_to_email">
+                            @else
+                            @if ($all_datas['invoice']->attach_invoice_to_email == 'yes')
+                            <input type="checkbox" name="attach_invoice_to_email" checked>
+                            @else
+                            <input type="checkbox" name="attach_invoice_to_email">
+                            @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -110,17 +137,23 @@
            </form>
 
            <!-- invoice reminders -->
-           <form action="#" id="invoice-remainders" style="display: none;">
+           <form action="{{ route('client.firm.email.invoice.remainder.action') }}" method="post" id="invoice-remainders" style="display: none;">
+            @csrf
+
                   <div class="row m-2">
                         <div class="col-md-5 m-2">
                             <div class="col-md-12 m-2">
-                                 <label for="">Email Subject</label>
-                                 <input type="text" name="email_subject" id="email_subject" class="form-control">
+                                 <label for="">Email Subject (Invoice Reminder for)</label>
+                                 @if($all_datas['remainders'] == null)
+                                 <input type="text" name="email_subject" id="inv_rem_email_subject" class="form-control">
+                                 @else
+                                 <input type="text" name="email_subject" id="inv_rem_email_subject" class="form-control" value="{{ $all_datas['remainders']->email_subject }}">
+                                 @endif
                             </div>
 
                             <div class="col-md-12 m-2">
                                  <label for="">Placeholder</label>
-                                 <select name="email_subject_placeholder" id="email_subject_placeholder" class="form-control">
+                                 <select name="email_subject_placeholder" id="inv_rem_email_subject_placeholder" class="form-control">
                                     <option value="debator_name">Debator Name</option>
                                     <option value="debator_amount_due">Amount Due( Debator )</option>
                                     <option value="invoice_amount_due">Amount Due( Invoice )</option>
@@ -132,18 +165,22 @@
                             </div>
 
                             <div class="col-md-2 m-2">
-                                <a href="#">Insert</a>
+                                <a href="#" onclick="addInvoicesRemainders();">Insert</a>
                             </div>
 
                             <div class="col-md-12 m-2">
                                 <label for="">Email Body</label>
-                                <textarea name="invoice_email_body" id="invoice_email_body" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                                @if($all_datas['remainders'] == null)
+                                <textarea name="invoice_email_body" id="invoice_rem__email_body" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                                @else
+                                <textarea name="invoice_email_body" id="invoice_rem__email_body" cols="30" rows="10" class="form-control ck_editor_txt">{!! $all_datas['remainders']->invoice_email_body !!}</textarea>
+                                @endif
                           </div>
           
           
                           <div class="col-md-12 m-2">
                               <label for="">Placeholder</label>
-                              <select name="email_body_placeholder" id="email_body_placeholder" class="form-control">
+                              <select name="email_body_placeholder" id="inv_rem_email_body_placeholder" class="form-control">
                                       <option value="debator_name">Debator Name</option>
                                       <option value="debator_amount_due">Amount Due( Debator )</option>
                                       <option value="invoice_amount_due">Amount Due( Invoice )</option>
@@ -160,14 +197,26 @@
 
                         <div class="col-md-12 m-2">
                             <label for="">Notes</label>
+                            @if($all_datas['remainders'] == null)
                             <textarea name="notes" id="notes" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                            @else
+                            <textarea name="notes" id="notes" cols="30" rows="10" class="form-control ck_editor_txt">{!! $all_datas['remainders']->notes !!}</textarea>
+                            @endif
                         </div>
 
                         <!-- checkboxes -->
                         <div class="col-md-12 mt-2 d-flex">
                             <div class="col-md-1">
                                 <label class="switch">
+                                    @if($all_datas['remainders'] == null)
                                     <input type="checkbox" name="send_copy_of_email_to_user">
+                                    @else
+                                    @if($all_datas['remainders']->send_copy_of_email_to_user == 'yes')
+                                    <input type="checkbox" name="send_copy_of_email_to_user" checked>
+                                    @else
+                                    <input type="checkbox" name="send_copy_of_email_to_user">
+                                    @endif
+                                    @endif
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -179,7 +228,15 @@
                         <div class="col-md-12 mt-2 d-flex">
                             <div class="col-md-1">
                                 <label class="switch">
+                                    @if($all_datas['remainders'] == null)
                                     <input type="checkbox" name="attach_invoice_to_email">
+                                    @else
+                                    @if($all_datas['remainders']->attach_invoice_to_email == 'yes')
+                                    <input type="checkbox" name="attach_invoice_to_email" checked>
+                                    @else
+                                    <input type="checkbox" name="attach_invoice_to_email">
+                                    @endif
+                                    @endif
                                     <span class="slider round"></span>
                                 </label>
                             </div>
@@ -204,16 +261,22 @@
 
 
            <!-- evergreen retainers -->
-           <form action="#" id="evergreen_retainer" style="display: none;">
+           <form action="{{ route('client.firm.email.evergreen.action') }}" method="post" id="evergreen_retainer" style="display: none;">
+            @csrf
+
             <div class="row m-2" >
                 <div class="col-md-12 m-2">
-                      <label for="">Email Subject</label>
-                      <input type="text" name="email_subject" id="email_subject" class="form-control" placeholder="Email Subject">
+                      <label for="">Email Subject ( Trust deposit request for )</label>
+                      @if($all_datas['retainers'] == null)
+                      <input type="text" name="email_subject" id="evergreen_email_subject" class="form-control" placeholder="Email Subject">
+                      @else
+                      <input type="text" name="email_subject" id="evergreen_email_subject" class="form-control" value="{{ $all_datas['retainers']->email_subject }}">
+                      @endif
                 </div>
 
                 <div class="col-md-8 m-2">
                     <label for="">Placeholder</label>
-                    <select name="subject_placeholder" id="subject_placeholder" class="form-control">
+                    <select name="subject_placeholder" id="evergreen_subject_placeholder" class="form-control">
                             <option value="debator_name">Debator Name</option>
                             <option value="debator_amount_due">Amount Due( Debator )</option>
                             <option value="invoice_amount_due">Amount Due( Invoice )</option>
@@ -225,18 +288,22 @@
                 </div>
 
                 <div class="col-md-3 mt-4 p-3">
-                    <a href="#" class="btn btn-primary">Insert</a>
+                    <a href="#" class="btn btn-primary" onclick="addEvergreenRetainers();">Insert</a>
                 </div>
 
                 <div class="col-md-12 m-2">
                       <label for="">Email Body</label>
+                      @if($all_datas['retainers'] == null)
                       <textarea name="ever_green_email_body" id="ever_green_email_body" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                      @else
+                      <textarea name="ever_green_email_body" id="ever_green_email_body" cols="30" rows="10" class="form-control ck_editor_txt">{!! $all_datas['retainers']->ever_green_email_body !!}</textarea>
+                      @endif
                 </div>
 
 
                 <div class="col-md-8 m-2">
                     <label for="">Placeholder</label>
-                    <select name="email_body_placeholder" id="email_body_placeholder" class="form-control">
+                    <select name="email_body_placeholder" id="evergreen_email_body_placeholder" class="form-control">
                             <option value="debator_name">Debator Name</option>
                             <option value="debator_amount_due">Amount Due( Debator )</option>
                             <option value="invoice_amount_due">Amount Due( Invoice )</option>
@@ -256,7 +323,15 @@
                 <div class="col-md-12 mt-2 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if($all_datas['retainers'] == null)
                             <input type="checkbox" name="send_copy_of_email_to_user">
+                            @else
+                             @if ($all_datas['retainers']->send_copy_of_email_to_user == "yes")
+                             <input type="checkbox" name="send_copy_of_email_to_user" checked>
+                             @else
+                             <input type="checkbox" name="send_copy_of_email_to_user">
+                             @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -273,17 +348,23 @@
            </form>
 
 
-           <!-- evergreen retainers -->
-           <form action="#" id="deposit_request" style="display: none;">
+           <!-- Deposit Request -->
+           <form action="{{ route('client.firm.email.deposit.action') }}" method="post" id="deposit_request" style="display: none;">
+            @csrf
+
             <div class="row m-2" >
                 <div class="col-md-12 m-2">
-                      <label for="">Email Subject</label>
-                      <input type="text" name="email_subject" id="email_subject" class="form-control" placeholder="Email Subject">
+                      <label for="">Email Subject ( Deposit for )</label>
+                      @if($all_datas['deposits'] == null)
+                      <input type="text" name="email_subject" id="deposit_email_subject" class="form-control" placeholder="Email Subject">
+                      @else
+                      <input type="text" name="email_subject" id="deposit_email_subject" class="form-control" value="{{ $all_datas['deposits']->email_subject }}">
+                      @endif
                 </div>
 
                 <div class="col-md-8 m-2">
                     <label for="">Placeholder</label>
-                    <select name="subject_placeholder" id="subject_placeholder" class="form-control">
+                    <select name="subject_placeholder" id="deposit_subject_placeholder" class="form-control">
                             <option value="debator_name">Debator Name</option>
                             <option value="debator_amount_due">Amount Due( Debator )</option>
                             <option value="invoice_amount_due">Amount Due( Invoice )</option>
@@ -295,12 +376,16 @@
                 </div>
 
                 <div class="col-md-3 mt-4 p-3">
-                    <a href="#" class="btn btn-primary">Insert</a>
+                    <a href="#" class="btn btn-primary" onclick="addDepositRequest();">Insert</a>
                 </div>
 
                 <div class="col-md-12 m-2">
                       <label for="">Email Body</label>
+                      @if($all_datas['deposits'] == null)
                       <textarea name="deposit_email_body" id="deposit_email_body" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                      @else
+                      <textarea name="deposit_email_body" id="deposit_email_body" cols="30" rows="10" class="form-control ck_editor_txt">{!! $all_datas['deposits']->deposit_email_body !!}</textarea>
+                      @endif
                 </div>
 
 
@@ -326,7 +411,15 @@
                 <div class="col-md-12 mt-2 d-flex">
                     <div class="col-md-1">
                         <label class="switch">
+                            @if($all_datas['deposits'] == null)
                             <input type="checkbox" name="send_copy_of_email_to_user">
+                            @else
+                            @if($all_datas['deposits']->send_copy_of_email_to_user == "yes")
+                            <input type="checkbox" name="send_copy_of_email_to_user" checked>
+                            @else 
+                            <input type="checkbox" name="send_copy_of_email_to_user">
+                            @endif
+                            @endif
                             <span class="slider round"></span>
                         </label>
                     </div>

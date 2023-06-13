@@ -59,15 +59,7 @@
                         class="btn btn-primary">Back</button>
                 </a>
             </div>
-
-            {{-- <div class="d-flex bg-white">
-                <a href="{{ route('client.dashboard') }}">
-                    <button type="button"
-                        class="btn btn-primary">Back</button>
-                </a>
-            </div> --}}
         </nav>
-
 
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
@@ -285,7 +277,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="{{ route('client.firm.invoice.setting.page') }}">
                             <span class="menu-title">Invoice Settings</span>
                         </a>
                     </li>

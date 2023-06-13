@@ -34,3 +34,67 @@ function showDepositRequest(){
     dep_req.style.display = 'block';
     CKEDITOR.replace('deposit_email_body');
 }
+
+/**
+ * Add Invoices
+*/
+
+function addInvoices(){
+    let email_subject = document.getElementById('email_subject').value;
+    let subject_placeholder = document.getElementById('subject_placeholder').value;
+
+    if(email_subject == ""){
+        document.getElementById('email_subject').value = ''.concat(subject_placeholder).toUpperCase();
+    }
+    else{
+        document.getElementById('email_subject').value = email_subject.concat(', ', subject_placeholder).toUpperCase();
+    }
+}
+
+/**
+ * Add Invoices Remainders
+*/
+
+function addInvoicesRemainders(){
+    let email_subject = document.getElementById('inv_rem_email_subject').value;
+    let subject_placeholder = document.getElementById('inv_rem_email_subject_placeholder').value;
+
+    if(email_subject == ""){
+        document.getElementById('inv_rem_email_subject').value = ''.concat(subject_placeholder).toUpperCase();
+    }
+    else{
+        document.getElementById('inv_rem_email_subject').value = email_subject.concat(', ', subject_placeholder).toUpperCase();
+    }
+}
+
+/**
+ * Add Evergreen Retainers
+*/
+
+function addEvergreenRetainers(){
+    let email_subject = document.getElementById('evergreen_email_subject').value;
+    let subject_placeholder = document.getElementById('evergreen_subject_placeholder').value;
+
+    if(email_subject == ""){
+        document.getElementById('evergreen_email_subject').value = ''.concat(subject_placeholder).toUpperCase();
+    }
+    else{
+        document.getElementById('evergreen_email_subject').value = email_subject.concat(', ', subject_placeholder).toUpperCase();
+    }
+}
+
+/**
+ * Add Deposit Request
+*/
+
+function addDepositRequest(){
+    let email_subject = document.getElementById('deposit_email_subject').value;
+    let subject_placeholder = document.getElementById('deposit_subject_placeholder').value;
+
+    if(email_subject == ""){
+        document.getElementById('deposit_email_subject').value = ''.concat(subject_placeholder).toUpperCase();
+    }
+    else{
+        document.getElementById('deposit_email_subject').value = email_subject.concat(', ', subject_placeholder).toUpperCase();
+    }
+}
