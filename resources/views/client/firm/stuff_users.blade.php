@@ -10,7 +10,7 @@
 
              <div class="col-md-12 m-1">
                 <p>Staff can be added to ApMaas to track work against them without requiring a license. 
-                If a staff member needs to login to ApMaas, then they will require a user license.</p>
+                If a staff member needs to login to ApMaas, <br> then they will require a user license.</p>
              </div>
 
         </div>

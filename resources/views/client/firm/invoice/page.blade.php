@@ -1,6 +1,6 @@
 <x-firmHeader />
 <style>
-   #latter_head{
+   .latter_head{
     height: 150px; 
     width: 125px;
    }
@@ -8,9 +8,13 @@
 
 <div class="main-panel matterinside">
     <div class="content-wrapper">
+
+        @extends('commons.session-toaster-msg')
           
         <!-- einvoice settings -->
-        <form action="#">
+        <form action="{{ route('client.firm.invoice.setting') }}" method="post">
+            @csrf
+
           <div class="row mt-3 ml-2">
                <div class="col-md-12">
                      <h3><b> eInvoice Settings </b></h3>
@@ -18,7 +22,15 @@
                <div class="col-md-12 mt-2 d-flex">
                 <div class="col-md-1">
                     <label class="switch">
-                        <input type="checkbox" name="attach_invoice_to_email" checked>
+                        @if($invoice == null)
+                          <input type="checkbox" name="enable_invoice" checked>
+                        @else
+                        @if($invoice->einvoice_settings == "activate")
+                          <input type="checkbox" name="enable_invoice" checked>
+                        @else
+                          <input type="checkbox" name="enable_invoice">
+                        @endif
+                        @endif
                         <span class="slider round"></span>
                     </label>
                 </div>
@@ -31,7 +43,7 @@
                     <h4>eInvoice Line Items</h4>
                </div>
                <div class="col-md-12 mt-2 d-flex p-2 ml-3">
-                    <input type="radio" name="einvoice_items" id="" class="form-selector" value="Group by Staff"> &nbsp; Group by Staff &nbsp;
+                    <input type="radio" name="einvoice_items" id="" class="form-selector" value="Group by Staff" checked> &nbsp; Group by Staff &nbsp;
                     <input type="radio" name="einvoice_items" id="" class="form-selector" value="Display as List"> &nbsp; Display as List
                </div>
 
@@ -47,7 +59,9 @@
         <div style="margin-top: 35px;">
               <div class="row m-2">
                 <div class="col-md-6">
-                <form action="#">
+                <form action="{{ route('client.firm.invoice.template.setting') }}" method="post">
+                    @csrf
+
                          <div class="col-md-12">
                               <h4>Template Settings</h4>
                          </div>
@@ -66,6 +80,11 @@
                             <div class="col-md-12 mt-2">
                                 <input type="text" name="add_template_name" id="add_template_name" class="form-control">
                             </div>
+
+                            @if ($errors->has('add_template_name'))
+                                <span
+                                    class="text-danger">{{ $errors->first('add_template_name') }}</span>
+                            @endif
                         </div>
 
                         <div class="col-md-12 m-2">
@@ -80,7 +99,7 @@
                     <div class="col-md-12 m-2">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item buttonCS" role="presentation">
-                                <button class="nav-link mr-1" id="home-tab" onclick="showForms('basic')" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Basic &nbsp; &nbsp;</button>
+                                <button class="nav-link mr-1" id="home-tab" active onclick="showForms('basic')" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Basic &nbsp; &nbsp;</button>
                             </li>
                             <li class="nav-item buttonCS" role="presentation">
                                 <button class="nav-link mr-1" id="home-tab" onclick="showForms('pdf-invoices')" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">PDF Invoices &nbsp; &nbsp;
@@ -93,10 +112,17 @@
 
                    <!-- basic tabs --->
                    <div class="row mr-3" id="basic" style="display: block;">
-                    <form action="#">
+                    <form action="{{ route('client.firm.invoice.basic.pdf.settings') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+
                         <div class="col-md-12 m-1">
                             <label for="">Your Logo</label>
                             <input type="file" name="logo" id="logo" class="form-control">
+
+                            @if ($errors->has('logo'))
+                                <span
+                                    class="text-danger">{{ $errors->first('logo') }}</span>
+                            @endif
                         </div>
 
                         <div class="col-md-12 m-1">
@@ -155,7 +181,11 @@
 
                         <div class="col-md-12 ml-1 mt-2">
                             <label for="">Firm Details</label>
+                            @if($invoice == null)
                             <textarea name="firm_details" id="firm_details" cols="30" rows="10" class="form-control ck_editor_txt"></textarea>
+                            @else
+                            <textarea name="firm_details" id="firm_details" cols="30" rows="10" class="form-control ck_editor_txt">{!! $invoice->firm_details !!}</textarea>
+                            @endif
                         </div>
 
                         <div class="col-md-12 ml-1 mt-2">
@@ -163,20 +193,73 @@
                         </div>
 
                         <div class="col-md-3 mt-1 ml-1 d-flex">
-                            <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" id="latter_head"></a>
-                            <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" id="latter_head"></a>
-                            <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" id="latter_head"></a>
-                            <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" id="latter_head"></a>
+                            @if($invoice == null)
+                            <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1"></a>
+                            <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2"></a>
+                            <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3"></a>
+                            <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4"></a>
+                            @else
+                              @if($invoice->letterhead_layout == "latter-head-1")
+                              <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1" style="border: 2px solid blue;"></a>
+                              <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2"></a>
+                              <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3"></a>
+                              <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4"></a>
+                              @elseif($invoice->letterhead_layout == "latter-head-2")
+                              <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1"></a>
+                              <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2" style="border: 2px solid blue;"></a>
+                              <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3"></a>
+                              <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4"></a>
+                              @elseif($invoice->letterhead_layout == "latter-head-3")
+                              <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1"></a>
+                              <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2"></a>
+                              <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3" style="border: 2px solid blue;"></a>
+                              <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4"></a>
+                              @elseif($invoice->letterhead_layout == "latter-head-4")
+                              <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1"></a>
+                              <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2"></a>
+                              <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3"></a>
+                              <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4" style="border: 2px solid blue;"></a>
+                              @else
+                                <a onclick="showLetterHead('latter-head-1')"><img src="{{ asset('documents/layout-1.svg') }}" class="latter_head" id="latter_head_1"></a>
+                                <a onclick="showLetterHead('latter-head-2')"><img src="{{ asset('documents/layout-2.svg') }}" class="latter_head" id="latter_head_2"></a>
+                                <a onclick="showLetterHead('latter-head-3')"><img src="{{ asset('documents/layout-3.svg') }}" class="latter_head" id="latter_head_3"></a>
+                                <a onclick="showLetterHead('latter-head-4')"><img src="{{ asset('documents/layout-4.svg') }}" class="latter_head" id="latter_head_4"></a>
+                            @endif
+                            @endif
                         </div>
 
                         <div class="col-md-3 mt-1 ml-1 d-flex">
-                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" id="latter_head"></a>
-                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" id="latter_head"></a>
-                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" id="latter_head"></a>
+                            @if($invoice == null)
+                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" class="latter_head" id="latter_head_5"></a>
+                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" class="latter_head" id="latter_head_6"></a>
+                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" class="latter_head" id="latter_head_7"></a>
+                            @else
+                            @if($invoice->letterhead_layout == "latter-head-5")
+                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" class="latter_head" id="latter_head_5" style="border: 2px solid blue;"></a>
+                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" class="latter_head" id="latter_head_6"></a>
+                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" class="latter_head" id="latter_head_7"></a>
+                            @elseif($invoice->letterhead_layout == "latter-head-6")
+                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" class="latter_head" id="latter_head_5"></a>
+                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" class="latter_head" id="latter_head_6" style="border: 2px solid blue;"></a>
+                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" class="latter_head" id="latter_head_7"></a>
+                            @elseif($invoice->letterhead_layout == "latter-head-7")
+                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" class="latter_head" id="latter_head_5"></a>
+                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" class="latter_head" id="latter_head_6"></a>
+                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" class="latter_head" id="latter_head_7" style="border: 2px solid blue;"></a>
+                            @else
+                            <a onclick="showLetterHead('latter-head-5')"><img src="{{ asset('documents/layout-5.svg') }}" class="latter_head" id="latter_head_5"></a>
+                            <a onclick="showLetterHead('latter-head-6')"><img src="{{ asset('documents/layout-6.svg') }}" class="latter_head" id="latter_head_6"></a>
+                            <a onclick="showLetterHead('latter-head-7')"><img src="{{ asset('documents/layout-7.svg') }}" class="latter_head" id="latter_head_7"></a>
+                            @endif
+                            @endif
                         </div>
 
                         <div class="col-md-12 mt-2 ml-1 d-flex">
+                            @if($invoice == null)
                             <input type="text" name="letter_head_selected" id="letter_head_selected" style="display: none;" class="form-control">
+                            @else
+                            <input type="text" name="letter_head_selected" id="letter_head_selected" value="{{ $invoice->letterhead_layout }}" style="display: none;" class="form-control">
+                            @endif
                         </div>
 
                         <div class="col-md-12 ml-1 mt-2">
@@ -185,31 +268,63 @@
 
                         <div class="col-md-12 ml-1 mt-2">
                               <label for="">Top (in inch)</label>
+                              @if($invoice == null)
                               <input type="number" name="top_margin" id="top_margin" value="1" class="form-control">
+                              @else
+                              <input type="number" name="top_margin" id="top_margin" value="{{ $invoice->page_top_margin }}" class="form-control">
+                              @endif
                         </div>
 
                         <div class="col-md-12 ml-1 mt-2">
                             <label for="">Bottom (in inch)</label>
+                            @if($invoice == null)
                             <input type="number" name="bottom_margin" id="bottom_margin" value="1" class="form-control">
+                            @else
+                            <input type="number" name="bottom_margin" id="bottom_margin" value="{{ $invoice->page_bottom_margin }}" class="form-control">
+                            @endif
                         </div>
 
                         <div class="col-md-12 ml-1 mt-2">
                             <label for="">Left (in inch)</label>
+                            @if($invoice == null)
                             <input type="number" name="left_margin" id="left_margin" value="1" class="form-control">
+                            @else
+                            <input type="number" name="left_margin" id="left_margin" value="{{ $invoice->page_left_margin }}" class="form-control">
+                            @endif
                         </div>
 
                         <div class="col-md-12 ml-1 mt-2">
                             <label for="">Right (in inch)</label>
+                            @if($invoice == null)
                             <input type="number" name="right_margin" id="right_margin" value="1" class="form-control">
+                            @else
+                            <input type="number" name="right_margin" id="right_margin" value="{{ $invoice->page_right_margin }}" class="form-control">
+                            @endif
                         </div>
 
                         <div class="col-md-12 mt-2 d-flex">
                             <h4>Grid styles</h4>
                        </div>
                        <div class="col-md-12 mt-2 d-flex p-2 ml-3">
+                        @if($invoice == null)
                             <input type="radio" name="grid_style" id="" class="form-selector" value="Modern"> &nbsp; Modern &nbsp;
                             <input type="radio" name="grid_style" id="" class="form-selector" value="Classic"> &nbsp; Classic &nbsp;
                             <input type="radio" name="grid_style" id="" class="form-selector" value="Stripes"> &nbsp; Stripes
+                        @else
+                          @if($invoice->grid_style == "Modern")
+                            <input type="radio" name="grid_style" id="" class="form-selector" value="Modern" checked> &nbsp; Modern &nbsp;
+                            <input type="radio" name="grid_style" id="" class="form-selector" value="Classic"> &nbsp; Classic &nbsp;
+                            <input type="radio" name="grid_style" id="" class="form-selector" value="Stripes"> &nbsp; Stripes
+                          @elseif($invoice->grid_style == "Classic")
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Modern"> &nbsp; Modern &nbsp;
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Classic" checked> &nbsp; Classic &nbsp;
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Stripes"> &nbsp; Stripes
+                          @else
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Modern"> &nbsp; Modern &nbsp;
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Classic"> &nbsp; Classic &nbsp;
+                          <input type="radio" name="grid_style" id="" class="form-selector" value="Stripes" checked> &nbsp; Stripes
+                          @endif
+                        @endif
                        </div>
         
                        <div class="col-md-12 mt-3 ml-2">
@@ -221,14 +336,20 @@
 
                    <!-- pdf invoice div -->
                    <div class="row mr-3" id="pdf-invoice" style="display: none;">
-                        <form action="#">
+                        <form action="{{ route('client.firm.pdf.invoice') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+
                             <div class="col-md-12 m-2">
                                 <label for="">Payments</label>
                             </div>
 
                             <div class="col-md-12 m-2">
                                 <label>Payments due</label>
+                                @if($invoice == null)
                                 <input type="number" name="payment_due" id="payment_due" value="1" class="form-control"> 
+                                @else
+                                <input type="number" name="payment_due" id="payment_due" value="{{ $invoice->payment_due }}" class="form-control">     
+                                @endif
                                 <label>days after invoice date</label>
                             </div>
 
@@ -236,10 +357,34 @@
                                 <h4>Invoice Title</h4>
                            </div>
                            <div class="col-md-12 mt-2 d-flex p-2 ml-3">
-                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                            @if($invoice == null)
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None" checked> &nbsp; None &nbsp;
                                 <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
                                 <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
                                 <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('custom')" id="custom_invoice_title" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                            @else
+                            @if($invoice->invoice_title == "None")
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None" checked> &nbsp; None &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('custom')" id="custom_invoice_title" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                            @elseif($invoice->invoice_title == "Matter Title")
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Title" checked> &nbsp; Matter Title &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('custom')" id="custom_invoice_title" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                            @elseif($invoice->invoice_title == "Matter Description")
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Description" checked> &nbsp; Matter Description &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('custom')" id="custom_invoice_title" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                            @elseif($invoice->invoice_title == "Custom")
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                <input type="radio" name="invoice_title" onclick="customInvoiceTitleShow('custom')" id="custom_invoice_title" class="form-selector" value="Custom" checked> &nbsp; Custom &nbsp;
+                            @endif
+                            @endif
                            </div>
 
                            <!-- custom title -->
@@ -251,10 +396,34 @@
                             <h4>Invoice Sub Title</h4>
                             </div>
                             <div class="col-md-12 mt-2 d-flex p-2 ml-3">
-                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                @if($invoice == null)
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None" checked> &nbsp; None &nbsp;
                                     <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
                                     <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
                                     <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('custom')" id="" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                                @else
+                                @if($invoice->invoice_sub_title == "None")
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None" checked> &nbsp; None &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('custom')" id="" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                                @elseif($invoice->invoice_sub_title == "Matter Title")
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Title" checked> &nbsp; Matter Title &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('custom')" id="" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                                @elseif($invoice->invoice_sub_title == "Matter Description")
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Description" checked> &nbsp; Matter Description &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('custom')" id="" class="form-selector" value="Custom"> &nbsp; Custom &nbsp;
+                                @elseif($invoice->invoice_sub_title == "Custom")
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Title"> &nbsp; Matter Title &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('none')" id="" class="form-selector" value="Matter Description"> &nbsp; Matter Description &nbsp;
+                                    <input type="radio" name="invoice_sub_title" onclick="customInvoiceSubTitleShow('custom')" id="" class="form-selector" value="Custom" checked> &nbsp; Custom &nbsp;
+                                @endif
+                                @endif
                             </div>
 
                             <!-- custom sub title -->

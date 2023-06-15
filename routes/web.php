@@ -22,6 +22,7 @@ use App\Http\Controllers\client\firm\StaffManageController;
 use App\Http\Controllers\client\firm\TimeAndActivitiesController;
 use App\Http\Controllers\client\firm\AccountManageController;
 use App\Http\Controllers\client\firm\EmailTemplateManageController;
+use App\Http\Controllers\client\firm\InvoiceManageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -259,6 +260,18 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
              Route::post('firm/email/invoice/remainder/action', 'invoice_remainder_action')->name('firm.email.invoice.remainder.action');
              Route::post('firm/email/evergreen/action', 'evergreen_action')->name('firm.email.evergreen.action');
              Route::post('firm/email/deposit/action', 'deposit_action')->name('firm.email.deposit.action');
+        });
+
+        /**
+         * Invoice Settings
+        */
+
+        Route::controller(InvoiceManageController::class)
+        ->group(function(){
+            Route::post('firm/invoice/setting', 'einvoice_setting')->name('firm.invoice.setting');
+            Route::post('firm/invoice/template/setting', 'template_setting')->name('firm.invoice.template.setting');
+            Route::post('firm/invoice/basic/pdf/settings', 'basic_pdf_settings')->name('firm.invoice.basic.pdf.settings');
+            Route::post('firm/pdf/invoice', 'pdf_invoice')->name('firm.pdf.invoice');
         });
 
     });

@@ -113,5 +113,75 @@ function showSurcharge(){
 */
 
 function showLetterHead(type){
+    if(type == "latter-head-1"){
+        document.getElementById('latter_head_1').style.border  = "2px solid blue";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-2"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "2px solid blue";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-3"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "2px solid blue";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-4"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "2px solid blue";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-5"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "2px solid blue";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-6"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "2px solid blue";
+        document.getElementById('latter_head_7').style.border  = "";
+    }
+
+    if(type == "latter-head-7"){
+        document.getElementById('latter_head_1').style.border  = "";
+        document.getElementById('latter_head_2').style.border  = "";
+        document.getElementById('latter_head_3').style.border  = "";
+        document.getElementById('latter_head_4').style.border  = "";
+        document.getElementById('latter_head_5').style.border  = "";
+        document.getElementById('latter_head_6').style.border  = "";
+        document.getElementById('latter_head_7').style.border  = "2px solid blue";
+    }
+
     document.getElementById('letter_head_selected').value = type;
 }

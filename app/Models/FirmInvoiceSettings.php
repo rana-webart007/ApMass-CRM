@@ -62,4 +62,9 @@ class FirmInvoiceSettings extends Model
         'show_account_summary',
         'show_description_entries'
     ];
+
+    public static function invoiceDetails($client_id){
+            $detail = FirmInvoiceSettings::where('client_id', $client_id)->first();
+            return $detail;
+    }
 }

@@ -18,7 +18,8 @@ use App\Models\{
        FirmEmailInvoices,
        FirmEmailInvoiceRemainders,
        FirmEmailEvergreenRetainers,
-       FirmEmailDepositRequest
+       FirmEmailDepositRequest,
+       FirmInvoiceSettings
 };
 
 use Illuminate\Support\Facades\DB;
@@ -101,6 +102,7 @@ class FirmManageController extends Controller
     */
 
     public function invoice_setting_page(){
-         return view('client.firm.invoice.page');
+         $invoice = FirmInvoiceSettings::invoiceDetails(Auth::guard('client')->user()->id);
+         return view('client.firm.invoice.page', compact('invoice'));
     }
 }

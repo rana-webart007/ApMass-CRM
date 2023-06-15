@@ -1,8 +1,8 @@
 <style>
   #session-msges{
     position: absolute; 
-    bottom: 79%; 
-    left: 80%;
+    bottom: 75%; 
+    left: 77%;
   }
 </style>
 
@@ -20,4 +20,8 @@
 
 @if(Session::has('info'))
 <p class="alert {{ Session::get('alert-class', 'alert-info') }}" id="session-msges">{{ Session::get('info') }}</p>
+@endif
+
+@if(Session::has('errors'))
+<p class="alert {{ Session::get('alert-class', 'alert-danger') }}" id="session-msges">Something went Wrong</p>
 @endif
