@@ -57,6 +57,7 @@ return new class extends Migration
             $table->text('surcharge_percent_amount')->nullable();
             $table->text('surcharge_apply_to')->nullable();
             $table->text('surcharge_label_on_invoice')->nullable();
+            $table->text('status')->default('pending');
             $table->timestamps();
             $table->softDeletes();
         });

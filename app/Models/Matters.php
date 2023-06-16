@@ -54,23 +54,65 @@ class Matters extends Model
         'surcharge_percent_amount',
         'surcharge_apply_to',
         'surcharge_label_on_invoice',
+        'status'
     ];
 
     public static function getAllMAtters()
     {
-           $matters = Matters::where('added_by', Auth::guard('client')->user()->id)->paginate(15);
+           $matters = Matters::where('added_by', Auth::guard('client')->user()->id)->withTrashed()->paginate(15);
            return $matters;
     }
 
     public static function countAllMatters($client_id)
     {
-           $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->get());
+           $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->withTrashed()->get());
            return $total;
     }
 
     public static function countDeletedMatters($client_id)
     {
-        $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->withTrashed()->get());
+        $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->onlyTrashed()->get());
+        return $total;
+    }
+
+    /**
+     * change status
+    */
+
+    public static function changeMatterStatus($matter_id, $status){
+        Matters::where('added_by', Auth::guard('client')->user()->id)
+        ->whereId($matter_id)->update([
+              'status' => $status,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * count matters
+    */
+
+    public static function countMattersByStatus($status){
+            $total = count(Matters::where('added_by', Auth::guard('client')->user()->id)->where('status', $status)->get());
+            return $total;
+    }
+
+    /**
+     * specific matters
+    */
+
+    public static function specificMatter($status){
+        $total = Matters::where('added_by', Auth::guard('client')->user()->id)->where('status', $status)->paginate(15);
+        return $total;
+    }
+
+    /**
+     * deleted matters
+    */
+
+    public static function deletedMatters()
+    {
+        $total = Matters::where('added_by', Auth::guard('client')->user()->id)->onlyTrashed()->paginate(15);
         return $total;
     }
 }

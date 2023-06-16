@@ -86,6 +86,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.'], function() {
             Route::post('matter/add-action', 'add_action')->name('matter.add.action');
             Route::get('matter/delete/{id}', 'matter_delete')->name('matter.delete');
             Route::get('matter/edit/page/{id}', 'matter_edit_page')->name('matter.edit.page');
+            Route::get('matter/close/{id}', 'matter_close')->name('matter.close');
+            Route::get('matter/reopen/{id}', 'matter_reopen')->name('matter.reopen');
             
             
             /**

@@ -185,3 +185,19 @@ function showLetterHead(type){
 
     document.getElementById('letter_head_selected').value = type;
 }
+
+/**
+ * trying to add logo in pdf
+*/
+
+function addLogoInPdf(){
+    let slected_files = document.getElementById('logo');
+    let files = slected_files.files[0];
+
+    if(files){
+        console.log(files);
+    }
+    else{
+        custom_warning("Plese Select A Logo First");
+    }
+}

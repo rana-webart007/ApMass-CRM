@@ -17,7 +17,10 @@ class MatterManageController extends Controller
         $matters = Matters::getAllMAtters();
         $total_matters = Matters::countAllMatters(Auth::guard('client')->user()->id);
         $total_deleted_matters = Matters::countDeletedMatters(Auth::guard('client')->user()->id);
-        return view('client.matter.index', compact('matters', 'total_matters', 'total_deleted_matters'));
+        $closed_matters = Matters::countMattersByStatus('close');
+        $pending_matters = Matters::countMattersByStatus('pending');
+
+        return view('client.matter.index', compact('matters', 'total_matters', 'total_deleted_matters', 'closed_matters', 'pending_matters'));
     }
 
     public function matter_add()
@@ -122,10 +125,46 @@ class MatterManageController extends Controller
         if($type == "recently-view"){
            $matters = Matters::getAllMAtters();
         }
+        if($type == "all-matters"){
+            $matters = Matters::getAllMAtters();
+        }
+        if($type == "open-matters"){
+            $matters = Matters::specificMatter('pending');
+        }
+        if($type == "pending-matters"){
+            $matters = Matters::specificMatter('pending');
+        }
+        if($type == "close-matters"){
+            $matters = Matters::specificMatter('close');
+        }
+        if($type == "delete-matters"){
+            $matters = Matters::deletedMatters();
+        }
 
         $total_matters = Matters::countAllMatters(Auth::guard('client')->user()->id);
         $total_deleted_matters = Matters::countDeletedMatters(Auth::guard('client')->user()->id);
 
-        return view('client.matter.filter_matters', compact('matters', 'total_matters', 'total_deleted_matters'));
+        $closed_matters = Matters::countMattersByStatus('close');
+        $pending_matters = Matters::countMattersByStatus('pending');
+
+        return view('client.matter.filter_matters', compact('matters', 'total_matters', 'total_deleted_matters', 'closed_matters', 'pending_matters'));
+    }
+
+    /**
+     * close matter
+    */
+
+    public function matter_close($id){
+           $change = Matters::changeMatterStatus($id, 'close');
+           return redirect()->back()->with('success', 'Matter Closed');
+    }
+
+    /**
+     * Reopen Matter
+    */
+
+    public function matter_reopen($id){
+           $change = Matters::changeMatterStatus($id, 'pending');
+           return redirect()->back()->with('success', 'Matter Re-opened');
     }
 }

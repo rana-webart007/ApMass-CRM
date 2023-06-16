@@ -74,7 +74,7 @@
                                                       <div class="my-2">
                                                          <a href="#" class="numbtn mr-1">{{ ( $total_matters + $total_deleted_matters) }}</a>
                                                          <label class="switch">
-                                                         <input type="checkbox">
+                                                         <input type="checkbox" onclick="matter_filter('all-matters')">
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>
@@ -88,9 +88,9 @@
                                                    </li>
                                                    <li>
                                                       <div class="my-2">
-                                                         <a href="#" class="numbtn mr-1"> {{ $total_matters }} </a>
+                                                         <a href="#" class="numbtn mr-1"> {{ $pending_matters }} </a>
                                                          <label class="switch">
-                                                         <input type="checkbox">
+                                                         <input type="checkbox" onclick="matter_filter('open-matters')">
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>
@@ -104,9 +104,9 @@
                                                    </li>
                                                    <li>
                                                       <div class="my-2">
-                                                         <a href="#" class="numbtn mr-1">0</a>
+                                                         <a href="#" class="numbtn mr-1">{{ $pending_matters }}</a>
                                                          <label class="switch">
-                                                         <input type="checkbox">
+                                                         <input type="checkbox" onclick="matter_filter('pending-matters')">
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>
@@ -120,9 +120,9 @@
                                                    </li>
                                                    <li>
                                                       <div class="my-2">
-                                                         <a href="#" class="numbtn mr-1">0</a>
+                                                         <a href="#" class="numbtn mr-1">{{ $closed_matters }}</a>
                                                          <label class="switch">
-                                                         <input type="checkbox">
+                                                         <input type="checkbox" onclick="matter_filter('close-matters')">
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>
@@ -138,7 +138,7 @@
                                                       <div class="my-2">
                                                          <a href="#" class="numbtn mr-1">{{ $total_deleted_matters }}</a>
                                                          <label class="switch">
-                                                         <input type="checkbox">
+                                                         <input type="checkbox" onclick="matter_filter('delete-matters')">
                                                          <span class="slider round"></span>
                                                          </label>
                                                       </div>
@@ -209,6 +209,7 @@
                                                 <th>Attorney</th>
                                                 <th>Unbilled</th>
                                                 <th>Due</th>
+                                                <th>Status</th>
                                                 <th>Actions</th>
                                              </tr>
                                           </thead>
@@ -232,13 +233,34 @@
                                                 <td> - </td>
                                                 <td> - </td>
                                                 <td>
+                                                   <a href="#">
+                                                      <button type="button"
+                                                         class="btn btn-dark btn-sm">{{ ucfirst($matter->status) }}</button>
+                                                   </a>
+                                                </td>
+                                                <td>
+                                                   @if($matter->status != "close")
                                                     <a href="#">
                                                         <button type="button"
                                                             class="btn btn-primary btn-sm">Edit</button>
                                                     </a>
 
+                                                    <a href="{{ route('client.matter.close', $matter->id) }}">
+                                                      <button type="button"
+                                                          class="btn btn-dark btn-sm">Close</button>
+                                                    </a>
+
                                                     <button type="button" onclick="sw_alert1(<?php echo $matter->id ?>, 'client-matter');"
                                                         class="btn btn-danger btn-sm">Delete</button>
+                                                    @else 
+                                                         <a href="{{ route('client.matter.reopen', $matter->id) }}">
+                                                            <button type="button"
+                                                               class="btn btn-primary btn-sm">Reopen</button>
+                                                         </a>
+
+                                                         <button type="button" onclick="sw_alert1(<?php echo $matter->id ?>, 'client-matter');"
+                                                            class="btn btn-danger btn-sm">Delete</button>
+                                                    @endif
                                                 </td>
                                              </tr>
                                              @endif

@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="col-md-12 m-1">
-                            <a href="#" class="btn btn-primary btn-sm mt-1">Replace</a>
+                            <a onclick="addLogoInPdf()" class="btn btn-primary btn-sm mt-1">Replace</a>
                             <a href="#" class="btn btn-dark btn-sm mt-1">Delete</a>
                             <label for="">PNG, JPEG and GIF format(s) supported, up to 3MB and dimensions over 300 * 300.</label>
                         </div>
@@ -436,14 +436,31 @@
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                                <input type="radio" name="time_and_fees" onclick="displayTimeSingleLineSummary('null');" id="" class="form-selector" value="List all entries on invoice" checked> &nbsp; List all entries on invoice &nbsp;
+                            @else
+                             @if($invoice->time_and_fees == "List all entries on invoice")
+                               <input type="radio" name="time_and_fees" onclick="displayTimeSingleLineSummary('null');" id="" class="form-selector" value="List all entries on invoice" checked> &nbsp; List all entries on invoice &nbsp;
+                             @else
+                               <input type="radio" name="time_and_fees" onclick="displayTimeSingleLineSummary('null');" id="" class="form-selector" value="List all entries on invoice"> &nbsp; List all entries on invoice &nbsp;
+                             @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="radio" name="time_and_fees" id="" onclick="displayTimeSingleLineSummary('summary');" class="form-selector" value="Use a single line summary" > &nbsp; Use a single line summary &nbsp;
+                            @else
+                              @if($invoice->time_and_fees == "Use a single line summary")
+                                <input type="radio" name="time_and_fees" id="" onclick="displayTimeSingleLineSummary('summary');" class="form-selector" value="Use a single line summary" checked> &nbsp; Use a single line summary &nbsp;
+                              @else
+                                <input type="radio" name="time_and_fees" id="" onclick="displayTimeSingleLineSummary('summary');" class="form-selector" value="Use a single line summary" > &nbsp; Use a single line summary &nbsp;
+                              @endif
+                            @endif
                            </div>
 
                            <!-- single line summary -->
+                           @if($invoice == null)
                            <div id="time_single_line_summary_div" style="display: none;">
                            <div class="col-md-12 m-2" >
                                     <label for="">Description for the summary line</label>
@@ -453,39 +470,126 @@
                                     <input type="checkbox" name="time_append_list_of_time" id="time_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
                            </div>
                            </div>
+                           @else
+                           @if($invoice->time_and_fees == "Use a single line summary")
+                           <div id="time_single_line_summary_div">
+                            <div class="col-md-12 m-2" >
+                                     <label for="">Description for the summary line</label>
+                                     <textarea name="time_single_line_description" id="time_single_line_description" class="form-control" cols="30" rows="10">{!! $invoice->time_single_line_description !!}</textarea>
+                            </div>
+                            <div class="col-md-12 m-2">
+                                     <input type="checkbox" name="time_append_list_of_time" id="time_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
+                            </div>
+                            </div>
+                            @else
+                            <div id="time_single_line_summary_div" style="display: none;">
+                                <div class="col-md-12 m-2" >
+                                         <label for="">Description for the summary line</label>
+                                         <textarea name="time_single_line_description" id="time_single_line_description" class="form-control" cols="30" rows="10"></textarea>
+                                </div>
+                                <div class="col-md-12 m-2">
+                                         <input type="checkbox" name="time_append_list_of_time" id="time_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
+                                </div>
+                            </div>
+                           @endif
+                           @endif
                            <hr>
                            <!-- -->
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                                 <input type="checkbox" name="show_staff_initials" id="show_staff_initials" value="Show staff initials on time & fee entries"> &nbsp; Show staff initials on time & fee entries
+                            @else
+                            @if($invoice->show_staff_initials == null)
+                                <input type="checkbox" name="show_staff_initials" id="show_staff_initials" value="Show staff initials on time & fee entries"> &nbsp; Show staff initials on time & fee entries
+                            @else
+                                <input type="checkbox" name="show_staff_initials" id="show_staff_initials" value="Show staff initials on time & fee entries" checked> &nbsp; Show staff initials on time & fee entries
+                            @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_rates" id="show_rates" value="Show Rate"> &nbsp; Show Rate
+                            @else
+                            @if($invoice->show_rates == null)
+                            <input type="checkbox" name="show_rates" id="show_rates" value="Show Rate"> &nbsp; Show Rate
+                            @else
+                            <input type="checkbox" name="show_rates" id="show_rates" value="Show Rate" checked> &nbsp; Show Rate
+                            @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_hours" id="show_hours" value="Show Hours"> &nbsp; Show Hours
+                            @else
+                               @if($invoice->show_hours == null)
+                               <input type="checkbox" name="show_hours" id="show_hours" value="Show Hours"> &nbsp; Show Hours
+                               @else
+                               <input type="checkbox" name="show_hours" id="show_hours" value="Show Hours" checked> &nbsp; Show Hours
+                               @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_hours_summary" id="show_hours_summary" value="Show Hours Summary"> &nbsp; Show Hours Summary
+                            @else
+                                @if($invoice->show_hours_summary == null)
+                                <input type="checkbox" name="show_hours_summary" id="show_hours_summary" value="Show Hours Summary"> &nbsp; Show Hours Summary
+                                @else
+                                <input type="checkbox" name="show_hours_summary" id="show_hours_summary" value="Show Hours Summary" checked> &nbsp; Show Hours Summary
+                                @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_fee_total" id="show_fee_total" value="Show Fee Total"> &nbsp; Show Fee Total
+                            @else
+                               @if($invoice->show_fee_total == null)
+                               <input type="checkbox" name="show_fee_total" id="show_fee_total" value="Show Fee Total"> &nbsp; Show Fee Total
+                               @else
+                               <input type="checkbox" name="show_fee_total" id="show_fee_total" value="Show Fee Total" checked> &nbsp; Show Fee Total
+                               @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_fee_total_summary" id="show_fee_total_summary" value="Show Fee Total Summary"> &nbsp; Show Fee Total Summary
+                            @else
+                               @if($invoice->show_fee_total_summary == null)
+                               <input type="checkbox" name="show_fee_total_summary" id="show_fee_total_summary" value="Show Fee Total Summary"> &nbsp; Show Fee Total Summary
+                               @else
+                               <input type="checkbox" name="show_fee_total_summary" id="show_fee_total_summary" value="Show Fee Total Summary" checked> &nbsp; Show Fee Total Summary
+                               @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_evergreen_retainer" id="show_evergreen_retainer" value="Show Evergreen Retainer Request"> &nbsp; Show Evergreen Retainer Request
+                            @else
+                            @if($invoice->show_evergreen_retainer == null)
+                            <input type="checkbox" name="show_evergreen_retainer" id="show_evergreen_retainer" value="Show Evergreen Retainer Request"> &nbsp; Show Evergreen Retainer Request
+                            @else
+                            <input type="checkbox" name="show_evergreen_retainer" id="show_evergreen_retainer" value="Show Evergreen Retainer Request"> &nbsp; Show Evergreen Retainer Request
+                            @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="checkbox" name="show_due_date" id="show_due_date" value="Show Due Date"> &nbsp; Show Due Date
+                            @else
+                            @if($invoice->show_due_date == null)
+                            <input type="checkbox" name="show_due_date" id="show_due_date" value="Show Due Date"> &nbsp; Show Due Date
+                            @else
+                            <input type="checkbox" name="show_due_date" id="show_due_date" value="Show Due Date" checked> &nbsp; Show Due Date
+                            @endif
+                            @endif
                            </div>
 
                            <!-- ecpenses -->
@@ -494,15 +598,32 @@
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                                <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('null')" class="form-selector" value="List all entries on invoice" checked> &nbsp; List all entries on invoice &nbsp;
+                            @else
+                              @if($invoice->expenses == "List all entries on invoice")
+                               <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('null')" class="form-selector" value="List all entries on invoice" checked> &nbsp; List all entries on invoice &nbsp;
+                              @else
+                              <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('null')" class="form-selector" value="List all entries on invoice"> &nbsp; List all entries on invoice &nbsp;
+                              @endif
+                            @endif
                            </div>
 
                            <div class="col-md-12 m-2">
+                            @if($invoice == null)
                             <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('expenses')" class="form-selector" value="Use a single line summary" > &nbsp; Use a single line summary &nbsp;
+                            @else
+                                 @if($invoice->expenses == "Use a single line summary")
+                                 <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('expenses')" class="form-selector" value="Use a single line summary" checked> &nbsp; Use a single line summary &nbsp;
+                                 @else
+                                 <input type="radio" name="expenses" id="" onclick="displayExpensesSingleLineSummary('expenses')" class="form-selector" value="Use a single line summary" > &nbsp; Use a single line summary &nbsp;
+                                 @endif
+                            @endif
                            </div>
 
 
                             <!-- single line summary -->
+                            @if($invoice == null)
                             <div id="expenses_single_line_summary_div" style="display: none;">
                             <div class="col-md-12 m-2" >
                                     <label for="">Description for the summary line</label>
@@ -512,6 +633,33 @@
                                     <input type="checkbox" name="expenses_append_list_of_time" id="expenses_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
                             </div>
                             </div>
+                            @else
+                            @if($invoice->expenses == "Use a single line summary")
+                            <div id="expenses_single_line_summary_div">
+                                <div class="col-md-12 m-2" >
+                                        <label for="">Description for the summary line</label>
+                                        <textarea name="expenses_single_line_description" id="expenses_single_line_description" class="form-control" cols="30" rows="10">{!! $invoice->expenses_single_line_description !!}</textarea>
+                                </div>
+                                <div class="col-md-12 m-2">
+                                    @if($invoice->expenses_append_list_of_time == null)
+                                        <input type="checkbox" name="expenses_append_list_of_time" id="expenses_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
+                                    @else
+                                    <input type="checkbox" name="expenses_append_list_of_time" id="expenses_append_list_of_time" value="Append a list of time & fee entries to the invoice" checked> &nbsp; Append a list of time & fee entries to the invoice
+                                    @endif
+                                </div>
+                                </div>
+                            @else
+                            <div id="expenses_single_line_summary_div" style="display: none;">
+                                <div class="col-md-12 m-2" >
+                                        <label for="">Description for the summary line</label>
+                                        <textarea name="expenses_single_line_description" id="expenses_single_line_description" class="form-control" cols="30" rows="10"></textarea>
+                                </div>
+                                <div class="col-md-12 m-2">
+                                        <input type="checkbox" name="expenses_append_list_of_time" id="expenses_append_list_of_time" value="Append a list of time & fee entries to the invoice"> &nbsp; Append a list of time & fee entries to the invoice
+                                </div>
+                                </div>
+                            @endif
+                            @endif
                             <hr>
 
                             <!-- interest -->
@@ -520,14 +668,36 @@
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if($invoice == null)
                                 <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('none')" class="form-selector" value="None" checked> &nbsp; None &nbsp;
                                 <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('custom')" class="form-selector" value="Custom Text" > &nbsp; Custom Text &nbsp;
+                                @else
+                                    @if($invoice->interest == "None")
+                                    <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('none')" class="form-selector" value="None" checked> &nbsp; None &nbsp;
+                                    <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('custom')" class="form-selector" value="Custom Text" > &nbsp; Custom Text &nbsp;
+                                    @else 
+                                    <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('none')" class="form-selector" value="None"> &nbsp; None &nbsp;
+                                    <input type="radio" name="interest" id="interest" onclick="showInterestCustomText('custom')" class="form-selector" value="Custom Text" checked> &nbsp; Custom Text &nbsp;
+                                    @endif
+                                @endif
                             </div>
  
                             <!-- interest custom text -->
+                            @if($invoice == null)
                             <div class="col-md-12 m-2" id="interest_custom_text_div" style="display: none;">
                                    <input type="text" name="interest_custom_text" id="interest_custom_text" class="form-control"> 
                             </div>
+                            @else
+                              @if($invoice->interest == "Custom Text")
+                              <div class="col-md-12 m-2" id="interest_custom_text_div">
+                                <input type="text" name="interest_custom_text" id="interest_custom_text" class="form-control" value="{{ $invoice->interest_custom_text }}"> 
+                              </div>
+                              @else
+                              <div class="col-md-12 m-2" id="interest_custom_text_div" style="display: none;">
+                                <input type="text" name="interest_custom_text" id="interest_custom_text" class="form-control"> 
+                              </div>
+                              @endif
+                            @endif
 
                             <!-- surcharge -->
                             <div class="col-md-12 m-2">
@@ -543,6 +713,7 @@
                             </div>
 
                             <!-- surcharge custom -->
+                            @if($invoice == null)
                             <div id="surcharge_custom" style="display: none;">
                             <div class="col-md-12 m-2">
                                   <label for="">Apply To</label>
@@ -556,6 +727,37 @@
                                 <input type="text" name="surcharge_label_invoice" id="surcharge_label_invoice" class="form-control">
                             </div>
                             </div>
+                            @else
+                             @if($invoice->surcharge_type == "None")
+                             <div id="surcharge_custom" style="display: none;">
+                                <div class="col-md-12 m-2">
+                                      <label for="">Apply To</label>
+                                      <select name="surcharge_apply_to" id="surcharge_apply_to" class="form-control">
+                                              <option value="Time & Fees Only">Time & Fees Only</option>
+                                              <option value="Time & Fees and Expenses">Time & Fees and Expenses</option>
+                                      </select>
+                                </div>
+                                <div class="col-md-12 m-2">
+                                    <label for="">Label on invoice</label>
+                                    <input type="text" name="surcharge_label_invoice" id="surcharge_label_invoice" class="form-control">
+                                </div>
+                                </div>
+                             @else
+                             <div id="surcharge_custom">
+                                <div class="col-md-12 m-2">
+                                      <label for="">Apply To</label>
+                                      <select name="surcharge_apply_to" id="surcharge_apply_to" class="form-control">
+                                              <option value="Time & Fees Only">Time & Fees Only</option>
+                                              <option value="Time & Fees and Expenses">Time & Fees and Expenses</option>
+                                      </select>
+                                </div>
+                                <div class="col-md-12 m-2">
+                                    <label for="">Label on invoice</label>
+                                    <input type="text" name="surcharge_label_invoice" id="surcharge_label_invoice" class="form-control" value="{{ $invoice->surcharge_label_invoice }}">
+                                </div>
+                                </div>
+                             @endif
+                            @endif
 
                             <!-- -->
                             <div id="single_line_summary_div">
@@ -563,14 +765,26 @@
                                         <label for="">Non-billables</label>
                                 </div>
                                 <div class="col-md-12 m-2">
+                                    @if($invoice == null)
                                         <input type="checkbox" name="non_billable_items" id="non_billable_items" value="Include non-billable items on invoice"> &nbsp; Include non-billable items on invoice
+                                    @else
+                                    @if($invoice->non_billable_items == null)
+                                    <input type="checkbox" name="non_billable_items" id="non_billable_items" value="Include non-billable items on invoice"> &nbsp; Include non-billable items on invoice
+                                    @else 
+                                    <input type="checkbox" name="non_billable_items" id="non_billable_items" value="Include non-billable items on invoice" checked> &nbsp; Include non-billable items on invoice
+                                    @endif
+                                    @endif
                                 </div>
                                 </div>
                             <hr>
 
                             <div class="col-md-12 m-2">
                                  <label for="">Notes</label>
+                                 @if($invoice == null)
                                  <textarea name="notes" id="notes" cols="30" rows="10" class="form-control"></textarea>
+                                 @else
+                                 <textarea name="notes" id="notes" cols="30" rows="10" class="form-control">{!! $invoice->notes !!}</textarea>
+                                 @endif
                             </div>
 
                             <!-- Signature Image -->
@@ -588,7 +802,11 @@
                             <!-- signature name -->
                             <div class="col-md-12 m-2">
                                   <label for="">Signature Name</label>
+                                  @if($invoice == null)
                                   <input type="text" name="signature_name" id="signature_name" class="form-control">
+                                  @else
+                                  <input type="text" name="signature_name" id="signature_name" class="form-control" value="{{ $invoice->signature_name }}">
+                                  @endif
                             </div>
 
                             <!-- Display Options -->
@@ -597,27 +815,75 @@
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if($invoice == null)
                                 <input type="checkbox" name="show_prior_balance" id="show_prior_balance"> &nbsp; Show Prior Balances
+                                @else
+                                @if($invoice->show_prior_balance == null)
+                                <input type="checkbox" name="show_prior_balance" id="show_prior_balance" > &nbsp; Show Prior Balances
+                                @else 
+                                <input type="checkbox" name="show_prior_balance" id="show_prior_balance" checked> &nbsp; Show Prior Balances
+                                @endif
+                                @endif
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if($invoice == null)
                                 <input type="checkbox" name="show_payment_summary" id="show_payment_summary"> &nbsp; Show Payment Summary
+                                @else
+                                @if($invoice->show_payment_summary == null)
+                                <input type="checkbox" name="show_payment_summary" id="show_payment_summary"> &nbsp; Show Payment Summary
+                                @else 
+                                <input type="checkbox" name="show_payment_summary" id="show_payment_summary" checked> &nbsp; Show Payment Summary
+                                @endif
+                                @endif
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if($invoice == null)
                                 <input type="checkbox" name="show_invoice_summary" id="show_invoice_summary"> &nbsp; Show Invoice Summary
+                                @else
+                                @if ($invoice->show_invoice_summary == null)
+                                <input type="checkbox" name="show_invoice_summary" id="show_invoice_summary"> &nbsp; Show Invoice Summary
+                                @else
+                                <input type="checkbox" name="show_invoice_summary" id="show_invoice_summary" checked> &nbsp; Show Invoice Summary
+                                @endif
+                                @endif
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if ($invoice == null)
                                 <input type="checkbox" name="show_personal_fee_summary" id="show_personal_fee_summary"> &nbsp; Show Professional Fee Summary
+                                @else
+                                @if ($invoice->show_personal_fee_summary == null)
+                                <input type="checkbox" name="show_personal_fee_summary" id="show_personal_fee_summary"> &nbsp; Show Professional Fee Summary
+                                @else
+                                <input type="checkbox" name="show_personal_fee_summary" id="show_personal_fee_summary" checked> &nbsp; Show Professional Fee Summary
+                                @endif
+                                @endif
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if ($invoice == null)
                                 <input type="checkbox" name="show_account_summary" id="show_account_summary"> &nbsp; Show Account Summary
+                                @else
+                                @if ($invoice->show_account_summary == null)
+                                <input type="checkbox" name="show_account_summary" id="show_account_summary"> &nbsp; Show Account Summary
+                                @else
+                                <input type="checkbox" name="show_account_summary" id="show_account_summary" checked> &nbsp; Show Account Summary
+                                @endif
+                                @endif
                             </div>
 
                             <div class="col-md-12 m-2">
+                                @if ($invoice == null)
                                 <input type="checkbox" name="show_description_entries" id="show_description_entries"> &nbsp; Show description for entries
+                                @else
+                                @if ($invoice->show_description_entries == null)
+                                <input type="checkbox" name="show_description_entries" id="show_description_entries"> &nbsp; Show description for entries
+                                @else
+                                <input type="checkbox" name="show_description_entries" id="show_description_entries" checked> &nbsp; Show description for entries
+                                @endif
+                                @endif
                             </div>
     
                             <div class="col-md-12 mt-5 ml-2">
